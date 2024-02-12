@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 //allrelatives
 //singlerelative?
-//relative/:id
+//relatives/:id
 //newrelative
 //login
 //register
