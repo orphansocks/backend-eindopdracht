@@ -1,8 +1,17 @@
 package nl.novi.backendeindopdracht.model;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "relatives")
 public class Relative {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // + optioneel meegeven van parameter hoe je de generatedvalue moet genereren
+    private Long id;
     private String firstName;
     private String lastName;
     private String nickName;
@@ -13,7 +22,25 @@ public class Relative {
     private String misc;
     private String relation;
 
+// DE SETTER VAN DE ID ER UIT HALEN
+    // GETTERS AND SETTERS VIA LOMBOK??
+    // ISBIRTHDAY
+    // RELATION ALS ENUM?
+    // SOCIALSTATUS ALSO AS ENUM?
+    // GEEN GENDER WANT HEE 2024 :)
+    // NAMES OF KIDS OP DEZE MANIER KOMMAGESCHEIDEN??
+    // AGE STAAT ER NIET TUSSEN WANT DIE WORDT BEREKENT IN DE FRONTEND
+    // WIL IK OOK LEEFTIJDEN VAN KIDS >> JA
+    // SETAGE VAN DE KIDS WANNEER & HOE IN HET PROCES??
 
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
 
     public String getFirstName() {
@@ -87,8 +114,6 @@ public class Relative {
     public void setRelation(String relation) {
         this.relation = relation;
     }
-
-
 
 
 
