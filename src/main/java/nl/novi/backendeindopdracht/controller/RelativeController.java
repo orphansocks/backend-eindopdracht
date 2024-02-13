@@ -1,6 +1,5 @@
 package nl.novi.backendeindopdracht.controller;
 
-import jakarta.validation.Valid;
 import nl.novi.backendeindopdracht.dtos.relative.RelativeDto;
 import nl.novi.backendeindopdracht.dtos.relative.RelativeInputDto;
 
