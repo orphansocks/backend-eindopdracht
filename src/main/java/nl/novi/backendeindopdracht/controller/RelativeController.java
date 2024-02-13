@@ -22,22 +22,22 @@ public class RelativeController {
     // spring: jij moet het juiste object injecteren = autowired
 
     @Autowired
-    RelativeRepository relativeRepository;
+    private RelativeRepository relativeRepository;
 
     private ArrayList<Relative> relatives = new ArrayList<>();
 
-    @GetMapping
+    @GetMapping("/allrelatives")
     public ResponseEntity<List<Relative>> getAllRelatives() {
         return ResponseEntity.ok(relativeRepository.findAll());
 
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Relative> getRelative(@PathVariable int id) {
-        return new ResponseEntity<>(this.relatives.get(id), HttpStatus.OK);
+    public ResponseEntity<Relative> getRelative(@PathVariable Long id) {
+        return ResponseEntity.ok(relativeRepository.findById(id).get());
     }
 
-    @GetMapping("/{relativename}")
+    @GetMapping("/name")
     public ResponseEntity<List<Relative>> getRelativeByName(@RequestParam String firstName) {
         return ResponseEntity.ok(relativeRepository.findAllByFirstNameEqualsIgnoreCase(firstName));
     }
