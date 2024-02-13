@@ -1,77 +1,87 @@
 package nl.novi.backendeindopdracht.controller;
 
-import jakarta.servlet.Servlet;
-import nl.novi.backendeindopdracht.exceptions.RecordNotFoundException;
-import nl.novi.backendeindopdracht.model.Relative;
+import jakarta.validation.Valid;
+import nl.novi.backendeindopdracht.dtos.relative.RelativeDto;
+import nl.novi.backendeindopdracht.dtos.relative.RelativeInputDto;
 
-import nl.novi.backendeindopdracht.repositories.RelativeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import nl.novi.backendeindopdracht.services.RelativeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/relatives")
 public class RelativeController {
 
-    // spring: jij moet het juiste object injecteren = autowired
+private final RelativeService relativeService;
 
-    @Autowired
-    private RelativeRepository relativeRepository;
+   public RelativeController (RelativeService relativeService) {
+       this.relativeService = relativeService;
+   }
 
-    private ArrayList<Relative> relatives = new ArrayList<>();
 
-    @GetMapping("/allrelatives")
-    public ResponseEntity<List<Relative>> getAllRelatives() {
-        return ResponseEntity.ok(relativeRepository.findAll());
+    @GetMapping("")
+    public ResponseEntity<List<RelativeDto>> getAllRelatives() {
 
+       List<RelativeDto> relativeDtos = relativeService.getAllRelatives();
+
+        return ResponseEntity.ok().body(relativeDtos);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Relative> getRelative(@PathVariable Long id) {
-        return ResponseEntity.ok(relativeRepository.findById(id).get());
+    public ResponseEntity<RelativeDto> getRelative(@PathVariable("id") Long id) {
+
+       RelativeDto relativeDto = relativeService.getRelativeById(id);
+
+        return ResponseEntity.ok().body(relativeDto);
     }
 
-    @GetMapping("/name")
-    public ResponseEntity<List<Relative>> getRelativeByName(@RequestParam String firstName) {
-        return ResponseEntity.ok(relativeRepository.findAllByFirstNameEqualsIgnoreCase(firstName));
+    @GetMapping("/{name}")
+    public ResponseEntity<List<RelativeDto>> getRelativesByName(@RequestParam(value = "firstName", required = false) Optional<String> firstName) {
+        List<RelativeDto> relativeDtos;
+
+        if (firstName.isEmpty()) {
+            relativeDtos = relativeService.getAllRelatives();
+        } else {
+            relativeDtos = relativeService.getAllRelativesByFirstName(firstName.get());
+        }
+        return ResponseEntity.ok().body(relativeDtos);
     }
 
-    @PostMapping
-    public ResponseEntity<Relative> createRelative(@RequestBody Relative relative) {
-        relativeRepository.save(relative);
+    @PostMapping("")
+    public ResponseEntity<RelativeDto> createRelative(@RequestBody RelativeInputDto relativeInputDto) {
+
+       RelativeDto relativeDto = relativeService.createRelative(relativeInputDto);
+
         URI uri = URI.create (
                 ServletUriComponentsBuilder
                         .fromCurrentRequest()
-                        .path("/" + relative.getId()).toUriString());
-        return ResponseEntity.created(uri).body(relative);
+                        .path("/{firstname}" + relativeDto.id).toUriString());
+
+        return ResponseEntity.created(uri).body(relativeDto);
     }
+
 
     @PutMapping("/{id}")
-    public ResponseEntity<Relative> updateRelative(@PathVariable int id, @RequestBody Relative relative) {
-        if (id >= 0 && id < this.relatives.size()) {
-        this.relatives.set(id, relative);
-        return new ResponseEntity<>(relative, HttpStatus.OK);
-    }
-        else {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+    public ResponseEntity<Object> updateRelative(@PathVariable Long id, @RequestBody RelativeInputDto newRelativeInput) {
+
+       RelativeDto relativeDto = relativeService.updateRelative(id, newRelativeInput);
+
+            return ResponseEntity.ok().body(relativeDto);
         }
-}
+
 
 @DeleteMapping("/{id}")
-    public ResponseEntity<String> DeleteRelative(@PathVariable int id) {
-        if (id >= 0 && this.relatives.get(id) != null) {
-            relatives.remove(id);
-            return new ResponseEntity<>("relative successfully deleted", HttpStatus.OK);
-        } else {
-            throw new RecordNotFoundException("ID cannot be found");
-        }
-}
+    public ResponseEntity<Object> DeleteRelative(@PathVariable Long id) {
+
+       relativeService.deleteRelative(id);
+
+       return ResponseEntity.noContent().build();
+    }
 
 
 }

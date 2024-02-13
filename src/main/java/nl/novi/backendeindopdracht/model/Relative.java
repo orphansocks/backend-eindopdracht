@@ -5,11 +5,10 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "relatives")
 public class Relative {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     // + optioneel meegeven van parameter hoe je de generatedvalue moet genereren
     private Long id;
     private String firstName;
@@ -17,6 +16,7 @@ public class Relative {
     private String nickName;
     private LocalDate dob;
     private String socialStatus;
+    private Boolean hasKids;
     private Integer amountOfKids;
     private String namesOfKids;
     private String misc;
@@ -81,6 +81,15 @@ public class Relative {
 
     public void setSocialStatus(String socialStatus) {
         this.socialStatus = socialStatus;
+    }
+
+
+    public Boolean getHasKids() {
+        return hasKids;
+    }
+
+    public void setHasKids(Boolean hasKids) {
+        this.hasKids = hasKids;
     }
 
     public Integer getAmountOfKids() {
