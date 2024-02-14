@@ -71,8 +71,20 @@ public List<RelativeDto> getAllRelatives() {
         return transferEntityListToDtoList(relativeList);
 }
 
-public List<RelativeDto> getAllRelativesByName(String firstName) {
-        List<Relative> relativeList = relativeRepository.findAllByFirstNameEqualsIgnoreCase(firstName);
+public List<RelativeDto> getAllRelativesByName(String name) {
+
+        List<Relative> relativeFirstNameList = relativeRepository.findAllByFirstNameEqualsIgnoreCase(name);
+        List<Relative> relativeLastNameList = relativeRepository.findAllByLastNameEqualsIgnoreCase(name);
+        List<Relative> relativeList;
+
+
+    if (!relativeFirstNameList.isEmpty()) {
+        relativeList = relativeFirstNameList;
+    } else if (!relativeLastNameList.isEmpty()) {
+        relativeList = relativeLastNameList;
+    } else {
+        relativeList = new ArrayList<>();
+    }
 
         return transferEntityListToDtoList(relativeList);
 }

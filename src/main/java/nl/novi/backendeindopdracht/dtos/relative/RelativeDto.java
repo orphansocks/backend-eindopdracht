@@ -5,7 +5,8 @@ import java.time.LocalDate;
 public class RelativeDto {
 
     public Long id;
-    public String firstName;
+
+   public String firstName;
     public String lastName;
     public String nickName;
     public LocalDate dob;

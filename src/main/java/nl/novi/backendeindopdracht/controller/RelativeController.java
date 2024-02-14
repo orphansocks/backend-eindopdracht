@@ -1,10 +1,12 @@
 package nl.novi.backendeindopdracht.controller;
 
+import jakarta.validation.Valid;
 import nl.novi.backendeindopdracht.dtos.relative.RelativeDto;
 import nl.novi.backendeindopdracht.dtos.relative.RelativeInputDto;
 
 import nl.novi.backendeindopdracht.services.RelativeService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -39,33 +41,33 @@ private final RelativeService relativeService;
         return ResponseEntity.ok().body(relativeDto);
     }
 
-    @GetMapping("/{Search}")
-    public ResponseEntity<List<RelativeDto>> getRelativesByName(@PathVariable("Search") String Search, @RequestParam(value = "name", required = false) Optional<String> firstName) {
+    @GetMapping("/name/{name}")
+    public ResponseEntity<List<RelativeDto>> getRelativesByName(@PathVariable String name ) {
+        List<RelativeDto> relativeDtos;
 
-       List<RelativeDto> relativeDtos;
-
-        if (firstName.isEmpty()) {
+        if (name.isEmpty()) {
             relativeDtos = relativeService.getAllRelatives();
         } else {
-            relativeDtos = relativeService.getAllRelativesByName(firstName.get());
+            relativeDtos = relativeService.getAllRelativesByName(name);
         }
         return ResponseEntity.ok().body(relativeDtos);
     }
 
+
     @PostMapping("")
     public ResponseEntity<RelativeDto> createRelative(@RequestBody RelativeInputDto relativeInputDto) {
 
-       RelativeDto relativeDto = relativeService.createRelative(relativeInputDto);
+            RelativeDto relativeDto = relativeService.createRelative(relativeInputDto);
 
-//        URI uri = URI.create (
-//                ServletUriComponentsBuilder
-//                        .fromCurrentRequest()
-//                        .path("/{firstname}" + relativeDto.id).toUriString());
-//
-//        return ResponseEntity.created(uri).body(relativeDto);
+        URI uri = URI.create (
+                ServletUriComponentsBuilder
+                        .fromCurrentRequest()
+                        .path("/" + relativeDto.getId()).toUriString());
 
-        return ResponseEntity.created(null).body(relativeDto);
-    }
+        return ResponseEntity.created(uri).body(relativeDto);
+
+//            return ResponseEntity.created(null).body(relativeDto);
+        }
 
 
     @PutMapping("/{id}")
