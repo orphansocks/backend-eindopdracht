@@ -64,7 +64,6 @@ public RelativeDto getRelativeById(Long id) {
         } else {
             throw new RecordNotFoundException("no relative found");
         }
-
 }
 
 public List<RelativeDto> getAllRelatives() {
@@ -72,22 +71,17 @@ public List<RelativeDto> getAllRelatives() {
         return transferEntityListToDtoList(relativeList);
 }
 
-public List<RelativeDto> getAllRelativesByFirstName(String firstName) {
+public List<RelativeDto> getAllRelativesByName(String firstName) {
         List<Relative> relativeList = relativeRepository.findAllByFirstNameEqualsIgnoreCase(firstName);
+
         return transferEntityListToDtoList(relativeList);
 }
-
-    public List<RelativeDto> getAllRelativesByLastName(String lastName) {
-        List<Relative> relativeList = relativeRepository.findAllByLastNameEqualsIgnoreCase(lastName);
-        return transferEntityListToDtoList(relativeList);
-    }
-
-
 
 
 // DE 2 MAPPERFUNCTIES DIE VELDEN KOPIEREN VAN EN NAAR DE DATABASE:
 
 public Relative transferToEntity(RelativeInputDto dto) {
+
             Relative relative = new Relative();
 
         relative.setFirstName(dto.firstName);
@@ -130,6 +124,14 @@ public RelativeDto transferToDto(Relative relative) {
     public List<RelativeDto> transferEntityListToDtoList(List<Relative> relatives) {
 
         List<RelativeDto> relativeDtoList = new ArrayList<>();
+
+        for(Relative relative : relatives) {
+
+            RelativeDto relativeDto = transferToDto(relative);
+            //VOEG LOGICA VOOR ADD GROUP TOE
+            relativeDtoList.add(relativeDto);
+        }
+
 
         return relativeDtoList;
     }

@@ -39,14 +39,15 @@ private final RelativeService relativeService;
         return ResponseEntity.ok().body(relativeDto);
     }
 
-    @GetMapping("/{name}")
-    public ResponseEntity<List<RelativeDto>> getRelativesByName(@RequestParam(value = "firstName", required = false) Optional<String> firstName) {
-        List<RelativeDto> relativeDtos;
+    @GetMapping("/{Search}")
+    public ResponseEntity<List<RelativeDto>> getRelativesByName(@PathVariable("Search") String Search, @RequestParam(value = "name", required = false) Optional<String> firstName) {
+
+       List<RelativeDto> relativeDtos;
 
         if (firstName.isEmpty()) {
             relativeDtos = relativeService.getAllRelatives();
         } else {
-            relativeDtos = relativeService.getAllRelativesByFirstName(firstName.get());
+            relativeDtos = relativeService.getAllRelativesByName(firstName.get());
         }
         return ResponseEntity.ok().body(relativeDtos);
     }
@@ -56,12 +57,14 @@ private final RelativeService relativeService;
 
        RelativeDto relativeDto = relativeService.createRelative(relativeInputDto);
 
-        URI uri = URI.create (
-                ServletUriComponentsBuilder
-                        .fromCurrentRequest()
-                        .path("/{firstname}" + relativeDto.id).toUriString());
+//        URI uri = URI.create (
+//                ServletUriComponentsBuilder
+//                        .fromCurrentRequest()
+//                        .path("/{firstname}" + relativeDto.id).toUriString());
+//
+//        return ResponseEntity.created(uri).body(relativeDto);
 
-        return ResponseEntity.created(uri).body(relativeDto);
+        return ResponseEntity.created(null).body(relativeDto);
     }
 
 
