@@ -24,6 +24,21 @@ private final RelativeService relativeService;
        this.relativeService = relativeService;
    }
 
+    @PostMapping("")
+    public ResponseEntity<RelativeDto> createRelative(@RequestBody RelativeInputDto relativeInputDto) {
+
+        RelativeDto relativeDto = relativeService.createRelative(relativeInputDto);
+
+        URI uri = URI.create (
+                ServletUriComponentsBuilder
+                        .fromCurrentRequest()
+                        .path("/" + relativeDto.getId()).toUriString());
+
+        return ResponseEntity.created(uri).body(relativeDto);
+
+//            return ResponseEntity.created(null).body(relativeDto);
+    }
+
 
     @GetMapping("")
     public ResponseEntity<List<RelativeDto>> getAllRelatives() {
@@ -52,22 +67,6 @@ private final RelativeService relativeService;
         }
         return ResponseEntity.ok().body(relativeDtos);
     }
-
-
-    @PostMapping("")
-    public ResponseEntity<RelativeDto> createRelative(@RequestBody RelativeInputDto relativeInputDto) {
-
-            RelativeDto relativeDto = relativeService.createRelative(relativeInputDto);
-
-        URI uri = URI.create (
-                ServletUriComponentsBuilder
-                        .fromCurrentRequest()
-                        .path("/" + relativeDto.getId()).toUriString());
-
-        return ResponseEntity.created(uri).body(relativeDto);
-
-//            return ResponseEntity.created(null).body(relativeDto);
-        }
 
 
     @PutMapping("/{id}")

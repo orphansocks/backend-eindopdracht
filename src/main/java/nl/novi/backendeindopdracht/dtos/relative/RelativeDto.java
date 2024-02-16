@@ -1,11 +1,13 @@
 package nl.novi.backendeindopdracht.dtos.relative;
 
+import nl.novi.backendeindopdracht.dtos.group.GroupDto;
+
 import java.time.LocalDate;
+import java.util.List;
 
 public class RelativeDto {
 
     public Long id;
-
    public String firstName;
     public String lastName;
     public String nickName;
@@ -122,6 +124,7 @@ public class RelativeDto {
     public void setRelation(String relation) {
         this.relation = relation;
     }
+
 }
 
 

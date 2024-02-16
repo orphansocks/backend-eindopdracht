@@ -4,6 +4,7 @@ import nl.novi.backendeindopdracht.dtos.relative.RelativeInputDto;
 import nl.novi.backendeindopdracht.dtos.relative.RelativeDto;
 import nl.novi.backendeindopdracht.exceptions.RecordNotFoundException;
 import nl.novi.backendeindopdracht.model.Relative;
+import nl.novi.backendeindopdracht.repositories.GroupRepository;
 import nl.novi.backendeindopdracht.repositories.RelativeRepository;
 import org.springframework.stereotype.Service;
 
@@ -13,20 +14,26 @@ import java.util.List;
 @Service
 public class RelativeService {
     private final RelativeRepository relativeRepository;
+    private final GroupRepository groupRepository;
+    private final GroupService groupService;
 
-    public RelativeService(RelativeRepository relativeRepository) {
+
+    public RelativeService(RelativeRepository relativeRepository,
+                           GroupRepository groupRepository,
+                           GroupService groupService ) {
         this.relativeRepository = relativeRepository;
+        this.groupRepository = groupRepository;
+        this.groupService = groupService;
 }
 
-// DIT IS DE METHODE OM DE RELATIVE AAN TE MAKEN
-    // DAARBIJ HEB JE DE RELATIVE DTO NODIG ALS INPUT
-    // JE RETOURNEERT DE RELATIVE WEER NA DE SAVE IN DE DATABASE
-    // = PUBLIC RETURNTYPE METHODENAAM(PARAMETER)
+// CREATE DELETE UPDATE GETALL GETBYID GETBYNAME
 
-public RelativeDto createRelative(RelativeInputDto dto) {
 
-            Relative relative = transferToEntity(dto);
+public RelativeDto createRelative(RelativeInputDto relativeInputDto) {
+
+            Relative relative = transferToEntity(relativeInputDto);
             relativeRepository.save(relative);
+
 
         return transferToDto(relative);
 }
@@ -56,11 +63,13 @@ public RelativeDto updateRelative(Long id, RelativeInputDto relativeNewInputDto)
 
 public RelativeDto getRelativeById(Long id) {
 
-        if(relativeRepository.findById(id).isPresent()) {
+        if (relativeRepository.findById(id).isPresent()) {
+
             Relative relative = relativeRepository.findById(id).get();
-            //RelativeDto relativeDto = transferToDto(relative);
-            // LOGICA OPHALEN VOOR GROUP
+            RelativeDto relativeDto = transferToDto(relative);
+
             return transferToDto(relative);
+
         } else {
             throw new RecordNotFoundException("no relative found");
         }
@@ -140,7 +149,6 @@ public RelativeDto transferToDto(Relative relative) {
         for(Relative relative : relatives) {
 
             RelativeDto relativeDto = transferToDto(relative);
-            //VOEG LOGICA VOOR ADD GROUP TOE
             relativeDtoList.add(relativeDto);
         }
 

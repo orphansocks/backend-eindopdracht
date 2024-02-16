@@ -1,24 +1,17 @@
-package nl.novi.backendeindopdracht.model;
+package nl.novi.backendeindopdracht.dtos.group;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+import nl.novi.backendeindopdracht.model.Relative;
 
 import java.util.List;
-import java.util.Set;
 
-@Entity
-@Table(name = "groups")
-public class Group {
+public class GroupDto {
 
-    @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String groupName;
-    private String groupPlace;
+    public Long id;
+    public String groupName;
+    public String groupPlace;
+    public List<Relative> relatives;
 
-    @ManyToMany
-    @JsonIgnore
-    private Set<Relative> relatives;
+
 
     public Long getId() {
         return id;
@@ -44,11 +37,12 @@ public class Group {
         this.groupPlace = groupPlace;
     }
 
-    public Set<Relative> getRelatives() {
+    public List<Relative> getRelatives() {
         return relatives;
     }
 
-    public void setRelatives(Set<Relative> relatives) {
+    public void setRelatives(List<Relative> relatives) {
         this.relatives = relatives;
     }
+
 }
