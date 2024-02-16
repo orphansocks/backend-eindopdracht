@@ -8,11 +8,5 @@ VALUES
 (1002, 'Marie', 'Machielsen', 'Marietje', '1980-01-02', 'divorced', true, 3 , 'Klaasje, Pietje, Elsje', 'gescheiden van Piet', 'neighbour' ),
 (1003, 'Kees', 'van Dongen', '', '1877-01-26', 'single', true, 2 , 'Zoon en dochter', 'gescheiden van Piet', 'collegue' );
 
-INSERT INTO groups (id, group_name, group_place, relativeIds)
-VALUES
-    (2001, 'BestFriends', 'Amsterdam', [1001, 1002] ),
-    (2002, 'BestBuddies', 'Utrecht', [1002, 1003] ),
-    (2003, 'Fam', '', [1003, 1001] );
-
 
 

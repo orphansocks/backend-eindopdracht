@@ -15,17 +15,17 @@ import java.util.List;
 @RequestMapping("/groups")
 public class GroupController {
 
-    private final GroupService groupservice;
-    private final RelativeService teacherservice;
+    private final GroupService groupService;
+    private final RelativeService relativeService;
 
-    public GroupController(GroupService groupservice, RelativeService teacherservice) {
-        this.groupservice = groupservice;
-        this.teacherservice = teacherservice;
+    public GroupController(GroupService groupService, RelativeService relativeService) {
+        this.groupService = groupService;
+        this.relativeService = relativeService;
     }
 
     @PostMapping("")
     public ResponseEntity<GroupDto> createGroup(@RequestBody GroupInputDto groupInputDto) {
-        GroupDto groupDto = groupservice.createGroup(groupInputDto);
+        GroupDto groupDto = groupService.createGroup(groupInputDto);
 
         URI uri = URI.create (
                 ServletUriComponentsBuilder
@@ -38,7 +38,7 @@ public class GroupController {
 
     @GetMapping("/groups")
     public ResponseEntity<List<GroupDto>> getAllGroups() {
-        List<GroupDto> groupDtos = groupservice.getAllGroups();
+        List<GroupDto> groupDtos = groupService.getAllGroups();
 
         return ResponseEntity.ok().body(groupDtos);
     }

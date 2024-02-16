@@ -4,7 +4,6 @@ import nl.novi.backendeindopdracht.dtos.relative.RelativeInputDto;
 import nl.novi.backendeindopdracht.dtos.relative.RelativeDto;
 import nl.novi.backendeindopdracht.exceptions.RecordNotFoundException;
 import nl.novi.backendeindopdracht.model.Relative;
-import nl.novi.backendeindopdracht.repositories.GroupRepository;
 import nl.novi.backendeindopdracht.repositories.RelativeRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,17 +13,11 @@ import java.util.List;
 @Service
 public class RelativeService {
     private final RelativeRepository relativeRepository;
-    private final GroupRepository groupRepository;
-    private final GroupService groupService;
 
-
-    public RelativeService(RelativeRepository relativeRepository,
-                           GroupRepository groupRepository,
-                           GroupService groupService ) {
+    public RelativeService(RelativeRepository relativeRepository) {
         this.relativeRepository = relativeRepository;
-        this.groupRepository = groupRepository;
-        this.groupService = groupService;
-}
+    }
+
 
 // CREATE DELETE UPDATE GETALL GETBYID GETBYNAME
 
@@ -66,7 +59,7 @@ public RelativeDto getRelativeById(Long id) {
         if (relativeRepository.findById(id).isPresent()) {
 
             Relative relative = relativeRepository.findById(id).get();
-            RelativeDto relativeDto = transferToDto(relative);
+
 
             return transferToDto(relative);
 

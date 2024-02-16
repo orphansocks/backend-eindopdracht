@@ -9,7 +9,7 @@ public class GroupDto {
     public Long id;
     public String groupName;
     public String groupPlace;
-    public List<Relative> relatives;
+    public Long[] relativeIds;
 
 
 
@@ -37,12 +37,11 @@ public class GroupDto {
         this.groupPlace = groupPlace;
     }
 
-    public List<Relative> getRelatives() {
-        return relatives;
+    public Long[] getRelativeIds() {
+        return relativeIds;
     }
 
-    public void setRelatives(List<Relative> relatives) {
-        this.relatives = relatives;
+    public void setRelativeIds(Long[] relativeIds) {
+        this.relativeIds = relativeIds;
     }
-
 }

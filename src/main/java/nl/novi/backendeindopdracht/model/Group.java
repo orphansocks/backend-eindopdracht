@@ -3,6 +3,7 @@ package nl.novi.backendeindopdracht.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -17,8 +18,8 @@ public class Group {
     private String groupPlace;
 
     @ManyToMany
-    @JsonIgnore
-    private Set<Relative> relatives;
+//    @JsonIgnore
+    private Set<Relative> relatives = new HashSet<>();
 
     public Long getId() {
         return id;
