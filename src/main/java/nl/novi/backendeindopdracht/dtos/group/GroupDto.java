@@ -2,14 +2,14 @@ package nl.novi.backendeindopdracht.dtos.group;
 
 import nl.novi.backendeindopdracht.model.Relative;
 
-import java.util.List;
+import java.util.Set;
 
 public class GroupDto {
 
     public Long id;
     public String groupName;
     public String groupPlace;
-    public Long[] relativeIds;
+    private Set<Relative> groupRelatives;
 
 
 
@@ -37,11 +37,11 @@ public class GroupDto {
         this.groupPlace = groupPlace;
     }
 
-    public Long[] getRelativeIds() {
-        return relativeIds;
+    public Set<Relative> getGroupRelatives() {
+        return groupRelatives;
     }
 
-    public void setRelativeIds(Long[] relativeIds) {
-        this.relativeIds = relativeIds;
+    public void setGroupRelatives(Set<Relative> groupRelatives) {
+        this.groupRelatives = groupRelatives;
     }
 }

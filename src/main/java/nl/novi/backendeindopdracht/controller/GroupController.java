@@ -3,7 +3,6 @@ package nl.novi.backendeindopdracht.controller;
 import nl.novi.backendeindopdracht.dtos.group.GroupDto;
 import nl.novi.backendeindopdracht.dtos.group.GroupInputDto;
 import nl.novi.backendeindopdracht.services.GroupService;
-import nl.novi.backendeindopdracht.services.RelativeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -16,32 +15,40 @@ import java.util.List;
 public class GroupController {
 
     private final GroupService groupService;
-    private final RelativeService relativeService;
 
-    public GroupController(GroupService groupService, RelativeService relativeService) {
+    public GroupController(GroupService groupService) {
         this.groupService = groupService;
-        this.relativeService = relativeService;
     }
 
     @PostMapping("")
     public ResponseEntity<GroupDto> createGroup(@RequestBody GroupInputDto groupInputDto) {
+
         GroupDto groupDto = groupService.createGroup(groupInputDto);
 
         URI uri = URI.create (
                 ServletUriComponentsBuilder
                         .fromCurrentRequest()
-                        .path("/" + groupDto.getId()).toUriString());
+                        .path("/" + groupDto.getGroupName()).toUriString());
 
         return ResponseEntity.created(uri).body(groupDto);
 
     }
 
-    @GetMapping("/groups")
+    @GetMapping("")
     public ResponseEntity<List<GroupDto>> getAllGroups() {
         List<GroupDto> groupDtos = groupService.getAllGroups();
 
         return ResponseEntity.ok().body(groupDtos);
     }
+
+//    @GetMapping("/{groupname}")
+//    public ResponseEntity<GroupDto> getGroup(@PathVariable("groupname") String groupName) {
+//
+//        GroupDto optionalGroup = groupService.getGroup(groupName);
+//
+//        return ResponseEntity.ok().body(optionalGroup);
+//
+//    }
 
 
 

@@ -1,10 +1,8 @@
 package nl.novi.backendeindopdracht.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -19,7 +17,7 @@ public class Group {
 
     @ManyToMany
 //    @JsonIgnore
-    private Set<Relative> relatives = new HashSet<>();
+    private Set<Relative> groupRelatives = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -45,11 +43,11 @@ public class Group {
         this.groupPlace = groupPlace;
     }
 
-    public Set<Relative> getRelatives() {
-        return relatives;
+    public Set<Relative> getGroupRelatives() {
+        return groupRelatives;
     }
 
-    public void setRelatives(Set<Relative> relatives) {
-        this.relatives = relatives;
+    public void setGroupRelatives(Set<Relative> groupRelatives) {
+        this.groupRelatives = groupRelatives;
     }
 }
