@@ -39,6 +39,20 @@ public class GroupService {
         groupRepository.deleteById(id);
     }
 
+    public GroupDto getGroupById(Long id) {
+
+        if(groupRepository.findById(id).isPresent()) {
+
+            Group group = groupRepository.findById(id).get();
+
+            return transferToDto(group);
+
+        } else {
+            throw new RecordNotFoundException("no group found");
+        }
+
+    }
+
     public List<GroupDto> getAllGroups() {
 
         List<GroupDto> collection = new ArrayList<>();
@@ -51,20 +65,6 @@ public class GroupService {
         return collection;
     }
 
-//    public GroupDto getGroup(String groupName) {
-//
-//        GroupDto groupDto = new GroupDto();
-//
-//        Optional<Group> group = groupRepository.findById(groupName);
-//
-//        if(group.isPresent()) {
-//            groupDto = transferToDto(group.get());
-//        } else {
-//            throw new RecordNotFoundException(groupName);
-//        }
-//        return groupDto;
-//    }
-
 
     // DE TRANSFER METHODS DTO < > ENTITY:
 
@@ -75,7 +75,7 @@ public class GroupService {
         group.setGroupName(groupInputDto.groupName);
         group.setGroupPlace(groupInputDto.groupPlace);
 
-        Set<Relative> groupRelatives = new HashSet<>();
+        Set<Relative> relatives = new HashSet<>();
 
         for (Long id : groupInputDto.relativeIds) {
 
@@ -83,12 +83,15 @@ public class GroupService {
 
             if (optionalRelative.isPresent()) {
                 Relative relative = optionalRelative.get();
-                groupRelatives.add(relative);
+                group.getRelatives().add(relative);
 
             }
 
         }
+
+        group.setRelatives(relatives);
         groupRepository.save(group);
+
 
         return group;
 
@@ -101,7 +104,8 @@ public class GroupService {
         dto.setId(group.getId());
         dto.setGroupName(group.getGroupName());
         dto.setGroupPlace(group.getGroupPlace());
-        dto.setGroupRelatives(group.getGroupRelatives());
+        dto.setRelatives(group.getRelatives());
+
 
         return dto;
     }

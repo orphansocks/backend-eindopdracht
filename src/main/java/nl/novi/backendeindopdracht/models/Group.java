@@ -17,7 +17,7 @@ public class Group {
 
     @ManyToMany
 //    @JsonIgnore
-    private Set<Relative> groupRelatives = new HashSet<>();
+    private Set<Relative> relatives = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -43,11 +43,11 @@ public class Group {
         this.groupPlace = groupPlace;
     }
 
-    public Set<Relative> getGroupRelatives() {
-        return groupRelatives;
+    public Set<Relative> getRelatives() {
+        return relatives;
     }
 
-    public void setGroupRelatives(Set<Relative> groupRelatives) {
-        this.groupRelatives = groupRelatives;
+    public void setRelatives(Set<Relative> relatives) {
+        this.relatives = relatives;
     }
 }

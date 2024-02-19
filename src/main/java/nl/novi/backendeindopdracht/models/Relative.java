@@ -24,7 +24,7 @@ public class Relative {
     private String misc;
     private String relation;
 
-    @ManyToMany(mappedBy = "groupRelatives")
+    @ManyToMany(mappedBy = "relatives")
     private Set<Group> groups;
 
 // DE SETTER VAN DE ID ER UIT HALEN
