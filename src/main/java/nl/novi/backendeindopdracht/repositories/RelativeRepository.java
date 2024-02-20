@@ -1,6 +1,6 @@
 package nl.novi.backendeindopdracht.repositories;
 
-import nl.novi.backendeindopdracht.model.Relative;
+import nl.novi.backendeindopdracht.models.Relative;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

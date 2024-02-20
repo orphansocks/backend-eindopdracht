@@ -1,16 +1,16 @@
-package nl.novi.backendeindopdracht.model;
+package nl.novi.backendeindopdracht.models;
 
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Table (name = "relatives")
 public class Relative {
 
     @Id
-    @GeneratedValue
-    // + optioneel meegeven van parameter hoe je de generatedvalue moet genereren
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
     private String firstName;
     private String lastName;
@@ -22,6 +22,9 @@ public class Relative {
     private String namesOfKids;
     private String misc;
     private String relation;
+
+    @ManyToMany(mappedBy = "relatives")
+    private Set<Group> groups;
 
 // DE SETTER VAN DE ID ER UIT HALEN
     // GETTERS AND SETTERS VIA LOMBOK??
@@ -125,6 +128,11 @@ public class Relative {
         this.relation = relation;
     }
 
+    public Set<Group> getGroups() {
+        return groups;
+    }
 
-
+    public void setGroups(Set<Group> groups) {
+        this.groups = groups;
+    }
 }
