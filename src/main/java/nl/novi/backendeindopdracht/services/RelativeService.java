@@ -4,7 +4,10 @@ import nl.novi.backendeindopdracht.dtos.relative.RelativeInputDto;
 import nl.novi.backendeindopdracht.dtos.relative.RelativeDto;
 import nl.novi.backendeindopdracht.exceptions.DuplicateException;
 import nl.novi.backendeindopdracht.exceptions.RecordNotFoundException;
+import nl.novi.backendeindopdracht.exceptions.UsernameNotFoundException;
 import nl.novi.backendeindopdracht.models.Relative;
+import nl.novi.backendeindopdracht.models.Role;
+import nl.novi.backendeindopdracht.models.User;
 import nl.novi.backendeindopdracht.repositories.RelativeRepository;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +33,7 @@ public RelativeDto createRelative(RelativeInputDto relativeInputDto) {
             String firstName = relative.getFirstName();
             String lastName = relative.getLastName();
 
-            List<Relative> relativesWithMatchingNames = relativeRepository.findByFirstNameAndLastName(firstName, lastName);
+            List<Relative> relativesWithMatchingNames = relativeRepository.findByFirstNameIgnoreCaseAndLastNameIgnoreCase(firstName, lastName);
 
             if(relativesWithMatchingNames.isEmpty()) {
                 relativeRepository.save(relative);
@@ -159,6 +162,7 @@ public RelativeDto transferToDto(Relative relative) {
 
         return relativeDtoList;
     }
+
 
 
 

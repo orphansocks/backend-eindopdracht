@@ -11,7 +11,7 @@ VALUES
 
 -- INSERT INTO groups (id, group_name, group_place) VALUES (2001, 'Group 1', 'Place 1'),
 -- INSERT INTO groups (id, group_name, group_place) VALUES (2002, 'Group 2', 'Place 2');
---
+
 -- INSERT INTO groups_relatives ( groups_id, relatves_id) VALUES
 --                                                            (1001, 2001),
 --                                                            (1001, 2002),

@@ -3,6 +3,7 @@ package nl.novi.backendeindopdracht.models;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -36,6 +37,11 @@ public class User {
 //
 
 
+    public void addRole(Role role) {
+        this.roles.add(role);
+    }
+
+    // GETTERS AND SETTERS
 
     public String getUsername() {
         return username;
@@ -86,8 +92,5 @@ public class User {
         this.roles = roles;
     }
 
-    public void addRole(Role role) {
-        this.roles.add(role);
-    }
 
 }

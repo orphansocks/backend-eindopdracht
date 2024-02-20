@@ -1,9 +1,12 @@
 package nl.novi.backendeindopdracht.dtos.relative;
 
 import nl.novi.backendeindopdracht.dtos.group.GroupDto;
+import nl.novi.backendeindopdracht.models.Group;
+import nl.novi.backendeindopdracht.models.Relative;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 public class RelativeDto {
 
@@ -18,6 +21,7 @@ public class RelativeDto {
     public String namesOfKids;
     public String misc;
     public String relation;
+    private Set<Group> groups;
 
 
     public RelativeDto() {
@@ -125,6 +129,13 @@ public class RelativeDto {
         this.relation = relation;
     }
 
+    public Set<Group> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(Set<Group> groups) {
+        this.groups = groups;
+    }
 }
 
 
