@@ -1,4 +1,4 @@
-package nl.novi.backendeindopdracht.model;
+package nl.novi.backendeindopdracht.models;
 
 import jakarta.persistence.*;
 
@@ -49,5 +49,9 @@ public class Group {
 
     public void setRelatives(Set<Relative> relatives) {
         this.relatives = relatives;
+    }
+
+    public void addRelatives(Relative relative) {
+        this.relatives.add(relative);
     }
 }

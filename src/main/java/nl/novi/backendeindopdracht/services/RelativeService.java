@@ -3,7 +3,7 @@ package nl.novi.backendeindopdracht.services;
 import nl.novi.backendeindopdracht.dtos.relative.RelativeInputDto;
 import nl.novi.backendeindopdracht.dtos.relative.RelativeDto;
 import nl.novi.backendeindopdracht.exceptions.RecordNotFoundException;
-import nl.novi.backendeindopdracht.model.Relative;
+import nl.novi.backendeindopdracht.models.Relative;
 import nl.novi.backendeindopdracht.repositories.RelativeRepository;
 import org.springframework.stereotype.Service;
 

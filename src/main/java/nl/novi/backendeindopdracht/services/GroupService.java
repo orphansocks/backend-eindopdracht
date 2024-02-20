@@ -2,9 +2,10 @@ package nl.novi.backendeindopdracht.services;
 
 import nl.novi.backendeindopdracht.dtos.group.GroupDto;
 import nl.novi.backendeindopdracht.dtos.group.GroupInputDto;
+import nl.novi.backendeindopdracht.dtos.relative.RelativeDto;
 import nl.novi.backendeindopdracht.exceptions.RecordNotFoundException;
-import nl.novi.backendeindopdracht.model.Group;
-import nl.novi.backendeindopdracht.model.Relative;
+import nl.novi.backendeindopdracht.models.Group;
+import nl.novi.backendeindopdracht.models.Relative;
 import nl.novi.backendeindopdracht.repositories.GroupRepository;
 import nl.novi.backendeindopdracht.repositories.RelativeRepository;
 import org.springframework.stereotype.Service;
@@ -24,11 +25,47 @@ public class GroupService {
         this.relativeRepository = relativeRepository;
     }
 
-    // CREATE DELETE UPDATE GETALL GETBYID GETBYNAME
 
     public GroupDto createGroup(GroupInputDto groupInputDto) {
 
         Group group = transferToEntity(groupInputDto);
+        groupRepository.save(group);
+
+        return transferToDto(group);
+
+    }
+
+    public GroupDto updateGroup(Long storedGroupId, GroupInputDto groupNewInputDto) {
+
+        if (!groupRepository.existsById(storedGroupId)) {
+            throw new RecordNotFoundException("no Group found");
+        }
+
+        Group storedGroup = groupRepository.findById(storedGroupId).orElse(null);
+
+        storedGroup.setGroupName(groupNewInputDto.groupName);
+        storedGroup.setGroupPlace(groupNewInputDto.groupPlace);
+
+        Set<Relative> relatives = new HashSet<>();
+
+        for (Long id : groupNewInputDto.relativeIds) {
+
+            Optional<Relative> optionalRelative = relativeRepository.findById(storedGroupId);
+
+            if (optionalRelative.isPresent()) {
+                Relative relative = optionalRelative.get();
+                storedGroup.getRelatives().add(relative);
+
+            }
+
+        }
+
+        storedGroup.setRelatives(relatives);
+
+        Group group = transferToEntity(groupNewInputDto);
+
+        group.setId(storedGroup.getId());
+
         groupRepository.save(group);
 
         return transferToDto(group);
@@ -41,7 +78,7 @@ public class GroupService {
 
     public GroupDto getGroupById(Long id) {
 
-        if(groupRepository.findById(id).isPresent()) {
+        if (groupRepository.findById(id).isPresent()) {
 
             Group group = groupRepository.findById(id).get();
 
@@ -58,15 +95,13 @@ public class GroupService {
         List<GroupDto> collection = new ArrayList<>();
         List<Group> groupList = groupRepository.findAll();
 
-        for(Group group : groupList) {
+        for (Group group : groupList) {
             collection.add(transferToDto(group));
 
         }
         return collection;
     }
 
-
-    // DE TRANSFER METHODS DTO < > ENTITY:
 
     public Group transferToEntity(GroupInputDto groupInputDto) {
 
@@ -88,7 +123,6 @@ public class GroupService {
             }
 
         }
-
         group.setRelatives(relatives);
         groupRepository.save(group);
 
@@ -104,12 +138,53 @@ public class GroupService {
         dto.setId(group.getId());
         dto.setGroupName(group.getGroupName());
         dto.setGroupPlace(group.getGroupPlace());
-        dto.setRelatives(group.getRelatives());
+
+        Set<Relative> groupRelatives = new HashSet<>();
+
+        for (Relative relative : group.getRelatives()) {
+
+            RelativeDto relativeDto = assignRelativeToDto(relative);
+            groupRelatives.add(relative);
+        }
+
+        dto.setRelatives(groupRelatives);
 
 
         return dto;
     }
 
+    private RelativeDto assignRelativeToDto(Relative relative) {
+
+        RelativeDto dto = new RelativeDto();
+
+        dto.setId(relative.getId());
+        dto.setFirstName(relative.getFirstName());
+        dto.setLastName(relative.getLastName());
+        dto.setNickName(relative.getNickName());
+        dto.setDob(relative.getDob());
+        dto.setSocialStatus(relative.getSocialStatus());
+        dto.setHasKids(relative.getHasKids());
+        dto.setAmountOfKids(relative.getAmountOfKids());
+        dto.setNamesOfKids(relative.getNamesOfKids());
+        dto.setMisc(relative.getMisc());
+        dto.setRelation(relative.getRelation());
+
+        return dto;
+
+    }
 
 
+//    public Set<RelativeDto> transferEntitySetToDtoSet(Set<Relative> relatives) {
+//
+//        Set<RelativeDto> groupRelatives = new HashSet<>();
+//
+//        for (Relative relative : relatives) {
+//
+//            RelativeDto relativeDto = transferToDto(relative);
+//            groupRelatives.add(relativeDto);
+//        }
+//
+//        return groupRelatives;
+//
+//    }
 }

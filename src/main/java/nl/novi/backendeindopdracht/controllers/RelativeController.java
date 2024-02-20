@@ -1,12 +1,10 @@
-package nl.novi.backendeindopdracht.controller;
+package nl.novi.backendeindopdracht.controllers;
 
-import jakarta.validation.Valid;
 import nl.novi.backendeindopdracht.dtos.relative.RelativeDto;
 import nl.novi.backendeindopdracht.dtos.relative.RelativeInputDto;
 
 import nl.novi.backendeindopdracht.services.RelativeService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 

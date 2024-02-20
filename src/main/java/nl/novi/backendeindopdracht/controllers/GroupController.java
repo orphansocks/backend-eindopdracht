@@ -1,15 +1,13 @@
-package nl.novi.backendeindopdracht.controller;
+package nl.novi.backendeindopdracht.controllers;
 
 import nl.novi.backendeindopdracht.dtos.group.GroupDto;
 import nl.novi.backendeindopdracht.dtos.group.GroupInputDto;
-import nl.novi.backendeindopdracht.dtos.relative.RelativeDto;
 import nl.novi.backendeindopdracht.services.GroupService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping("/groups")

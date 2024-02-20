@@ -1,6 +1,6 @@
 package nl.novi.backendeindopdracht.dtos.group;
 
-import nl.novi.backendeindopdracht.model.Relative;
+import nl.novi.backendeindopdracht.models.Relative;
 
 import java.util.Set;
 

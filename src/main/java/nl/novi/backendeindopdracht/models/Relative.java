@@ -1,9 +1,8 @@
-package nl.novi.backendeindopdracht.model;
+package nl.novi.backendeindopdracht.models;
 
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
 
 @Entity
