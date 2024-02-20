@@ -2,6 +2,7 @@ package nl.novi.backendeindopdracht.services;
 
 import nl.novi.backendeindopdracht.dtos.relative.RelativeInputDto;
 import nl.novi.backendeindopdracht.dtos.relative.RelativeDto;
+import nl.novi.backendeindopdracht.exceptions.DuplicateException;
 import nl.novi.backendeindopdracht.exceptions.RecordNotFoundException;
 import nl.novi.backendeindopdracht.models.Relative;
 import nl.novi.backendeindopdracht.repositories.RelativeRepository;
@@ -25,10 +26,20 @@ public class RelativeService {
 public RelativeDto createRelative(RelativeInputDto relativeInputDto) {
 
             Relative relative = transferToEntity(relativeInputDto);
-            relativeRepository.save(relative);
 
+            String firstName = relative.getFirstName();
+            String lastName = relative.getLastName();
 
-        return transferToDto(relative);
+            List<Relative> relativesWithMatchingNames = relativeRepository.findByFirstNameAndLastName(firstName, lastName);
+
+            if(relativesWithMatchingNames.isEmpty()) {
+                relativeRepository.save(relative);
+                return transferToDto(relative);
+
+            } else {
+                throw new DuplicateException("A relative with this name already exists");
+            }
+
 }
 
 public void deleteRelative(Long id) {
@@ -50,7 +61,7 @@ public RelativeDto updateRelative(Long id, RelativeInputDto relativeNewInputDto)
             return transferToDto(newInputRelative);
 
         } else {
-            throw new RecordNotFoundException("no relative found");
+            throw new RecordNotFoundException("No relative found");
         }
 }
 
@@ -64,7 +75,7 @@ public RelativeDto getRelativeById(Long id) {
             return transferToDto(relative);
 
         } else {
-            throw new RecordNotFoundException("no relative found");
+            throw new RecordNotFoundException("No relative found");
         }
 }
 
