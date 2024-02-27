@@ -3,7 +3,6 @@ package nl.novi.backendeindopdracht.models;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -17,6 +16,16 @@ public class User {
     @Column(nullable = false, length = 255)
     private String password;
 
+    @OneToMany(mappedBy = "username")
+    private Set<Role> roles = new HashSet<>();
+
+//            targetEntity = Role.class,
+//            mappedBy = "username",
+//            cascade = CascadeType.ALL,
+//            orphanRemoval = true,
+//            fetch = FetchType.EAGER)
+//
+
     @Column(nullable = false)
     private boolean enabled = true;
 
@@ -26,22 +35,19 @@ public class User {
     @Column
     private String email;
 
-     @OneToMany(mappedBy = "username")
-     private Set<Role> roles = new HashSet<>();
 
-//            targetEntity = Role.class,
-//            mappedBy = "username",
-//            cascade = CascadeType.ALL,
-//            orphanRemoval = true,
-//            fetch = FetchType.EAGER)
-//
 
 
     public void addRole(Role role) {
         this.roles.add(role);
     }
 
+    public void removeRole(Role role) {
+        this.roles.remove(role);
+    }
+
     // GETTERS AND SETTERS
+
 
     public String getUsername() {
         return username;
@@ -57,6 +63,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     public boolean isEnabled() {
@@ -82,15 +96,4 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
-
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
-
-
 }

@@ -117,6 +117,7 @@ public Relative transferToEntity(RelativeInputDto dto) {
         relative.setNickName(dto.nickName);
         relative.setDob(dto.dob);
         relative.setSocialStatus(dto.socialStatus);
+        relative.setNameOfPartner(dto.nameOfPartner);
         relative.setHasKids(dto.hasKids);
         relative.setAmountOfKids(dto.amountOfKids);
         relative.setNamesOfKids(dto.namesOfKids);
@@ -136,6 +137,7 @@ public RelativeDto transferToDto(Relative relative) {
         dto.setNickName(relative.getNickName());
         dto.setDob(relative.getDob());
         dto.setSocialStatus(relative.getSocialStatus());
+        dto.setNameOfPartner(relative.getNameOfPartner());
         dto.setHasKids(relative.getHasKids());
         dto.setAmountOfKids(relative.getAmountOfKids());
         dto.setNamesOfKids(relative.getNamesOfKids());

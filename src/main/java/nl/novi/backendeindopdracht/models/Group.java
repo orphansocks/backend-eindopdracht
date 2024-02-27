@@ -20,9 +20,6 @@ public class Group {
     @JsonIgnore
     private Set<Relative> relatives = new HashSet<>();
 
-    public void addRelative(Relative relative) {
-        this.relatives.add(relative);
-    }
 
     // GETTERS AND SETTERS
 

@@ -16,6 +16,7 @@ public class RelativeDto {
     public String nickName;
     public LocalDate dob;
     public String socialStatus;
+    public String nameOfPartner;
     public Boolean hasKids;
     public Integer amountOfKids;
     public String namesOfKids;
@@ -27,13 +28,14 @@ public class RelativeDto {
     public RelativeDto() {
     }
 
-    public RelativeDto(Long id, String firstName, String lastName, String nickName, LocalDate dob, String socialStatus, Integer amountOfKids, String namesOfKids, String misc, String relation) {
+    public RelativeDto(Long id, String firstName, String lastName, String nickName, LocalDate dob, String socialStatus, String nameOfPartner, Boolean hasKids, Integer amountOfKids, String namesOfKids, String misc, String relation) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.nickName = nickName;
         this.dob = dob;
         this.socialStatus = socialStatus;
+        this.nameOfPartner = nameOfPartner;
         this.hasKids = hasKids;
         this.amountOfKids = amountOfKids;
         this.namesOfKids = namesOfKids;
@@ -87,6 +89,14 @@ public class RelativeDto {
 
     public void setSocialStatus(String socialStatus) {
         this.socialStatus = socialStatus;
+    }
+
+    public String getNameOfPartner() {
+        return nameOfPartner;
+    }
+
+    public void setNameOfPartner(String nameOfPartner) {
+        this.nameOfPartner = nameOfPartner;
     }
 
     public Boolean getHasKids() {

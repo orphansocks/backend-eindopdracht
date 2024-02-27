@@ -179,21 +179,4 @@ public class GroupService {
 
     }
 
-    public void addRelative(Long groupId, Long relativeId) {
-    }
-
-
-//    public Set<Relative> transferEntitySetToDtoSet(Set<Relative> relatives) {
-//
-//        Set<Relative> groupRelatives = new HashSet<>();
-//
-//        for (Relative relative : relatives) {
-//
-//            RelativeDto relativeDto = transferToDto(relative);
-//            groupRelatives.add(relativeDto);
-//        }
-//
-//        return groupRelatives;
-//
-//    }
 }

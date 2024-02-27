@@ -9,6 +9,7 @@ import java.io.Serializable;
 public class Role implements Serializable {
 
     @Id
+    //@IdClass(RoleKey.class)
     @Column(nullable = false)
     private String username;
 
@@ -18,18 +19,9 @@ public class Role implements Serializable {
 
 public Role() {}
 
-    public Role(String username) {
-    this.username = username;
-    }
 
     public Role(String username, String role) {
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
+        this.username = username;
         this.role = role;
     }
 
@@ -39,5 +31,13 @@ public Role() {}
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

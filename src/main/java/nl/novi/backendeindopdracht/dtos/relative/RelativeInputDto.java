@@ -14,6 +14,7 @@ public class RelativeInputDto {
     @Past
     public LocalDate dob;
     public String socialStatus;
+    public String nameOfPartner;
     public Boolean hasKids;
     @PositiveOrZero(message = "Cannot be negative")
     public Integer amountOfKids;
