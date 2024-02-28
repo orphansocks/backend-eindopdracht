@@ -35,6 +35,9 @@ public class User {
     @Column
     private String email;
 
+    @OneToOne(mappedBy = "user")
+    private CardData cardData;
+
 
 
 
@@ -44,6 +47,10 @@ public class User {
 
     public void removeRole(Role role) {
         this.roles.remove(role);
+    }
+
+    public User(CardData cardData) {
+        this.cardData = cardData;
     }
 
     // GETTERS AND SETTERS
@@ -95,5 +102,17 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public CardData getCardData() {
+        return cardData;
+    }
+
+    public void setCardData(CardData cardData) {
+        this.cardData = cardData;
+    }
+
+    public void setCard(CardData savedCard) {
+        this.cardData = cardData;
     }
 }

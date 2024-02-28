@@ -9,9 +9,9 @@ VALUES
 (1003, 'Frouke', 'van Dongen', 'Zussie', '1979-06-09', 'together', 'GeertJan', true, 1 , 'Jule', 'dat bedoel ik', 'family' ),
 (1004, 'Nathan', 'Fielder', 'Nathan for You', '1983-05-12', 'divorced', '', false, 0 , '', 'An observer of human behavior. He mines the absurdities of how people relate to one another and how he relates to them, and it all makes you think and laugh', 'neighbour' ),
 (1005, 'Kees', 'van Dongen', '', '1877-01-26', 'divorced', '', true, 2 , 'Zoon en dochter', 'gescheiden van Piet', 'collegue' ),
-(1006, 'Marie', 'Antoinette', '', '1976-10-16', 'single', '', true, 2 , 'Thérèse en Sophia', 'Monsieur, je vous demande excuse, je ne l’ai pas fait exprès.', 'family' ),
+(1006, 'Marie', 'Antoinette', '', '1976-10-16', 'single', '', true, 1 , 'Thérèse', 'Monsieur, je vous demande excuse, je ne l’ai pas fait exprès.', 'family' ),
 (1007, 'Immanuel', 'Kant', 'Filosoof', '1724-04-27', 'together', 'Maria', false, 0 , 'unknown', 'Look closely, the beautiful may be small', 'collegue' ),
-(1008, 'Jan', 'Janssen', 'JJ', '1976-03-03', 'married', 'Maria', true, 4 , 'Jannie, Kobus, Lieve, Moos', 'En wat schrijven we hier', 'study' ),
+(1008, 'Jan', 'Janssen', 'JJ', '1976-03-03', 'married', 'Maria', true, 4 , 'Jannie, Kobus, Lieve, Moos', 'En wat schrijven we hier', 'friends' ),
 (1009, 'James', 'Gosling', 'Java', '1955-05-19', 'divorced', '', true, 3 , 'Kate, Kelsey, Lorena', 'make something cool', 'study' ),
 (1010, 'Brendan', 'Eich', 'JavaScript', '1961-07-04', 'married', 'Eleanor', true, 2 , 'JavaScript and Mozilla', 'Hello, world!', 'collegue' );
 
