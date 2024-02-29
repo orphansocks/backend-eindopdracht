@@ -1,5 +1,7 @@
 package nl.novi.backendeindopdracht.services;
 
+import nl.novi.backendeindopdracht.exceptions.CardDataNotFoundException;
+import nl.novi.backendeindopdracht.exceptions.UsernameNotFoundException;
 import nl.novi.backendeindopdracht.models.CardData;
 import nl.novi.backendeindopdracht.models.User;
 import nl.novi.backendeindopdracht.repositories.CardDataRepository;
@@ -23,31 +25,46 @@ public class CardDataService {
     }
 
     public String uploadCard(MultipartFile multipartFile, String username) throws IOException {
-        Optional<User> user = userRepository.findById(username);
+        Optional<User> userOptional = userRepository.findById(username);
 
-        User user1 = user.get();
-        CardData cardData = new CardData();
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            CardData cardData = new CardData();
 
-        cardData.setCardName(multipartFile.getName());
-        cardData.setType(multipartFile.getContentType());
-        cardData.setCardData(ImageUtil.compressImage(multipartFile.getBytes()));
-        cardData.setUser(user1);
+            cardData.setCardName(multipartFile.getName());
+            cardData.setType(multipartFile.getContentType());
+            cardData.setCardData(ImageUtil.compressImage(multipartFile.getBytes()));
+            cardData.setUser(user);
 
-        CardData savedCard = cardDataRepository.save(cardData);
-        user1.setCard(savedCard);
-        userRepository.save(user1);
+            CardData savedCard = cardDataRepository.save(cardData);
+            user.setCard(savedCard);
+            userRepository.save(user);
 
-        return savedCard.getCardName();
-
+            return savedCard.getCardName();
+        } else {
+            // Handle the case where the user is not found
+            throw new UsernameNotFoundException("User with username " + username + " not found.");
+        }
     }
+
 
     public byte[] downloadCard(String username) throws IOException {
-        Optional<User> user = userRepository.findById(username);
-        User user1 = user.get();
-        CardData cardData = user1.getCardData();
+        Optional<User> userOptional = userRepository.findById(username);
 
-        return ImageUtil.decompressImage(cardData.getCardData());
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            CardData cardData = user.getCardData();
+
+            if (cardData != null) {
+                return ImageUtil.decompressImage(cardData.getCardData());
+            } else {
+                // Handle the case where the card data for the user is null
+                throw new CardDataNotFoundException("Card data not found for user with username " + username);
+            }
+        } else {
+            // Handle the case where the user is not found
+            throw new UsernameNotFoundException("User with username " + username + " not found.");
+        }
+
     }
-
-
 }

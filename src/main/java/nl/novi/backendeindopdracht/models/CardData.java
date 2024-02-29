@@ -15,7 +15,7 @@ public class CardData {
     private byte[] cardData;
 
     @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_username", referencedColumnName = "username")
     private User user;
 
     public CardData(){

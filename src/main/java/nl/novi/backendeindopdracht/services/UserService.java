@@ -49,7 +49,7 @@ public class UserService {
         Optional<User> user = userRepository.findById(username);
         if (user.isPresent()){
             dto = transferToDto(user.get());
-        }else {
+        } else {
             throw new UsernameNotFoundException(username);
         }
         return dto;
@@ -112,6 +112,8 @@ public class UserService {
         UserDto userDto = transferToDto(user);
         return userDto.getRoles();
     }
+
+
 
 
 

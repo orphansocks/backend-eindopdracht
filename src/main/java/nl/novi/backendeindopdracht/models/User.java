@@ -39,8 +39,6 @@ public class User {
     private CardData cardData;
 
 
-
-
     public void addRole(Role role) {
         this.roles.add(role);
     }
@@ -49,12 +47,8 @@ public class User {
         this.roles.remove(role);
     }
 
-    public User(CardData cardData) {
-        this.cardData = cardData;
-    }
 
     // GETTERS AND SETTERS
-
 
     public String getUsername() {
         return username;
