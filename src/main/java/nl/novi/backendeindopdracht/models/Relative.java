@@ -17,6 +17,7 @@ public class Relative {
     private String nickName;
     private LocalDate dob;
     private String socialStatus;
+    private String nameOfPartner;
     private Boolean hasKids;
     private Integer amountOfKids;
     private String namesOfKids;
@@ -87,6 +88,13 @@ public class Relative {
         this.socialStatus = socialStatus;
     }
 
+    public String getNameOfPartner() {
+        return nameOfPartner;
+    }
+
+    public void setNameOfPartner(String nameOfPartner) {
+        this.nameOfPartner = nameOfPartner;
+    }
 
     public Boolean getHasKids() {
         return hasKids;

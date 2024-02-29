@@ -1,5 +1,6 @@
 package nl.novi.backendeindopdracht.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -16,8 +17,11 @@ public class Group {
     private String groupPlace;
 
     @ManyToMany
-//    @JsonIgnore
+    @JsonIgnore
     private Set<Relative> relatives = new HashSet<>();
+
+
+    // GETTERS AND SETTERS
 
     public Long getId() {
         return id;
@@ -51,7 +55,4 @@ public class Group {
         this.relatives = relatives;
     }
 
-    public void addRelatives(Relative relative) {
-        this.relatives.add(relative);
-    }
 }

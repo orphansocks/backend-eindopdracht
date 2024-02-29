@@ -2,8 +2,12 @@ package nl.novi.backendeindopdracht.services;
 
 import nl.novi.backendeindopdracht.dtos.relative.RelativeInputDto;
 import nl.novi.backendeindopdracht.dtos.relative.RelativeDto;
+import nl.novi.backendeindopdracht.exceptions.DuplicateException;
 import nl.novi.backendeindopdracht.exceptions.RecordNotFoundException;
+import nl.novi.backendeindopdracht.exceptions.UsernameNotFoundException;
 import nl.novi.backendeindopdracht.models.Relative;
+import nl.novi.backendeindopdracht.models.Role;
+import nl.novi.backendeindopdracht.models.User;
 import nl.novi.backendeindopdracht.repositories.RelativeRepository;
 import org.springframework.stereotype.Service;
 
@@ -25,10 +29,20 @@ public class RelativeService {
 public RelativeDto createRelative(RelativeInputDto relativeInputDto) {
 
             Relative relative = transferToEntity(relativeInputDto);
-            relativeRepository.save(relative);
 
+            String firstName = relative.getFirstName();
+            String lastName = relative.getLastName();
 
-        return transferToDto(relative);
+            List<Relative> relativesWithMatchingNames = relativeRepository.findByFirstNameIgnoreCaseAndLastNameIgnoreCase(firstName, lastName);
+
+            if(relativesWithMatchingNames.isEmpty()) {
+                relativeRepository.save(relative);
+                return transferToDto(relative);
+
+            } else {
+                throw new DuplicateException("A relative with this name already exists");
+            }
+
 }
 
 public void deleteRelative(Long id) {
@@ -50,7 +64,7 @@ public RelativeDto updateRelative(Long id, RelativeInputDto relativeNewInputDto)
             return transferToDto(newInputRelative);
 
         } else {
-            throw new RecordNotFoundException("no relative found");
+            throw new RecordNotFoundException("No relative found");
         }
 }
 
@@ -64,7 +78,7 @@ public RelativeDto getRelativeById(Long id) {
             return transferToDto(relative);
 
         } else {
-            throw new RecordNotFoundException("no relative found");
+            throw new RecordNotFoundException("No relative found");
         }
 }
 
@@ -103,6 +117,7 @@ public Relative transferToEntity(RelativeInputDto dto) {
         relative.setNickName(dto.nickName);
         relative.setDob(dto.dob);
         relative.setSocialStatus(dto.socialStatus);
+        relative.setNameOfPartner(dto.nameOfPartner);
         relative.setHasKids(dto.hasKids);
         relative.setAmountOfKids(dto.amountOfKids);
         relative.setNamesOfKids(dto.namesOfKids);
@@ -122,6 +137,7 @@ public RelativeDto transferToDto(Relative relative) {
         dto.setNickName(relative.getNickName());
         dto.setDob(relative.getDob());
         dto.setSocialStatus(relative.getSocialStatus());
+        dto.setNameOfPartner(relative.getNameOfPartner());
         dto.setHasKids(relative.getHasKids());
         dto.setAmountOfKids(relative.getAmountOfKids());
         dto.setNamesOfKids(relative.getNamesOfKids());
@@ -148,6 +164,7 @@ public RelativeDto transferToDto(Relative relative) {
 
         return relativeDtoList;
     }
+
 
 
 

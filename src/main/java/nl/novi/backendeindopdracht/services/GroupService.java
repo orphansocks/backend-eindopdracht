@@ -4,8 +4,10 @@ import nl.novi.backendeindopdracht.dtos.group.GroupDto;
 import nl.novi.backendeindopdracht.dtos.group.GroupInputDto;
 import nl.novi.backendeindopdracht.dtos.relative.RelativeDto;
 import nl.novi.backendeindopdracht.exceptions.RecordNotFoundException;
+import nl.novi.backendeindopdracht.exceptions.UsernameNotFoundException;
 import nl.novi.backendeindopdracht.models.Group;
 import nl.novi.backendeindopdracht.models.Relative;
+import nl.novi.backendeindopdracht.models.Role;
 import nl.novi.backendeindopdracht.repositories.GroupRepository;
 import nl.novi.backendeindopdracht.repositories.RelativeRepository;
 import org.springframework.stereotype.Service;
@@ -110,7 +112,7 @@ public class GroupService {
         group.setGroupName(groupInputDto.groupName);
         group.setGroupPlace(groupInputDto.groupPlace);
 
-        Set<Relative> relatives = new HashSet<>();
+        Set<Relative> groupRelatives = new HashSet<>();
 
         for (Long id : groupInputDto.relativeIds) {
 
@@ -118,12 +120,16 @@ public class GroupService {
 
             if (optionalRelative.isPresent()) {
                 Relative relative = optionalRelative.get();
-                group.getRelatives().add(relative);
+                groupRelatives.add(relative);
 
+            } else {
+                throw new RecordNotFoundException("Relative with Id " + id + " not found");
             }
 
+
         }
-        group.setRelatives(relatives);
+        group.setRelatives(groupRelatives);
+
         groupRepository.save(group);
 
 
@@ -173,18 +179,4 @@ public class GroupService {
 
     }
 
-
-//    public Set<RelativeDto> transferEntitySetToDtoSet(Set<Relative> relatives) {
-//
-//        Set<RelativeDto> groupRelatives = new HashSet<>();
-//
-//        for (Relative relative : relatives) {
-//
-//            RelativeDto relativeDto = transferToDto(relative);
-//            groupRelatives.add(relativeDto);
-//        }
-//
-//        return groupRelatives;
-//
-//    }
 }

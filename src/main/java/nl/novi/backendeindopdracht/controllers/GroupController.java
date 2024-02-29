@@ -2,12 +2,14 @@ package nl.novi.backendeindopdracht.controllers;
 
 import nl.novi.backendeindopdracht.dtos.group.GroupDto;
 import nl.novi.backendeindopdracht.dtos.group.GroupInputDto;
+import nl.novi.backendeindopdracht.dtos.relative.RelativeDto;
 import nl.novi.backendeindopdracht.services.GroupService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/groups")
@@ -34,7 +36,7 @@ public class GroupController {
 
     }
 
-    // deze methode haalt de relatives op die in de group zittem
+    // deze methode haalt de relatives op die in de group zitten
 
     @PutMapping("/{id}")
     public ResponseEntity<GroupDto> updateGroup(@PathVariable("id") Long id, @RequestBody GroupInputDto groupNewInputDto) {
@@ -44,7 +46,13 @@ public class GroupController {
 
 
 
+    @GetMapping("")
+    public ResponseEntity<List<GroupDto>> getAllGroups() {
 
+        List<GroupDto> groupDtos = groupService.getAllGroups();
+
+        return ResponseEntity.ok().body(groupDtos);
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<GroupDto> getGroupById(@PathVariable("id") Long id) {

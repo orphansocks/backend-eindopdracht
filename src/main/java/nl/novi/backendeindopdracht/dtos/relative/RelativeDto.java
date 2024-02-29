@@ -1,9 +1,12 @@
 package nl.novi.backendeindopdracht.dtos.relative;
 
 import nl.novi.backendeindopdracht.dtos.group.GroupDto;
+import nl.novi.backendeindopdracht.models.Group;
+import nl.novi.backendeindopdracht.models.Relative;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 public class RelativeDto {
 
@@ -13,23 +16,26 @@ public class RelativeDto {
     public String nickName;
     public LocalDate dob;
     public String socialStatus;
+    public String nameOfPartner;
     public Boolean hasKids;
     public Integer amountOfKids;
     public String namesOfKids;
     public String misc;
     public String relation;
+    private Set<Group> groups;
 
 
     public RelativeDto() {
     }
 
-    public RelativeDto(Long id, String firstName, String lastName, String nickName, LocalDate dob, String socialStatus, Integer amountOfKids, String namesOfKids, String misc, String relation) {
+    public RelativeDto(Long id, String firstName, String lastName, String nickName, LocalDate dob, String socialStatus, String nameOfPartner, Boolean hasKids, Integer amountOfKids, String namesOfKids, String misc, String relation) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.nickName = nickName;
         this.dob = dob;
         this.socialStatus = socialStatus;
+        this.nameOfPartner = nameOfPartner;
         this.hasKids = hasKids;
         this.amountOfKids = amountOfKids;
         this.namesOfKids = namesOfKids;
@@ -85,6 +91,14 @@ public class RelativeDto {
         this.socialStatus = socialStatus;
     }
 
+    public String getNameOfPartner() {
+        return nameOfPartner;
+    }
+
+    public void setNameOfPartner(String nameOfPartner) {
+        this.nameOfPartner = nameOfPartner;
+    }
+
     public Boolean getHasKids() {
         return hasKids;
     }
@@ -125,6 +139,13 @@ public class RelativeDto {
         this.relation = relation;
     }
 
+    public Set<Group> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(Set<Group> groups) {
+        this.groups = groups;
+    }
 }
 
 

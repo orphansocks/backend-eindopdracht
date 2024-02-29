@@ -8,6 +8,7 @@ import java.util.List;
 public interface RelativeRepository extends JpaRepository<Relative, Long> {
     public List<Relative> findAllByFirstNameEqualsIgnoreCase(String firstName);
     public List<Relative> findAllByLastNameEqualsIgnoreCase(String firstName);
+    public List<Relative> findByFirstNameIgnoreCaseAndLastNameIgnoreCase(String firstName, String lastName);
 
 
 }
