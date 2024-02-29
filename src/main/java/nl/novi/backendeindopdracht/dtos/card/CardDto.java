@@ -1,41 +1,15 @@
-package nl.novi.backendeindopdracht.models;
+package nl.novi.backendeindopdracht.dtos.card;
 
-import jakarta.persistence.*;
+import nl.novi.backendeindopdracht.models.ImageData;
 
-@Entity
-@Table( name = "cards")
-public class Card {
+public class CardDto {
 
-    @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String cardName;
-    private String designer;
-    private String category;
-    private Integer amountOfDownloads;
-
-    @OneToOne(mappedBy = "card")
-    private ImageData imageData;
-
-
-
-    // CONSTRUCTOR
-
-    public Card() {
-    }
-
-    public Card(Long id, String cardName, String designer, String category, Integer amountOfDownloads, ImageData imageData) {
-        this.id = id;
-        this.cardName = cardName;
-        this.designer = designer;
-        this.category = category;
-        this.amountOfDownloads = amountOfDownloads;
-        this.imageData = imageData;
-    }
-
-
-    // GETTERS AND SETTERS
-
+    public Long id;
+    public String cardName;
+    public String designer;
+    public String category;
+    public Integer amountOfDownloads;
+    public ImageData imageData;
 
     public Long getId() {
         return id;

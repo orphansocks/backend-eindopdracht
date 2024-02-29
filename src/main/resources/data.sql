@@ -36,4 +36,12 @@ VALUES (2001, 1001),
        (2004, 1009),
        (2005, 1010);
 
+INSERT INTO cards (id, card_name, designer, category, amount_of_downloads)
+VALUES
+    (3001, 'yvi', 'me', 'birthday', 21),
+    (3002, 'kepler', 'me', 'birthday', 22),
+    (3003, 'haas', 'me', 'birthday', 15),
+    (3004, 'degular', 'me', 'birthday', 16),
+    (3005, 'roboto', 'me', 'birthday', 3);
+
 

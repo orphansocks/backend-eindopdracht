@@ -1,6 +1,6 @@
 package nl.novi.backendeindopdracht.services;
 
-import nl.novi.backendeindopdracht.dtos.UserDto;
+import nl.novi.backendeindopdracht.dtos.user.UserDto;
 import nl.novi.backendeindopdracht.exceptions.RecordNotFoundException;
 import nl.novi.backendeindopdracht.exceptions.UsernameNotFoundException;
 import nl.novi.backendeindopdracht.models.Role;

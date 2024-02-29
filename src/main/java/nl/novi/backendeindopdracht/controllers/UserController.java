@@ -1,6 +1,6 @@
 package nl.novi.backendeindopdracht.controllers;
 
-import nl.novi.backendeindopdracht.dtos.UserDto;
+import nl.novi.backendeindopdracht.dtos.user.UserDto;
 import nl.novi.backendeindopdracht.services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
