@@ -1,6 +1,7 @@
 package nl.novi.backendeindopdracht.services;
 
 import nl.novi.backendeindopdracht.exceptions.CardDataNotFoundException;
+import nl.novi.backendeindopdracht.exceptions.RecordNotFoundException;
 import nl.novi.backendeindopdracht.models.Card;
 import nl.novi.backendeindopdracht.models.ImageData;
 import nl.novi.backendeindopdracht.repositories.ImageDataRepository;
@@ -23,13 +24,14 @@ public class ImageDataService {
         this.cardRepository = cardRepository;
     }
 
-    public String uploadImage(MultipartFile multipartFile, String imageName) throws IOException {
-        Optional<Card> cardOptional = cardRepository.findByCardNameEqualsIgnoreCase(imageName);
+    public String uploadImage(MultipartFile multipartFile, Long id) throws IOException {
+
+        Optional<Card> cardOptional = cardRepository.findById(id);
 
         if (cardOptional.isPresent()) {
             Card card = cardOptional.get();
-            ImageData imageData = new ImageData();
 
+            ImageData imageData = new ImageData();
             imageData.setImageName(multipartFile.getName());
             imageData.setType(multipartFile.getContentType());
             imageData.setImageData(ImageUtil.compressImage(multipartFile.getBytes()));
@@ -42,28 +44,26 @@ public class ImageDataService {
             return savedImage.getImageName();
         } else {
             // Handle the case when the card is not found
-            throw new CardDataNotFoundException("Card " + imageName + " is not found.");
+            throw new CardDataNotFoundException("Card is not found.");
         }
     }
 
 
     public byte[] downloadImage(Long id) throws IOException {
+
         Optional<Card> cardOptional = cardRepository.findById(id);
 
         if (cardOptional.isPresent()) {
+
             Card card = cardOptional.get();
             ImageData imageData = card.getImageData();
 
-            if (imageData != null) {
                 return ImageUtil.decompressImage(imageData.getImageData());
             } else {
                 // Handle the case where the card data for the card is null
-                throw new CardDataNotFoundException("Card data not found for card with id " + id);
+                throw new CardDataNotFoundException("Card is not found for card with id " + id);
             }
-        } else {
-            // Handle the case where the card is not found
-            throw new CardDataNotFoundException("Card" + id + " is not found.");
-        }
+
 
     }
 }

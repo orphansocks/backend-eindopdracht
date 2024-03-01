@@ -28,12 +28,26 @@ public class ImageController {
     }
 
     @PostMapping ("")
-    public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile multipartFile, @RequestParam String imageName) throws IOException {
+    public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile multipartFile, @RequestParam Long id) throws IOException {
+        Optional<Card> cardOptional = cardRepository.findById(id);
 
-        String image = imageDataService.uploadImage(multipartFile, imageName);
-
-        return ResponseEntity.ok("file has been uploaded, " + image);
+        if (cardOptional.isPresent()) {
+            String image = imageDataService.uploadImage(multipartFile, id);
+            return ResponseEntity.ok("File has been uploaded for card with ID " + id + ": " + image);
+        } else {
+            // Handle the case where the card with the provided ID is not found
+            return ResponseEntity.notFound().build();
+        }
     }
+
+
+//    @PostMapping ("")
+//    public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile multipartFile, @RequestParam Long id) throws IOException {
+//
+//        String image = imageDataService.uploadImage(multipartFile, id);
+//
+//        return ResponseEntity.ok("file has been uploaded, " + image);
+//    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> downloadImage(@PathVariable("id") Long id) throws IOException {
@@ -48,5 +62,6 @@ public class ImageController {
         return ResponseEntity.ok().contentType(mediaType).body(image);
 
     }
+
 
 }

@@ -101,6 +101,9 @@ public class CardService {
         dto.setAmountOfDownloads(card.getAmountOfDownloads());
 
 
+//        dto.setImageData(card.getImageData());
+
+
         return dto;
 
     }

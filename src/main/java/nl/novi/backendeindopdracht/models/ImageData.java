@@ -21,21 +21,12 @@ public class ImageData {
     public ImageData(){
     }
 
-    public ImageData(Long id, String imageName, String type, byte[] imageData, Card card) {
-        this.id = id;
-        this.imageName = imageName;
-        this.type = type;
-        this.imageData = imageData;
-        this.card = card;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+//    public ImageData(String imageName, String type, byte[] imageData, Card card) {
+//        this.imageName = imageName;
+//        this.type = type;
+//        this.imageData = imageData;
+//        this.card = card;
+//    }
 
     public String getImageName() {
         return imageName;
@@ -67,5 +58,13 @@ public class ImageData {
 
     public void setCard(Card card) {
         this.card = card;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

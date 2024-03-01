@@ -79,7 +79,6 @@ public class Card {
     public ImageData getImageData() {
         return imageData;
     }
-
     public void setImageData(ImageData imageData) {
         this.imageData = imageData;
     }
