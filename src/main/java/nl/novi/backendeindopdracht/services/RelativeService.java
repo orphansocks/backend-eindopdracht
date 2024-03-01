@@ -4,10 +4,7 @@ import nl.novi.backendeindopdracht.dtos.relative.RelativeInputDto;
 import nl.novi.backendeindopdracht.dtos.relative.RelativeDto;
 import nl.novi.backendeindopdracht.exceptions.DuplicateException;
 import nl.novi.backendeindopdracht.exceptions.RecordNotFoundException;
-import nl.novi.backendeindopdracht.exceptions.UsernameNotFoundException;
 import nl.novi.backendeindopdracht.models.Relative;
-import nl.novi.backendeindopdracht.models.Role;
-import nl.novi.backendeindopdracht.models.User;
 import nl.novi.backendeindopdracht.repositories.RelativeRepository;
 import org.springframework.stereotype.Service;
 
@@ -46,7 +43,6 @@ public RelativeDto createRelative(RelativeInputDto relativeInputDto) {
 }
 
 public void deleteRelative(Long id) {
-
         relativeRepository.deleteById(id);
 }
 
@@ -69,14 +65,11 @@ public RelativeDto updateRelative(Long id, RelativeInputDto relativeNewInputDto)
 }
 
 public RelativeDto getRelativeById(Long id) {
-
         if (relativeRepository.findById(id).isPresent()) {
 
             Relative relative = relativeRepository.findById(id).get();
 
-
             return transferToDto(relative);
-
         } else {
             throw new RecordNotFoundException("No relative found");
         }

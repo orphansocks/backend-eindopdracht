@@ -18,7 +18,6 @@ public class Card {
     private ImageData imageData;
 
 
-
     // CONSTRUCTOR
 
     public Card() {

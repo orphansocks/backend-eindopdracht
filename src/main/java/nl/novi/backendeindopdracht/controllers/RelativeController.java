@@ -76,7 +76,7 @@ private final RelativeService relativeService;
 
 
 @DeleteMapping("/{id}")
-    public ResponseEntity<Object> DeleteRelative(@PathVariable Long id) {
+    public ResponseEntity<Object> deleteRelative(@PathVariable Long id) {
 
        relativeService.deleteRelative(id);
 
