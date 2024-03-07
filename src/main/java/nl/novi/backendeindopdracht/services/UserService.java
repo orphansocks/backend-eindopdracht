@@ -31,6 +31,13 @@ public class UserService {
         return newUser.getUsername();
     }
 
+    public String createDesigner(UserDto userDto) {
+        String randomString = RandomStringGenerator.generateAlphaNumeric(20);
+        userDto.setApikey(randomString);
+        User newDesigner = userRepository.save(transferToEntity(userDto));
+        return newDesigner.getUsername();
+    }
+
     public void deleteUser(String username) {
         userRepository.deleteById(username);
     }
@@ -67,6 +74,7 @@ public class UserService {
     }
 
 
+    // DE TRANSFERS
 
     public static UserDto transferToDto(User user){
 

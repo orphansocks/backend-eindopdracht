@@ -9,6 +9,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping(value ="/users")
 public class UserController {
@@ -19,16 +20,8 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping(value = "")
-    public ResponseEntity<List<UserDto>> getUsers() {
-
-        List<UserDto> userDtos = userService.getUsers();
-
-        return ResponseEntity.ok().body(userDtos);
-    }
-
     @PostMapping(value = "")
-    public ResponseEntity<UserDto> createUser(@RequestBody UserDto dto) {;
+    public ResponseEntity<UserDto> createUser(@RequestBody UserDto dto) {
 
         // LET OP PASSWORD NOG NIET ENCRYPTED
         // Je kan dus (nog) niet inloggen met een nieuwe user.
@@ -41,6 +34,40 @@ public class UserController {
 
         return ResponseEntity.created(location).build();
     }
+
+    @PostMapping(value = "/designer")
+    public ResponseEntity<UserDto> createDesigner(@RequestBody UserDto dto) {
+
+        // LET OP PASSWORD NOG NIET ENCRYPTED
+        // Je kan dus (nog) niet inloggen met een nieuwe user.
+
+        String newUsername = userService.createUser(dto);
+        userService.addRole(newUsername, "ROLE_DESIGNER");
+
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/designer/{username}")
+                .buildAndExpand(newUsername).toUri();
+
+        return ResponseEntity.created(location).build();
+    }
+
+    @GetMapping(value = "/{username}")
+    public ResponseEntity<UserDto> getUser(@PathVariable("username") String username) {
+
+        UserDto optionalUser = userService.getUser(username);
+
+
+        return ResponseEntity.ok().body(optionalUser);
+
+    }
+
+    @GetMapping(value = "")
+    public ResponseEntity<List<UserDto>> getUsers() {
+
+        List<UserDto> userDtos = userService.getUsers();
+
+        return ResponseEntity.ok().body(userDtos);
+    }
+
 
     @PutMapping(value = "/{username}")
     public ResponseEntity<UserDto> updateUser(@PathVariable("username") String username, @RequestBody UserDto dto) {
