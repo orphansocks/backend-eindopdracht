@@ -1,6 +1,6 @@
 package nl.novi.backendeindopdracht.services;
 
-import nl.novi.backendeindopdracht.dtos.UserDto;
+import nl.novi.backendeindopdracht.dtos.user.UserDto;
 import nl.novi.backendeindopdracht.exceptions.RecordNotFoundException;
 import nl.novi.backendeindopdracht.exceptions.UsernameNotFoundException;
 import nl.novi.backendeindopdracht.models.Role;
@@ -29,6 +29,13 @@ public class UserService {
         userDto.setApikey(randomString);
         User newUser = userRepository.save(transferToEntity(userDto));
         return newUser.getUsername();
+    }
+
+    public String createDesigner(UserDto userDto) {
+        String randomString = RandomStringGenerator.generateAlphaNumeric(20);
+        userDto.setApikey(randomString);
+        User newDesigner = userRepository.save(transferToEntity(userDto));
+        return newDesigner.getUsername();
     }
 
     public void deleteUser(String username) {
@@ -67,6 +74,7 @@ public class UserService {
     }
 
 
+    // DE TRANSFERS
 
     public static UserDto transferToDto(User user){
 

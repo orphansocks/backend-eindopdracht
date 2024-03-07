@@ -1,50 +1,74 @@
 package nl.novi.backendeindopdracht.controllers;
 
-import nl.novi.backendeindopdracht.models.CardData;
-import nl.novi.backendeindopdracht.models.User;
-import nl.novi.backendeindopdracht.repositories.CardDataRepository;
-import nl.novi.backendeindopdracht.repositories.UserRepository;
-import nl.novi.backendeindopdracht.services.CardDataService;
-import org.springframework.http.MediaType;
+import jakarta.validation.Valid;
+import nl.novi.backendeindopdracht.dtos.card.CardDto;
+import nl.novi.backendeindopdracht.dtos.card.CardInputDto;
+import nl.novi.backendeindopdracht.services.CardService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.io.IOException;
-import java.util.Optional;
+import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/cards")
-public class CardController {
+class CardController {
 
-    private final CardDataService cardDataService;
-    private final CardDataRepository cardDataRepository;
-    private final UserRepository userRepository;
+    private final CardService cardService;
 
-    public CardController(CardDataService cardDataService, CardDataRepository cardDataRepository, UserRepository userRepository) {
-        this.cardDataService = cardDataService;
-        this.cardDataRepository = cardDataRepository;
-        this.userRepository = userRepository;
+    public CardController(CardService cardService) {
+        this.cardService = cardService;
     }
 
-    @PostMapping ("")
-    public ResponseEntity<String> uploadCard(@RequestParam("file") MultipartFile multipartFile, @RequestParam String username) throws IOException {
 
-        String card = cardDataService.uploadCard(multipartFile, username);
+    @PostMapping("")
+    public ResponseEntity<CardDto> createCard(@RequestBody CardInputDto cardInputDto) {
+        CardDto cardDto = cardService.createCard(cardInputDto);
 
-        return ResponseEntity.ok("file has been uploaded, " + card);
+        URI uri = URI.create(
+                ServletUriComponentsBuilder
+                        .fromCurrentRequest()
+                        .path("/" + cardDto.getId()).toUriString());
+
+        return  ResponseEntity.created(uri).body(cardDto);
     }
 
-    @GetMapping("/{username}")
-    public ResponseEntity<Object> downloadCard(@PathVariable("username") String username) throws IOException {
+    @GetMapping("")
+    public ResponseEntity<List<CardDto>> getAllCards() {
+        List<CardDto> cardDtos = cardService.getAllCards();
+        return ResponseEntity.ok().body(cardDtos);
+    }
 
-        byte[] card = cardDataService.downloadCard(username);
-        Optional<User> user = userRepository.findById(username);
-        Optional<CardData> cardDataOptional = cardDataRepository.findById(user.get().getCardData().getId());
-        MediaType mediaType = MediaType.valueOf(cardDataOptional.get().getType());
-
-        return ResponseEntity.ok().contentType(mediaType).body(card);
+    @GetMapping("/{id}")
+    public ResponseEntity<CardDto> getCard(@PathVariable("id") Long id) {
+        CardDto cardDto = cardService.getCardById(id);
+        return ResponseEntity.ok().body(cardDto);
 
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> updateCard(@PathVariable Long id, @RequestBody CardInputDto newCardInputDto) {
+        CardDto cardDto = cardService.updateCard(id, newCardInputDto);
+        return ResponseEntity.ok().body(cardDto);
+    }
+
+    @PutMapping("/{id}/{imageId}")
+    public ResponseEntity<CardDto> assignImageToCard(@PathVariable("id") Long id, @PathVariable("imageId") Long imageId) {
+        cardService.assignImageToCard(id, imageId);
+        return ResponseEntity.noContent().build();
+    }
+
+
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteCard(@PathVariable Long id) {
+        cardService.deleteCard(id);
+        return ResponseEntity.noContent().build();
+    }
+
+
+
+
 
 }

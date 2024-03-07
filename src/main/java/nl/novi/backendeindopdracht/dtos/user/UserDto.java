@@ -1,4 +1,4 @@
-package nl.novi.backendeindopdracht.dtos;
+package nl.novi.backendeindopdracht.dtos.user;
 
 import nl.novi.backendeindopdracht.models.Role;
 
