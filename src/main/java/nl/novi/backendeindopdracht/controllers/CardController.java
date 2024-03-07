@@ -1,5 +1,6 @@
 package nl.novi.backendeindopdracht.controllers;
 
+import jakarta.validation.Valid;
 import nl.novi.backendeindopdracht.dtos.card.CardDto;
 import nl.novi.backendeindopdracht.dtos.card.CardInputDto;
 import nl.novi.backendeindopdracht.services.CardService;
@@ -51,6 +52,14 @@ class CardController {
         CardDto cardDto = cardService.updateCard(id, newCardInputDto);
         return ResponseEntity.ok().body(cardDto);
     }
+
+    @PutMapping("/{id}/{imageId}")
+    public ResponseEntity<CardDto> assignImageToCard(@PathVariable("id") Long id, @PathVariable("imageId") Long imageId) {
+        cardService.assignImageToCard(id, imageId);
+        return ResponseEntity.noContent().build();
+    }
+
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteCard(@PathVariable Long id) {

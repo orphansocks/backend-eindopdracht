@@ -21,12 +21,6 @@ public class ImageData {
     public ImageData(){
     }
 
-//    public ImageData(String imageName, String type, byte[] imageData, Card card) {
-//        this.imageName = imageName;
-//        this.type = type;
-//        this.imageData = imageData;
-//        this.card = card;
-//    }
 
     public String getImageName() {
         return imageName;

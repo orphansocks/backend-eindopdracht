@@ -5,22 +5,26 @@ import nl.novi.backendeindopdracht.exceptions.RecordNotFoundException;
 import nl.novi.backendeindopdracht.models.Card;
 import nl.novi.backendeindopdracht.dtos.card.CardInputDto;
 import nl.novi.backendeindopdracht.dtos.card.CardDto;
+import nl.novi.backendeindopdracht.models.ImageData;
 import nl.novi.backendeindopdracht.repositories.CardRepository;
+import nl.novi.backendeindopdracht.repositories.ImageDataRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CardService {
 
     private final CardRepository cardRepository;
+    private final ImageDataRepository imageDataRepository;
 
 
-    public CardService(CardRepository cardRepository) {
+    public CardService(CardRepository cardRepository, ImageDataRepository imageDataRepository) {
         this.cardRepository = cardRepository;
+        this.imageDataRepository = imageDataRepository;
     }
-
 
     public CardDto createCard(CardInputDto cardInputDto) {
 
@@ -40,12 +44,20 @@ public class CardService {
 
 
     public List<CardDto> getAllCards() {
+
+        List<CardDto> collection = new ArrayList<>();
         List<Card> cardList = cardRepository.findAll();
-        return transferEntityListToDtoList(cardList);
+
+        for(Card card : cardList) {
+            collection.add(transferToDto(card));
+        }
+
+        return collection;
 
 }
 
     public CardDto getCardById(Long id) {
+
         if (cardRepository.findById(id).isPresent()) {
 
            Card card = cardRepository.findById(id).get();
@@ -79,16 +91,26 @@ public class CardService {
 // DE TRANSFERS
 
     public Card transferToEntity(CardInputDto dto) {
-
         Card card = new Card();
 
         card.setCardName(dto.cardName);
         card.setDesigner(dto.designer);
         card.setCategory(dto.category);
 
-        return card;
+        if(dto.imageId != null && dto.imageId != 0) {
+            Optional<ImageData> optionalImageData = imageDataRepository.findById(dto.imageId);
 
+            if(optionalImageData.isPresent()) {
+                ImageData imageData = optionalImageData.get();
+                card.setImageData(imageData); // Set the retrieved ImageData to the card
+            } else {
+                throw new RecordNotFoundException("Image for card is not found");
+            }
+        }
+
+        return card;
     }
+
 
     public CardDto transferToDto(Card card) {
 
@@ -101,11 +123,31 @@ public class CardService {
         dto.setAmountOfDownloads(card.getAmountOfDownloads());
 
 
-//        dto.setImageData(card.getImageData());
-
+           if(card.getImageData() != null) {
+               dto.setImageData(card.getImageData());
+            }
 
         return dto;
+    }
 
+
+
+    public CardDto assignImageToCard(Long id, Long imageId) {
+
+        Optional<Card> cardOptional = cardRepository.findById(id);
+        Optional<ImageData> imageOptional = imageDataRepository.findById(imageId);
+
+        if (cardOptional.isPresent() && imageOptional.isPresent()) {
+            Card card = cardOptional.get();
+            ImageData imageData = imageOptional.get();
+
+            card.setImageData(imageData);
+            cardRepository.save(card);
+
+            return transferToDto(card);
+        } else {
+            throw new RecordNotFoundException();
+        }
     }
 
     public List<CardDto> transferEntityListToDtoList(List<Card> cards) {
@@ -121,11 +163,6 @@ public class CardService {
 
         return cardDtoList;
     }
-
-
-
-
-
 
 
 }

@@ -65,6 +65,18 @@ private final RelativeService relativeService;
         return ResponseEntity.ok().body(relativeDtos);
     }
 
+    @GetMapping("/relation/{relation}")
+    public ResponseEntity<List<RelativeDto>> getRelativesByRelation(@PathVariable String relation ) {
+        List<RelativeDto> relativeDtos;
+
+        if (relation.isEmpty()) {
+            relativeDtos = relativeService.getAllRelatives();
+        } else {
+            relativeDtos = relativeService.getAllRelativesByRelation(relation);
+        }
+        return ResponseEntity.ok().body(relativeDtos);
+    }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<Object> updateRelative(@PathVariable Long id, @RequestBody RelativeInputDto newRelativeInput) {

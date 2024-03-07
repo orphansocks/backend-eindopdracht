@@ -98,6 +98,21 @@ public List<RelativeDto> getAllRelativesByName(String name) {
         return transferEntityListToDtoList(relativeList);
 }
 
+    public List<RelativeDto> getAllRelativesByRelation(String relation) {
+
+        List<Relative> relativeRelationList = relativeRepository.findAllByRelationEqualsIgnoreCase(relation);
+        List<Relative> relativeList;
+
+
+        if (!relativeRelationList.isEmpty()) {
+            relativeList = relativeRelationList;
+        } else {
+            relativeList = new ArrayList<>();
+        }
+
+        return transferEntityListToDtoList(relativeList);
+    }
+
 
 // DE 2 MAPPERFUNCTIES DIE VELDEN KOPIEREN VAN EN NAAR DE DATABASE:
 
