@@ -24,7 +24,7 @@ public class User {
 //            cascade = CascadeType.ALL,
 //            orphanRemoval = true,
 //            fetch = FetchType.EAGER)
-//
+
 
     @Column(nullable = false)
     private boolean enabled = true;
@@ -34,9 +34,6 @@ public class User {
 
     @Column
     private String email;
-
-//    @OneToOne(mappedBy = "user")
-//    private CardData cardData;
 
 
     public void addRole(Role role) {
@@ -98,15 +95,4 @@ public class User {
         this.email = email;
     }
 
-//    public CardData getCardData() {
-//        return cardData;
-//    }
-//
-//    public void setCardData(CardData cardData) {
-//        this.cardData = cardData;
-//    }
-//
-//    public void setCard(CardData savedCard) {
-//        this.cardData = cardData;
-//    }
 }
