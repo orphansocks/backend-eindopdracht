@@ -1,10 +1,11 @@
 package nl.novi.backendeindopdracht.dtos.auth;
 
-public class AuthenticationResponse {
+public class AuthResponseDto {
 
     private final String jwt;
 
-    public AuthenticationResponse(String jwt) {
+
+    public AuthResponseDto(String jwt) {
         this.jwt = jwt;
     }
 

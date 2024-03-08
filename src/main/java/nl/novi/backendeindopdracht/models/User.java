@@ -13,27 +13,23 @@ public class User {
     @Column(nullable = false, unique = true)
     private String username;
 
-    @Column(nullable = false, length = 255)
-    private String password;
-
-    @OneToMany(mappedBy = "username")
-    private Set<Role> roles = new HashSet<>();
-
-//            targetEntity = Role.class,
-//            mappedBy = "username",
-//            cascade = CascadeType.ALL,
-//            orphanRemoval = true,
-//            fetch = FetchType.EAGER)
-
-
     @Column(nullable = false)
-    private boolean enabled = true;
-
-    @Column
-    private String apikey;
+    private String password;
 
     @Column
     private String email;
+
+    @OneToMany(
+            mappedBy = "username",
+//            targetEntity = Role.class,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.EAGER)
+
+    private Set<Role> roles = new HashSet<>();
+
+    @Column(nullable = false)
+    private boolean enabled = true;
 
 
     public void addRole(Role role) {
@@ -77,14 +73,6 @@ public class User {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
-    }
-
-    public String getApikey() {
-        return apikey;
-    }
-
-    public void setApikey(String apikey) {
-        this.apikey = apikey;
     }
 
     public String getEmail() {

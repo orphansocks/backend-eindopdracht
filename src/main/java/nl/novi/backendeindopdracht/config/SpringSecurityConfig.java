@@ -58,13 +58,20 @@ public class SpringSecurityConfig {
 
                         .requestMatchers("/**").permitAll()
 
-                        .requestMatchers(HttpMethod.POST, "/users").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET,"/users").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST,"/users/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET,"/users/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
 
-                        .requestMatchers("/relatives").hasRole("USER")
+                        .requestMatchers(HttpMethod.POST, "/relatives").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET,"/relatives").hasRole("USER")
 
+                        .requestMatchers(HttpMethod.POST, "/groups/**").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET,"/groups/**").hasRole("USER")
+
+                        .requestMatchers(HttpMethod.POST, "/cards").hasRole("DESIGNER")
+                        .requestMatchers(HttpMethod.GET,"/cards").hasAnyRole("USER", "DESIGNER", "ADMIN")
+
+//                        .requestMatchers("/authenticated").authenticated()
 
                         .anyRequest().denyAll()
 

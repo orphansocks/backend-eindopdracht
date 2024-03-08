@@ -9,7 +9,6 @@ import java.io.Serializable;
 public class Role implements Serializable {
 
     @Id
-    //@IdClass(RoleKey.class)
     @Column(nullable = false)
     private String username;
 
@@ -28,7 +27,6 @@ public Role() {}
     public String getUsername() {
         return username;
     }
-
     public void setUsername(String username) {
         this.username = username;
     }

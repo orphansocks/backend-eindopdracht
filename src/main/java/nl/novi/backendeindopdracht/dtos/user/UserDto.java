@@ -8,9 +8,8 @@ public class UserDto {
 
     public String username;
     public String password;
-    public Boolean enabled;
-    public String apikey;
     public String email;
+    public Boolean enabled;
     public Set<Role> roles;
 
     public String getUsername() {
@@ -37,13 +36,6 @@ public class UserDto {
         this.enabled = enabled;
     }
 
-    public String getApikey() {
-        return apikey;
-    }
-
-    public void setApikey(String apikey) {
-        this.apikey = apikey;
-    }
 
     public String getEmail() {
         return email;

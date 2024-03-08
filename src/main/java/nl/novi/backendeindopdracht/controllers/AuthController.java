@@ -1,14 +1,16 @@
 package nl.novi.backendeindopdracht.controllers;
 
-import nl.novi.backendeindopdracht.dtos.auth.AuthenticationRequest;
-import nl.novi.backendeindopdracht.dtos.auth.AuthenticationResponse;
+import nl.novi.backendeindopdracht.dtos.auth.AuthInputDto;
+import nl.novi.backendeindopdracht.dtos.auth.AuthResponseDto;
 import nl.novi.backendeindopdracht.services.CustomUserDetailsService;
 import nl.novi.backendeindopdracht.utils.JwtUtil;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +21,6 @@ import java.security.Principal;
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
-
     private final CustomUserDetailsService customUserDetailsService;
     private final JwtUtil jwtUtil;
 
@@ -29,37 +30,39 @@ public class AuthController {
         this.jwtUtil = jwtUtil;
     }
 
-    @GetMapping(value = "/authenticated")
-    public ResponseEntity<Object> authenticated(Authentication authentication, Principal principal) {
-        return ResponseEntity.ok().body(principal);
-    }
-
     @PostMapping(value = "/authenticate")
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
+    public ResponseEntity<Object> logIn(@RequestBody AuthInputDto authInputDto) {
 
-        String username = authenticationRequest.getUsername();
-        String password = authenticationRequest.getPassword();
+        String username = authInputDto.getUsername();
+        String password = authInputDto.getPassword();
+
+        UsernamePasswordAuthenticationToken upAuthToken =
+                new UsernamePasswordAuthenticationToken(username, password);
 
         try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(username, password)
-            );
+            authenticationManager.authenticate(upAuthToken);
+
+            UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
+            String jwtToken = jwtUtil.generateToken(userDetails);
+
+            String tokenWithBearer = "Bearer " + jwtToken;
+
+//            AuthResponseDto authResponseDto = new AuthResponseDto(tokenWithBearer);
+
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.AUTHORIZATION, tokenWithBearer)
+                    .body("Token generated");
         }
-        catch (BadCredentialsException ex) {
-            throw new Exception("Incorrect username or password", ex);
+        catch (AuthenticationException authenticationException) {
+            return new ResponseEntity<>(authenticationException.getMessage(), HttpStatus.UNAUTHORIZED);
         }
 
-        final UserDetails userDetails = customUserDetailsService
-                .loadUserByUsername(username);
-
-        final String jwt = jwtUtil.generateToken(userDetails);
-
-        return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }
 
-
-
-
+//    @GetMapping(value = "/authenticated")
+//    public ResponseEntity<Object> authenticated(Authentication authentication, Principal principal) {
+//        return ResponseEntity.ok().body(principal);
+//    }
 
 
 

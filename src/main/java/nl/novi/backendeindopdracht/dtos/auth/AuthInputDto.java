@@ -1,14 +1,14 @@
 package nl.novi.backendeindopdracht.dtos.auth;
 
-public class AuthenticationRequest {
+public class AuthInputDto {
 
     private String username;
     private String password;
 
-    public AuthenticationRequest() {
+    public AuthInputDto() {
     }
 
-    public AuthenticationRequest(String username, String password) {
+    public AuthInputDto(String username, String password) {
         this.username = username;
         this.password = password;
     }
