@@ -53,7 +53,6 @@ public class SpringSecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .httpBasic(basic -> basic.disable())
                 .cors(Customizer.withDefaults())
-
                 .authorizeHttpRequests(auth -> auth
 
                         .requestMatchers("/**").permitAll()
@@ -71,13 +70,12 @@ public class SpringSecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/cards").hasRole("DESIGNER")
                         .requestMatchers(HttpMethod.GET,"/cards").hasAnyRole("USER", "DESIGNER", "ADMIN")
 
-//                        .requestMatchers("/authenticated").authenticated()
+                        .requestMatchers("/authenticate").authenticated()
 
                         .anyRequest().denyAll()
 
                 )
-                .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }

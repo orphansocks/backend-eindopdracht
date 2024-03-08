@@ -24,11 +24,6 @@ public class UserController {
     @PostMapping(value = "")
     public ResponseEntity<UserDto> createUser(@RequestBody UserInputDto userInputDto) {
 
-
-
-        // LET OP PASSWORD NOG NIET ENCRYPTED
-        // Je kan dus (nog) niet inloggen met een nieuwe user.
-
         String newUsername = userService.createUser(userInputDto);
         userService.addRole(newUsername, "ROLE_USER");
 

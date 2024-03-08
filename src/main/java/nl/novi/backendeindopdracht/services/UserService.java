@@ -8,7 +8,6 @@ import nl.novi.backendeindopdracht.exceptions.UsernameNotFoundException;
 import nl.novi.backendeindopdracht.models.Role;
 import nl.novi.backendeindopdracht.models.User;
 import nl.novi.backendeindopdracht.repositories.UserRepository;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,12 +19,10 @@ import java.util.Set;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder encoder;
 
 
-    public UserService(UserRepository userRepository, PasswordEncoder encoder) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.encoder = encoder;
     }
 
     public String createUser(UserInputDto userInputDto) {
@@ -100,7 +97,7 @@ public class UserService {
         User user = new User();
 
         user.setUsername(dto.username);
-        user.setPassword(encoder.encode(dto.password));
+        user.setPassword(dto.password);
         user.setEmail(dto.email);
         user.setEnabled(user.isEnabled());
 
