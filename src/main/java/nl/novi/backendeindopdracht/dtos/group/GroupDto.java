@@ -9,7 +9,8 @@ public class GroupDto {
     public Long id;
     public String groupName;
     public String groupPlace;
-    private Set<Relative> relatives;
+
+    public Set<Relative> relatives;
 
 
 

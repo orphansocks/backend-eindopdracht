@@ -1,29 +1,38 @@
 package nl.novi.backendeindopdracht.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name ="designer_profiles")
-public class DesignerProfile {
+@Table(name ="designers")
+public class Designer {
 
     @Id
-    private String username;
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    private Long id;
     private String company;
     private String lastname;
     private String firstname;
     private String address;
+    private String url;
+    private String phone;
     private String bankAccount;
-    private Long amountOfDownloads;
 
+    @OneToMany(
+            mappedBy = "designer",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.EAGER)
+    private Set<Card> cards = new HashSet<>();
 
-    public String getUsername() {
-        return username;
+    public Long getId() {
+        return id;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getCompany() {
@@ -66,11 +75,28 @@ public class DesignerProfile {
         this.bankAccount = bankAccount;
     }
 
-    public Long getAmountOfDownloads() {
-        return amountOfDownloads;
+    public String getUrl() {
+        return url;
     }
 
-    public void setAmountOfDownloads(Long amountOfDownloads) {
-        this.amountOfDownloads = amountOfDownloads;
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public Set<Card> getCards() {
+        return cards;
+    }
+
+    public void setCards(Set<Card> cards) {
+        this.cards = cards;
     }
 }
+

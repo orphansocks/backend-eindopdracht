@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface CardRepository extends JpaRepository<Card, Long> {
     Optional<Card> findByCardNameEqualsIgnoreCase(String cardName);
     List<Card> findAllByCardNameEqualsIgnoreCase(String cardName);
-    List<Card> findAllByDesignerEqualsIgnoreCase(String designer);
+//    List<Card> findAllByDesignerEqualsIgnoreCase(String designer);
     List<Card> findAllByCategoryEqualsIgnoreCase(String category);
 
 }

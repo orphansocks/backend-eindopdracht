@@ -3,16 +3,20 @@
 --
 --
 
-INSERT INTO users (username, password, email, enabled) VALUES ('user', '2fec893c-99f8-4831-be79-8f69f9e67537','user@test.nl', TRUE);
-INSERT INTO users (username, password, email, enabled) VALUES ('admin', '2fec893c-99f8-4831-be79-8f69f9e67537', 'admin@test.nl', TRUE);
-INSERT INTO users (username, password, email, enabled) VALUES ('designer', '2fec893c-99f8-4831-be79-8f69f9e67537', 'designer@test.nl', TRUE);
-INSERT INTO users (username, password, email, enabled) VALUES ('eva', 'password', 'eva@relatives.nl', TRUE);
+INSERT INTO users (username, password, email, enabled)
+VALUES
+('user', '2fec893c-99f8-4831-be79-8f69f9e67537','user@test.nl', TRUE),
+('admin', '2fec893c-99f8-4831-be79-8f69f9e67537', 'admin@test.nl', TRUE),
+('designer', '2fec893c-99f8-4831-be79-8f69f9e67537', 'designer@test.nl', TRUE),
+('eva', 'password', 'eva@relatives.nl', TRUE);
 
 
-INSERT INTO roles (username, role) VALUES ('user', 'ROLE_USER');
-INSERT INTO roles (username, role) VALUES ('admin', 'ROLE_ADMIN');
-INSERT INTO roles (username, role) VALUES ('designer', 'ROLE_DESIGNER');
-INSERT INTO roles (username, role) VALUES ('eva', 'ROLE_USER');
+INSERT INTO roles (username, role)
+VALUES
+('user', 'ROLE_USER'),
+('admin', 'ROLE_ADMIN'),
+('designer', 'ROLE_DESIGNER'),
+('eva', 'ROLE_USER');
 
 
 
@@ -39,7 +43,8 @@ VALUES
     (2005, 'Kookclub', 'Amsterdam');
 
 INSERT INTO groups_relatives (groups_id, relatives_id)
-VALUES (2001, 1001),
+VALUES
+        (2001, 1001),
        (2001, 1003),
         (2002, 1002),
        (2002, 1007),
@@ -51,12 +56,21 @@ VALUES (2001, 1001),
        (2005, 1005),
        (2005, 1010);
 
-INSERT INTO cards (id, card_name, designer, category, amount_of_downloads)
+INSERT INTO cards (id, card_name, category, amount_of_downloads)
 VALUES
-    (3001, 'yvi', 'relatives original', 'birthday', 21),
-    (3002, 'kepler', 'relatives original', 'birth', 22),
-    (3003, 'haas', 'designer A', 'birthday', 15),
-    (3004, 'degular', 'designer A', 'birthday', 16),
-    (3005, 'roboto', 'designer B', 'getwell', 3);
+    (3001, 'yvi', 'birthday', 21),
+    (3002, 'kepler', 'birth', 22),
+    (3003, 'haas', 'birthday', 15),
+    (3004, 'degular', 'birthday', 16),
+    (3005, 'roboto', 'getwell', 3);
+
+INSERT INTO designers ( id, company, firstname, lastname, address, url, phone, bank_account)
+VALUES
+    (4001, 'relatives original', 'Eva', 'van Dongen', 'companyAddress', 'relatives.nl', '0612345678', 'IBAN12345678' ),
+    (4002, 'companyA', 'firstNameA', 'lastNameA', 'companyAddress', 'companyUrl.nl', '0612345678', 'IBAN12345678' );
+
+
+
+
 
 

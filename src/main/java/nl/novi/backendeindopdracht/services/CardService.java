@@ -94,7 +94,6 @@ public class CardService {
         Card card = new Card();
 
         card.setCardName(dto.cardName);
-        card.setDesigner(dto.designer);
         card.setCategory(dto.category);
 
         if(dto.imageId != null && dto.imageId != 0) {
@@ -118,7 +117,7 @@ public class CardService {
 
         dto.setId(card.getId());
         dto.setCardName(card.getCardName());
-        dto.setDesigner(card.getDesigner());
+//         dto.setDesigner(designerProfile.getDesigner());
         dto.setCategory(card.getCategory());
         dto.setAmountOfDownloads(card.getAmountOfDownloads());
 

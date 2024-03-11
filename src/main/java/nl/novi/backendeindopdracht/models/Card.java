@@ -10,7 +10,8 @@ public class Card {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
     private String cardName;
-    private String designer;
+    @ManyToOne
+    private Designer designer;
     private String category;
     private Integer amountOfDownloads;
 
@@ -23,7 +24,7 @@ public class Card {
     public Card() {
     }
 
-    public Card(Long id, String cardName, String designer, String category, Integer amountOfDownloads, ImageData imageData) {
+    public Card(Long id, String cardName, Designer designer, String category, Integer amountOfDownloads, ImageData imageData) {
         this.id = id;
         this.cardName = cardName;
         this.designer = designer;
@@ -52,11 +53,11 @@ public class Card {
         this.cardName = cardName;
     }
 
-    public String getDesigner() {
+    public Designer getDesigner() {
         return designer;
     }
 
-    public void setDesigner(String designer) {
+    public void setDesigner(Designer designer) {
         this.designer = designer;
     }
 
