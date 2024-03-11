@@ -1,6 +1,7 @@
 package nl.novi.backendeindopdracht.controllers;
 
 import nl.novi.backendeindopdracht.dtos.user.UserDto;
+import nl.novi.backendeindopdracht.dtos.user.UserInputDto;
 import nl.novi.backendeindopdracht.services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,30 +22,12 @@ public class UserController {
     }
 
     @PostMapping(value = "")
-    public ResponseEntity<UserDto> createUser(@RequestBody UserDto dto) {
+    public ResponseEntity<UserDto> createUser(@RequestBody UserInputDto userInputDto) {
 
-        // LET OP PASSWORD NOG NIET ENCRYPTED
-        // Je kan dus (nog) niet inloggen met een nieuwe user.
-
-        String newUsername = userService.createUser(dto);
+        String newUsername = userService.createUser(userInputDto);
         userService.addRole(newUsername, "ROLE_USER");
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{username}")
-                .buildAndExpand(newUsername).toUri();
-
-        return ResponseEntity.created(location).build();
-    }
-
-    @PostMapping(value = "/designer")
-    public ResponseEntity<UserDto> createDesigner(@RequestBody UserDto dto) {
-
-        // LET OP PASSWORD NOG NIET ENCRYPTED
-        // Je kan dus (nog) niet inloggen met een nieuwe user.
-
-        String newUsername = userService.createUser(dto);
-        userService.addRole(newUsername, "ROLE_DESIGNER");
-
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/designer/{username}")
                 .buildAndExpand(newUsername).toUri();
 
         return ResponseEntity.created(location).build();

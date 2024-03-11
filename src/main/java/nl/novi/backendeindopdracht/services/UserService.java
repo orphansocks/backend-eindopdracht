@@ -1,12 +1,13 @@
 package nl.novi.backendeindopdracht.services;
 
 import nl.novi.backendeindopdracht.dtos.user.UserDto;
+import nl.novi.backendeindopdracht.dtos.user.UserInputDto;
 import nl.novi.backendeindopdracht.exceptions.RecordNotFoundException;
+import nl.novi.backendeindopdracht.exceptions.UsernameAlreadyExists;
 import nl.novi.backendeindopdracht.exceptions.UsernameNotFoundException;
 import nl.novi.backendeindopdracht.models.Role;
 import nl.novi.backendeindopdracht.models.User;
 import nl.novi.backendeindopdracht.repositories.UserRepository;
-import nl.novi.backendeindopdracht.utils.RandomStringGenerator;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,18 +25,19 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public String createUser(UserDto userDto) {
-        String randomString = RandomStringGenerator.generateAlphaNumeric(20);
-        userDto.setApikey(randomString);
-        User newUser = userRepository.save(transferToEntity(userDto));
-        return newUser.getUsername();
-    }
+    public String createUser(UserInputDto userInputDto) {
 
-    public String createDesigner(UserDto userDto) {
-        String randomString = RandomStringGenerator.generateAlphaNumeric(20);
-        userDto.setApikey(randomString);
-        User newDesigner = userRepository.save(transferToEntity(userDto));
-        return newDesigner.getUsername();
+        User user = transferToEntity(userInputDto);
+
+        String username = user.getUsername();
+
+        if (!userRepository.existsById(username)) {
+
+            userRepository.save(user);
+            return user.getUsername();
+        } else {
+            throw new UsernameAlreadyExists(username);
+        }
     }
 
     public void deleteUser(String username) {
@@ -43,6 +45,7 @@ public class UserService {
     }
 
     public void updateUser(String username, UserDto newUser) {
+
         if (!userRepository.existsById(username)) throw new RecordNotFoundException();
         User user = userRepository.findById(username).get();
         user.setPassword(newUser.getPassword());
@@ -83,31 +86,37 @@ public class UserService {
         dto.username = user.getUsername();
         dto.password = user.getPassword();
         dto.enabled = user.isEnabled();
-        dto.apikey = user.getApikey();
         dto.email = user.getEmail();
         dto.roles = user.getRoles();
 
         return dto;
     }
 
-    public User transferToEntity(UserDto userDto) {
+    public User transferToEntity(UserInputDto dto) {
 
         User user = new User();
 
-        user.setUsername(userDto.getUsername());
-        user.setPassword(userDto.getPassword());
-        user.setEnabled(userDto.getEnabled());
-        user.setApikey(userDto.getApikey());
-        user.setEmail(userDto.getEmail());
+        user.setUsername(dto.username);
+        user.setPassword(dto.password);
+        user.setEmail(dto.email);
+        user.setEnabled(user.isEnabled());
+
 
         return user;
     }
 
+
+    // ROLLEN
+
     public void addRole(String username, String role) {
 
-        if (!userRepository.existsById(username)) throw new UsernameNotFoundException(username);
-        User user = userRepository.findById(username).get();
+        Optional<User> userOptional = userRepository.findById(username);
 
+        if (userOptional.isEmpty()) {
+            throw new UsernameNotFoundException(username);
+        }
+
+        User user = userOptional.get();
         user.addRole(new Role(username, role));
         userRepository.save(user);
     }
@@ -119,6 +128,14 @@ public class UserService {
         User user = userRepository.findById(username).get();
         UserDto userDto = transferToDto(user);
         return userDto.getRoles();
+    }
+
+    public void removeRole(String username, String role) {
+        if (!userRepository.existsById(username)) throw new org.springframework.security.core.userdetails.UsernameNotFoundException(username);
+        User user = userRepository.findById(username).get();
+        Role roleToRemove = user.getRoles().stream().filter((a) -> a.getRole().equalsIgnoreCase(role)).findAny().get();
+        user.removeRole(roleToRemove);
+        userRepository.save(user);
     }
 
 

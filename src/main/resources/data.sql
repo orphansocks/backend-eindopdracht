@@ -6,11 +6,13 @@
 INSERT INTO users (username, password, email, enabled) VALUES ('user', '2fec893c-99f8-4831-be79-8f69f9e67537','user@test.nl', TRUE);
 INSERT INTO users (username, password, email, enabled) VALUES ('admin', '2fec893c-99f8-4831-be79-8f69f9e67537', 'admin@test.nl', TRUE);
 INSERT INTO users (username, password, email, enabled) VALUES ('designer', '2fec893c-99f8-4831-be79-8f69f9e67537', 'designer@test.nl', TRUE);
+INSERT INTO users (username, password, email, enabled) VALUES ('eva', 'password', 'eva@relatives.nl', TRUE);
 
 
 INSERT INTO roles (username, role) VALUES ('user', 'ROLE_USER');
 INSERT INTO roles (username, role) VALUES ('admin', 'ROLE_ADMIN');
 INSERT INTO roles (username, role) VALUES ('designer', 'ROLE_DESIGNER');
+INSERT INTO roles (username, role) VALUES ('eva', 'ROLE_USER');
 
 
 
@@ -52,9 +54,9 @@ VALUES (2001, 1001),
 INSERT INTO cards (id, card_name, designer, category, amount_of_downloads)
 VALUES
     (3001, 'yvi', 'relatives original', 'birthday', 21),
-    (3002, 'kepler', 'relatives original', 'birthday', 22),
+    (3002, 'kepler', 'relatives original', 'birth', 22),
     (3003, 'haas', 'designer A', 'birthday', 15),
     (3004, 'degular', 'designer A', 'birthday', 16),
-    (3005, 'roboto', 'designer B', 'birthday', 3);
+    (3005, 'roboto', 'designer B', 'getwell', 3);
 
 

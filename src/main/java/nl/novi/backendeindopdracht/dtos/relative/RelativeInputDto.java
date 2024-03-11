@@ -3,7 +3,6 @@ package nl.novi.backendeindopdracht.dtos.relative;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
-import java.util.List;
 
 public class RelativeInputDto {
 

@@ -13,30 +13,23 @@ public class User {
     @Column(nullable = false, unique = true)
     private String username;
 
-    @Column(nullable = false, length = 255)
-    private String password;
-
-    @OneToMany(mappedBy = "username")
-    private Set<Role> roles = new HashSet<>();
-
-//            targetEntity = Role.class,
-//            mappedBy = "username",
-//            cascade = CascadeType.ALL,
-//            orphanRemoval = true,
-//            fetch = FetchType.EAGER)
-//
-
     @Column(nullable = false)
-    private boolean enabled = true;
-
-    @Column
-    private String apikey;
+    private String password;
 
     @Column
     private String email;
 
-//    @OneToOne(mappedBy = "user")
-//    private CardData cardData;
+    @OneToMany(
+            mappedBy = "username",
+//            targetEntity = Role.class,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.EAGER)
+
+    private Set<Role> roles = new HashSet<>();
+
+    @Column(nullable = false)
+    private boolean enabled = true;
 
 
     public void addRole(Role role) {
@@ -82,14 +75,6 @@ public class User {
         this.enabled = enabled;
     }
 
-    public String getApikey() {
-        return apikey;
-    }
-
-    public void setApikey(String apikey) {
-        this.apikey = apikey;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -98,15 +83,4 @@ public class User {
         this.email = email;
     }
 
-//    public CardData getCardData() {
-//        return cardData;
-//    }
-//
-//    public void setCardData(CardData cardData) {
-//        this.cardData = cardData;
-//    }
-//
-//    public void setCard(CardData savedCard) {
-//        this.cardData = cardData;
-//    }
 }

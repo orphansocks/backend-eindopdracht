@@ -11,6 +11,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -38,10 +39,12 @@ public class SpringSecurityConfig {
 
     // Authenticatie met userDetailsService en passwordEncoder
     @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity httpSecurity, PasswordEncoder passwordEncoder) throws Exception {
+    public AuthenticationManager authenticationManager(PasswordEncoder passwordEncoder) {
         var auth = new DaoAuthenticationProvider();
+
         auth.setPasswordEncoder(passwordEncoder);
         auth.setUserDetailsService(customUserDetailsService);
+
         return new ProviderManager(auth);
     }
 
@@ -50,27 +53,34 @@ public class SpringSecurityConfig {
     protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-                .csrf(csrf -> csrf.disable())
-                .httpBasic(basic -> basic.disable())
+                .csrf(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
-
                 .authorizeHttpRequests(auth -> auth
 
                         .requestMatchers("/**").permitAll()
 
-                        .requestMatchers(HttpMethod.POST, "/users").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET,"/users").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST,"/users/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET,"/users/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
 
-                        .requestMatchers("/relatives").hasRole("USER")
+                        .requestMatchers(HttpMethod.POST, "/relatives").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET,"/relatives").hasRole("USER")
 
+                        .requestMatchers(HttpMethod.POST, "/groups/**").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET,"/groups/**").hasRole("USER")
+
+                        .requestMatchers(HttpMethod.POST, "/cards").hasRole("DESIGNER")
+                        .requestMatchers(HttpMethod.GET,"/cards").hasAnyRole("USER", "DESIGNER", "ADMIN")
+
+//                        .requestMatchers("/profiles", "/profiles/*").authenticated()
+
+                        .requestMatchers("/authenticate").authenticated()
 
                         .anyRequest().denyAll()
 
                 )
-                .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
