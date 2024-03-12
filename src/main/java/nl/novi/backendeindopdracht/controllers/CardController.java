@@ -59,6 +59,12 @@ class CardController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/{id}/{designerId}")
+    public ResponseEntity<CardDto> assignDesignerToCard(@PathVariable("id") Long id, @PathVariable("designerId") Long designerId) {
+        cardService.assignDesignerToCard(id, designerId);
+        return ResponseEntity.noContent().build();
+    }
+
 
 
     @DeleteMapping("/{id}")

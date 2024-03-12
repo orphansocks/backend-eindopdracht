@@ -10,10 +10,12 @@ public class Card {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
     private String cardName;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "designer_id")
     private Designer designer;
     private String category;
     private Integer amountOfDownloads;
+    private String designedBy;
 
     @OneToOne(mappedBy = "card")
     private ImageData imageData;
@@ -24,15 +26,15 @@ public class Card {
     public Card() {
     }
 
-    public Card(Long id, String cardName, Designer designer, String category, Integer amountOfDownloads, ImageData imageData) {
+    public Card(Long id, String cardName, Designer designer, String category, Integer amountOfDownloads, String designedBy, ImageData imageData) {
         this.id = id;
         this.cardName = cardName;
         this.designer = designer;
         this.category = category;
         this.amountOfDownloads = amountOfDownloads;
+        this.designedBy = designedBy;
         this.imageData = imageData;
     }
-
 
     // GETTERS AND SETTERS
 
@@ -77,9 +79,18 @@ public class Card {
         this.amountOfDownloads = amountOfDownloads;
     }
 
+    public String getDesignedBy() {
+        return designedBy;
+    }
+
+    public void setDesignedBy(String designedBy) {
+        this.designedBy = designedBy;
+    }
+
     public ImageData getImageData() {
         return imageData;
     }
+
     public void setImageData(ImageData imageData) {
         this.imageData = imageData;
     }

@@ -6,11 +6,13 @@ import nl.novi.backendeindopdracht.dtos.designer.DesignerInputDto;
 import nl.novi.backendeindopdracht.exceptions.RecordNotFoundException;
 import nl.novi.backendeindopdracht.models.Card;
 import nl.novi.backendeindopdracht.models.Designer;
+import nl.novi.backendeindopdracht.models.ImageData;
 import nl.novi.backendeindopdracht.repositories.CardRepository;
 import nl.novi.backendeindopdracht.repositories.DesignerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -49,13 +51,12 @@ public class DesignerService {
     }
 
 
+
     // DE TRANSFERS
 
     public Designer transferToEntity(DesignerInputDto designerInputDto) {
-
         Designer designer = new Designer();
-
-       designer.setCompany(designerInputDto.company);
+        designer.setCompany(designerInputDto.company);
         designer.setLastname(designerInputDto.lastname);
         designer.setFirstname(designerInputDto.firstname);
         designer.setAddress(designerInputDto.address);
@@ -63,70 +64,59 @@ public class DesignerService {
         designer.setPhone(designerInputDto.phone);
         designer.setBankAccount(designerInputDto.bankAccount);
 
-        Set<Card> cardSet = new HashSet<>();
+        // Save the designer to get an ID
+        designer = designerRepository.save(designer);
 
-        for (Long id : designerInputDto.cardIds) {
+        // Fetch cards associated with the designer's ID from the card repository
+        Set<Card> cardsByDesigner = cardRepository.findByDesignerId(designer.getId());
 
-            Optional<Card> cardOptional = cardRepository.findById(id);
+        // Add fetched cards to the designer's set of cards
+        designer.getCards().addAll(cardsByDesigner);
 
-            if (cardOptional.isPresent()) {
-                Card card = cardOptional.get();
-                cardSet.add(card);
-
-            } else {
-                throw new RecordNotFoundException("Card with Id " + id + " not found");
-            }
-        }
-
-            designer.setCards(cardSet);
-
-            designerRepository.save(designer);
-
-            return designer;
-
-        }
+        return designer;
+    }
 
 
-        public DesignerDto transferToDto(Designer designer) {
+
+    public DesignerDto transferToDto(Designer designer) {
 
         DesignerDto dto = new DesignerDto();
+
         dto.setId(designer.getId());
         dto.setCompany(designer.getCompany());
-            dto.setFirstname(designer.getFirstname());
-            dto.setLastname(designer.getLastname());
-            dto.setAddress(designer.getAddress());
-            dto.setUrl(designer.getUrl());
-            dto.setPhone(designer.getPhone());
-            dto.setBankAccount(designer.getBankAccount());
+        dto.setFirstname(designer.getFirstname());
+        dto.setLastname(designer.getLastname());
+        dto.setAddress(designer.getAddress());
+        dto.setUrl(designer.getUrl());
+        dto.setPhone(designer.getPhone());
+        dto.setBankAccount(designer.getBankAccount());
 
-            Set<Card> cardSet = new HashSet<>();
+        Set<Card> cardsByDesigner = new HashSet<>();
 
-            for (Card card : designer.getCards()) {
+        for (Card card : designer.getCards()) {
 
-                CardDto cardDto = assignCardToDto(card);
-                cardSet.add(card);
-            }
-
-            dto.setCards(cardSet);
-
-            return dto;
-
+            CardDto cardDto = assignCardToDto(card);
+            cardsByDesigner.add(card);
         }
 
-        private CardDto assignCardToDto(Card card) {
+        dto.setCards(cardsByDesigner);
+        return dto;
+    }
+
+    private CardDto assignCardToDto(Card card) {
 
         CardDto dto = new CardDto();
 
         dto.setId(card.getId());
         dto.setCardName(card.getCardName());
+        dto.setDesignedBy(card.getDesignedBy());
+        dto.setCardName(card.getCategory());
         dto.setAmountOfDownloads(card.getAmountOfDownloads());
+        dto.setImageData(card.getImageData());
+
 
         return dto;
-        }
-
-
-
-
+    }
 
 
 

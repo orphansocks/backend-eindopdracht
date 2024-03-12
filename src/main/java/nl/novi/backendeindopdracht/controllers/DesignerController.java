@@ -1,5 +1,6 @@
 package nl.novi.backendeindopdracht.controllers;
 
+import nl.novi.backendeindopdracht.dtos.card.CardDto;
 import nl.novi.backendeindopdracht.dtos.designer.DesignerDto;
 import nl.novi.backendeindopdracht.dtos.designer.DesignerInputDto;
 import nl.novi.backendeindopdracht.services.DesignerService;
@@ -8,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/designers")
@@ -39,6 +42,7 @@ public class DesignerController {
 
         return ResponseEntity.ok().body(designerDto);
 }
+
 
 
 

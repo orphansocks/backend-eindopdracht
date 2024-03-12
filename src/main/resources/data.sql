@@ -26,7 +26,7 @@ VALUES
 (1002, 'Freek', 'Tromp', '', '1974-07-18', 'together', 'Eva', true, 2 , 'Fynn en Luz', 'geen sla geen vla', 'family' ),
 (1003, 'Frouke', 'van Dongen', '', '1979-06-09', 'together', 'GeertJan', true, 1 , 'Jule', 'dat bedoel ik', 'family' ),
 (1004, 'Nathan', 'Fielder', 'Nathan for You', '1983-05-12', 'divorced', '', false, 0 , '', 'An observer of human behavior. He mines the absurdities of how people relate to one another and how he relates to them, and it all makes you think and laugh', 'neighbours' ),
-(1005, 'Kees', 'van Dongen', '', '1877-01-26', 'divorced', '', true, 2 , 'Zoon en dochter', 'gescheiden van Piet', 'colleagues' ),
+(1005, 'Kees', 'van Dongen', '', '1877-01-26', 'divorced', 'Augusta Preitinger', true, 2 , 'een dochter van Augusta en een zoon van Marie-Claire', 'Opnieuw getrouwd met Marie-Claire Huguen', 'colleagues' ),
 (1006, 'Marie', 'Antoinette', '', '1976-10-16', 'single', '', true, 1 , 'Thérèse', 'Monsieur, je vous demande excuse, je ne l’ai pas fait exprès.', 'friends' ),
 (1007, 'Immanuel', 'Kant', 'Filosoof', '1724-04-27', 'together', 'Maria', false, 0 , 'unknown', 'Look closely, the beautiful may be small', 'colleagues' ),
 (1008, 'Jan', 'Janssen', 'JJ', '1976-03-03', 'married', 'Maria', true, 4 , 'Jannie, Kobus, Lieve, Moos', 'En wat schrijven we hier', 'friends' ),
@@ -56,18 +56,27 @@ VALUES
        (2005, 1005),
        (2005, 1010);
 
-INSERT INTO cards (id, card_name, category, amount_of_downloads)
+
+-- INSERT INTO cards (id, card_name, designer, category, amount_of_downloads)
+-- VALUES
+--     (3001, 'yvi', 4001, 'birthday', 21),
+--     (3002, 'kepler', 4001, 'birth', 22),
+--     (3003, 'haas', 4002, 'birthday', 15),
+--     (3004, 'degular', 4002, 'birthday', 16),
+--     (3005, 'roboto', 4002, 'getwell', 3);
+
+INSERT INTO cards (id, card_name, designed_by, category, amount_of_downloads)
 VALUES
-    (3001, 'yvi', 'birthday', 21),
-    (3002, 'kepler', 'birth', 22),
-    (3003, 'haas', 'birthday', 15),
-    (3004, 'degular', 'birthday', 16),
-    (3005, 'roboto', 'getwell', 3);
+    (3001, 'yvi', 'relatives original', 'birthday', 21),
+    (3002, 'kepler','relatives original', 'birth', 22),
+    (3003, 'haas', 'relatives original', 'birthday', 15),
+    (3004, 'degular','relatives original', 'birthday', 16),
+    (3005, 'roboto', 'relatives original', 'getwell', 3);
 
 INSERT INTO designers ( id, company, firstname, lastname, address, url, phone, bank_account)
 VALUES
     (4001, 'relatives original', 'Eva', 'van Dongen', 'companyAddress', 'relatives.nl', '0612345678', 'IBAN12345678' ),
-    (4002, 'companyA', 'firstNameA', 'lastNameA', 'companyAddress', 'companyUrl.nl', '0612345678', 'IBAN12345678' );
+    (4002, 'ACompany', 'AFirstName', 'ALastName', 'companyAddress', 'companyUrl.nl', '0612345678', 'IBAN12345678' );
 
 
 

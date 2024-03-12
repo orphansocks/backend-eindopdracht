@@ -73,7 +73,9 @@ public class SpringSecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/cards").hasRole("DESIGNER")
                         .requestMatchers(HttpMethod.GET,"/cards").hasAnyRole("USER", "DESIGNER", "ADMIN")
 
-//                        .requestMatchers("/profiles", "/profiles/*").authenticated()
+                                .requestMatchers(HttpMethod.POST, "/designers").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/designers/{id}").hasAnyRole("ADMIN", "DESIGNER")
+                                .requestMatchers(HttpMethod.PUT, "/designers/{id}").hasAnyRole("ADMIN", "DESIGNER")
 
                         .requestMatchers("/authenticate").authenticated()
 

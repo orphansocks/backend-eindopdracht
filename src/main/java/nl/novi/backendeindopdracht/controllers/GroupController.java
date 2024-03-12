@@ -36,8 +36,6 @@ public class GroupController {
 
     }
 
-    // deze methode haalt de relatives op die in de group zitten
-
     @PutMapping("/{id}")
     public ResponseEntity<GroupDto> updateGroup(@PathVariable("id") Long id, @RequestBody GroupInputDto groupNewInputDto) {
         GroupDto groupDto = groupService.updateGroup(id, groupNewInputDto );
