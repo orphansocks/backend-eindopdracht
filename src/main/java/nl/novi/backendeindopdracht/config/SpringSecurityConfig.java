@@ -32,7 +32,7 @@ public class SpringSecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public static PasswordEncoder passwordEncoder() {
 
         return new BCryptPasswordEncoder();
     }
@@ -50,7 +50,7 @@ public class SpringSecurityConfig {
 
 // Authorisatie met JWT
     @Bean
-    protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
                 .csrf(AbstractHttpConfigurer::disable)
@@ -60,20 +60,21 @@ public class SpringSecurityConfig {
 
                         .requestMatchers("/**").permitAll()
 
-                        .requestMatchers(HttpMethod.POST,"/users/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET,"/users/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST,"/users/**").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/users/**").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/users/**").permitAll()
 
-                        .requestMatchers(HttpMethod.POST, "/relatives").hasRole("USER")
-                        .requestMatchers(HttpMethod.GET,"/relatives").hasRole("USER")
+                        .requestMatchers(HttpMethod.POST, "/relatives").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.GET,"/relatives").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.DELETE, "/relatives").hasAnyRole("ADMIN", "USER")
 
-                        .requestMatchers(HttpMethod.POST, "/groups/**").hasRole("USER")
-                        .requestMatchers(HttpMethod.GET,"/groups/**").hasRole("USER")
+                        .requestMatchers(HttpMethod.POST, "/groups/**").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.GET,"/groups/**").hasAnyRole("ADMIN", "USER")
 
-                        .requestMatchers(HttpMethod.POST, "/cards").hasRole("DESIGNER")
+                        .requestMatchers(HttpMethod.POST, "/cards").hasAnyRole("USER", "DESIGNER", "ADMIN")
                         .requestMatchers(HttpMethod.GET,"/cards").hasAnyRole("USER", "DESIGNER", "ADMIN")
 
-                                .requestMatchers(HttpMethod.POST, "/designers").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.POST, "/designers").hasAnyRole("ADMIN", "DESIGNER")
                                 .requestMatchers(HttpMethod.GET, "/designers/{id}").hasAnyRole("ADMIN", "DESIGNER")
                                 .requestMatchers(HttpMethod.PUT, "/designers/{id}").hasAnyRole("ADMIN", "DESIGNER")
 

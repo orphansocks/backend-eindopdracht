@@ -5,12 +5,11 @@ import nl.novi.backendeindopdracht.dtos.auth.AuthResponseDto;
 import nl.novi.backendeindopdracht.services.CustomUserDetailsService;
 import nl.novi.backendeindopdracht.utils.JwtUtil;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,41 +29,37 @@ public class AuthController {
         this.jwtUtil = jwtUtil;
     }
 
+    // dit is de GET voor het terug geven van de JWT TOKEN Wanneer de gebruiker de juiste AuthInput opgeeft
     @PostMapping(value = "/authenticate")
-    public ResponseEntity<Object> logIn(@RequestBody AuthInputDto authInputDto) {
+    public ResponseEntity<?> login(@RequestBody AuthInputDto authInputDto) throws Exception {
 
         String username = authInputDto.getUsername();
         String password = authInputDto.getPassword();
 
-        UsernamePasswordAuthenticationToken upAuthToken =
+        UsernamePasswordAuthenticationToken authToken =
                 new UsernamePasswordAuthenticationToken(username, password);
 
         try {
-            authenticationManager.authenticate(upAuthToken);
+            authenticationManager.authenticate(authToken);
 
             UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
-            String jwtToken = jwtUtil.generateToken(userDetails);
+            String jwt = jwtUtil.generateToken(userDetails);
 
-            String tokenWithBearer = "Bearer " + jwtToken;
+            return ResponseEntity.ok(new AuthResponseDto(jwt));
 
-//            AuthResponseDto authResponseDto = new AuthResponseDto(tokenWithBearer);
-
-            return ResponseEntity.ok()
-                    .header(HttpHeaders.AUTHORIZATION, tokenWithBearer)
-                    .body("Token generated");
         }
-        catch (AuthenticationException authenticationException) {
-            return new ResponseEntity<>(authenticationException.getMessage(), HttpStatus.UNAUTHORIZED);
+        catch (BadCredentialsException ex) {
+            throw new Exception("Incorrect username or password", ex);
         }
+
 
     }
 
-//    @GetMapping(value = "/authenticated")
-//    public ResponseEntity<Object> authenticated(Authentication authentication, Principal principal) {
-//        return ResponseEntity.ok().body(principal);
-//    }
-
-
+    // Dit is de GET voor het terug geven van de basisgegevens van de user
+    @GetMapping(value = "/authenticated")
+    public ResponseEntity<Object> authenticated(Authentication authentication, Principal principal) {
+        return ResponseEntity.ok().body(principal);
+    }
 
 
 

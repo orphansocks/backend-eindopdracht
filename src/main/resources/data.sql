@@ -57,14 +57,6 @@ VALUES
        (2005, 1010);
 
 
--- INSERT INTO cards (id, card_name, designer, category, amount_of_downloads)
--- VALUES
---     (3001, 'yvi', 4001, 'birthday', 21),
---     (3002, 'kepler', 4001, 'birth', 22),
---     (3003, 'haas', 4002, 'birthday', 15),
---     (3004, 'degular', 4002, 'birthday', 16),
---     (3005, 'roboto', 4002, 'getwell', 3);
-
 INSERT INTO cards (id, card_name, designed_by, category, amount_of_downloads)
 VALUES
     (3001, 'yvi', 'relatives original', 'birthday', 21),
@@ -72,6 +64,7 @@ VALUES
     (3003, 'haas', 'relatives original', 'birthday', 15),
     (3004, 'degular','relatives original', 'birthday', 16),
     (3005, 'roboto', 'relatives original', 'getwell', 3);
+
 
 INSERT INTO designers ( id, company, firstname, lastname, address, url, phone, bank_account)
 VALUES

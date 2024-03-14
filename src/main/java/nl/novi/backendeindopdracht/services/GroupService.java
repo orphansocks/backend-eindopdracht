@@ -154,8 +154,6 @@ public class GroupService {
         }
 
         dto.setRelatives(groupRelatives);
-
-
         return dto;
     }
 

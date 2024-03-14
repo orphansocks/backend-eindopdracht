@@ -1,5 +1,6 @@
 package nl.novi.backendeindopdracht.dtos.designer;
 
+import nl.novi.backendeindopdracht.dtos.card.CardDto;
 import nl.novi.backendeindopdracht.models.Card;
 
 import java.util.Set;
@@ -16,7 +17,6 @@ public class DesignerDto {
     public String phone;
     public String bankAccount;
     public Set<Card> cards;
-
 
     public Long getId() {
         return id;

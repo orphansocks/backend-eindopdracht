@@ -61,6 +61,17 @@ public class ImageDataService {
         return savedImage.getImageName();
     }
 
+    public Long uploadImageGetId(MultipartFile multipartFile) throws IOException {
+        ImageData imageData = new ImageData();
+        imageData.setImageName(multipartFile.getOriginalFilename());
+        imageData.setType(multipartFile.getContentType());
+        imageData.setImageData(ImageUtil.compressImage(multipartFile.getBytes()));
+
+        ImageData savedImage = imageDataRepository.save(imageData);
+
+        return savedImage.getId();
+    }
+
 
 
     public byte[] downloadImage(Long id) throws IOException {

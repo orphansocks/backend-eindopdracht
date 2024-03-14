@@ -39,10 +39,11 @@ public class DesignerService {
 
     public DesignerDto getDesignerById(Long id) {
 
-        if (designerRepository.findById(id).isPresent()) {
+        Optional<Designer> optionalDesigner = designerRepository.findById(id);
 
-            Designer designer = designerRepository.findById(id).get();
+        if (optionalDesigner.isPresent()) {
 
+            Designer designer = optionalDesigner.get();
             return transferToDto(designer);
 
         } else {
