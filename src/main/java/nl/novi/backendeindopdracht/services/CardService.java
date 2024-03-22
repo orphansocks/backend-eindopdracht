@@ -5,10 +5,10 @@ import nl.novi.backendeindopdracht.exceptions.RecordNotFoundException;
 import nl.novi.backendeindopdracht.models.Card;
 import nl.novi.backendeindopdracht.dtos.card.CardInputDto;
 import nl.novi.backendeindopdracht.dtos.card.CardDto;
-import nl.novi.backendeindopdracht.models.Designer;
+import nl.novi.backendeindopdracht.models.DesignerProfile;
 import nl.novi.backendeindopdracht.models.ImageData;
 import nl.novi.backendeindopdracht.repositories.CardRepository;
-import nl.novi.backendeindopdracht.repositories.DesignerRepository;
+import nl.novi.backendeindopdracht.repositories.DesignerProfileRepository;
 import nl.novi.backendeindopdracht.repositories.ImageDataRepository;
 import org.springframework.stereotype.Service;
 
@@ -21,13 +21,13 @@ public class CardService {
 
     private final CardRepository cardRepository;
     private final ImageDataRepository imageDataRepository;
-    private final DesignerRepository designerRepository;
+    private final DesignerProfileRepository designerProfileRepository;
 
 
-    public CardService(CardRepository cardRepository, ImageDataRepository imageDataRepository, DesignerRepository designerRepository) {
+    public CardService(CardRepository cardRepository, ImageDataRepository imageDataRepository, DesignerProfileRepository designerProfileRepository) {
         this.cardRepository = cardRepository;
         this.imageDataRepository = imageDataRepository;
-        this.designerRepository = designerRepository;
+        this.designerProfileRepository = designerProfileRepository;
     }
 
     public CardDto createCard(CardInputDto cardInputDto) {
@@ -41,14 +41,16 @@ public class CardService {
             cardRepository.save(card);
 
             // Fetch the designer using designerId from cardInputDto
-            Optional<Designer> designerOptional = designerRepository.findById(cardInputDto.designerId);
+            Optional<DesignerProfile> designerOptional = designerProfileRepository.findById(cardInputDto.designerId);
             if (designerOptional.isPresent()) {
-                Designer designer = designerOptional.get();
-                // Add the card to the designer's card set
-                designer.getCards().add(card);
-                designerRepository.save(designer);
+                DesignerProfile designerProfile = designerOptional.get();
+                // Add the card to the designerProfile's card set
+                designerProfile.getCards().add(card);
+                designerProfileRepository.save(designerProfile);
+                card.setDesignerProfile(designerProfile);
+                cardRepository.save(card);
             } else {
-                throw new RecordNotFoundException("Designer with id " + cardInputDto.designerId + " not found");
+                throw new RecordNotFoundException("DesignerProfile with id " + cardInputDto.designerId + " not found");
             }
 
             return transferToDto(card);
@@ -113,16 +115,16 @@ public class CardService {
         card.setCategory(dto.category);
 
 //        if (dto.designerId != null) {
-//            Optional<Designer> designerOptional = designerRepository.findById(dto.designerId);
+//            Optional<DesignerProfile> designerOptional = designerProfileRepository.findById(dto.designerId);
 //            if (designerOptional.isPresent()) {
 //
-//                Designer designer = designerOptional.get();
+//                DesignerProfile designer = designerOptional.get();
 //
 //                String designedBy = designer.getCompany(); // Get the company of the designer
-//                card.setDesigner(designer); // Set the retrieved Designer to the card
+//                card.setDesigner(designer); // Set the retrieved DesignerProfile to the card
 //                card.setDesignedBy(designedBy);
 //            } else {
-//                throw new RecordNotFoundException("Designer with id " + dto.designerId + " not found");
+//                throw new RecordNotFoundException("DesignerProfile with id " + dto.designerId + " not found");
 //            }
 //        }
 
@@ -181,13 +183,13 @@ public class CardService {
     public CardDto assignDesignerToCard(Long id, Long designerId) {
 
         Optional<Card> cardOptional = cardRepository.findById(id);
-        Optional<Designer> designerOptional = designerRepository.findById(designerId);
+        Optional<DesignerProfile> designerOptional = designerProfileRepository.findById(designerId);
 
         if(cardOptional.isPresent() && designerOptional.isPresent()) {
             Card card = cardOptional.get();
-            Designer designer = designerOptional.get();
+            DesignerProfile designerProfile = designerOptional.get();
 
-            card.setDesigner(designer);
+            card.setDesignerProfile(designerProfile);
             cardRepository.save(card);
 
             return transferToDto(card);

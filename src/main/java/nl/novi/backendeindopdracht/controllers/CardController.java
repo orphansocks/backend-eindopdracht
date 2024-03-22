@@ -1,9 +1,7 @@
 package nl.novi.backendeindopdracht.controllers;
 
-import jakarta.validation.Valid;
 import nl.novi.backendeindopdracht.dtos.card.CardDto;
 import nl.novi.backendeindopdracht.dtos.card.CardInputDto;
-import nl.novi.backendeindopdracht.models.Card;
 import nl.novi.backendeindopdracht.services.CardService;
 import nl.novi.backendeindopdracht.services.ImageDataService;
 import org.springframework.http.ResponseEntity;
@@ -40,9 +38,15 @@ class CardController {
 //    }
 
     @PostMapping("")
-    public ResponseEntity<CardDto> createCardWithImage(@RequestParam("file") MultipartFile file, @RequestParam("cardInputDto") CardInputDto cardInputDto) throws IOException {
+    public ResponseEntity<CardDto> createCardWithImage(@RequestPart("file") MultipartFile file,  @RequestPart("cardName") String cardName, @RequestPart("designerId") String designerId, @RequestPart("category") String category) throws IOException {
+
+        CardInputDto cardInputDto = new CardInputDto();
+        cardInputDto.cardName = cardName;
+        cardInputDto.designerId = Long.valueOf(designerId);
+        cardInputDto.category = category;
 
         Long imageId = imageDataService.uploadImageGetId(file);
+        cardInputDto.imageId = imageId;
 
         CardDto cardDto = cardService.createCard(cardInputDto);
 

@@ -11,8 +11,8 @@ public class Card {
     private Long id;
     private String cardName;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "designer_id")
-    private Designer designer;
+    @JoinColumn(name = "designer_profile_id")
+    private DesignerProfile designerProfile;
     private String category;
     private Integer amountOfDownloads;
     private String designedBy;
@@ -26,10 +26,10 @@ public class Card {
     public Card() {
     }
 
-    public Card(Long id, String cardName, Designer designer, String category, Integer amountOfDownloads, String designedBy, ImageData imageData) {
+    public Card(Long id, String cardName, DesignerProfile designerProfile, String category, Integer amountOfDownloads, String designedBy, ImageData imageData) {
         this.id = id;
         this.cardName = cardName;
-        this.designer = designer;
+        this.designerProfile = designerProfile;
         this.category = category;
         this.amountOfDownloads = amountOfDownloads;
         this.designedBy = designedBy;
@@ -55,12 +55,12 @@ public class Card {
         this.cardName = cardName;
     }
 
-    public Designer getDesigner() {
-        return designer;
+    public DesignerProfile getDesignerProfile() {
+        return designerProfile;
     }
 
-    public void setDesigner(Designer designer) {
-        this.designer = designer;
+    public void setDesignerProfile(DesignerProfile designerProfile) {
+        this.designerProfile = designerProfile;
     }
 
     public String getCategory() {

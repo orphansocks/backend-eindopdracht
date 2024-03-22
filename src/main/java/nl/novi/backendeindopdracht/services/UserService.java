@@ -124,6 +124,7 @@ public class UserService {
         }
 
         User user = userOptional.get();
+//        user.addRole(role);
         user.addRole(new Role(username, role));
         userRepository.save(user);
     }

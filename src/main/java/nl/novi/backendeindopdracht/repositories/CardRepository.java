@@ -13,6 +13,6 @@ public interface CardRepository extends JpaRepository<Card, Long> {
 //    List<Card> findAllByDesignerEqualsIgnoreCase(String designer);
     List<Card> findAllByCategoryEqualsIgnoreCase(String category);
 
-    Set<Card> findByDesignerId(Long designerId);
+    Set<Card> findByDesignerProfileId(Long designerId);
 
 }

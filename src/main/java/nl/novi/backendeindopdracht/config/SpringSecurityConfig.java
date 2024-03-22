@@ -48,7 +48,7 @@ public class SpringSecurityConfig {
         return new ProviderManager(auth);
     }
 
-// Authorisatie met JWT
+// Authorisatie met jwt
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
@@ -60,25 +60,35 @@ public class SpringSecurityConfig {
 
                         .requestMatchers("/**").permitAll()
 
-                        .requestMatchers(HttpMethod.POST,"/users/**").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/users/**").permitAll()
-                        .requestMatchers(HttpMethod.DELETE, "/users/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/authenticate").permitAll()
+                        .requestMatchers("/authenticate").authenticated()
+
+                        .requestMatchers(HttpMethod.POST,"/users").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/users/{username}").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.PUT, "/users/{username}").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.DELETE, "/users/{username}").hasAnyRole("ADMIN", "USER")
 
                         .requestMatchers(HttpMethod.POST, "/relatives").hasAnyRole("ADMIN", "USER")
                         .requestMatchers(HttpMethod.GET,"/relatives").hasAnyRole("ADMIN", "USER")
-                        .requestMatchers(HttpMethod.DELETE, "/relatives").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.GET,"/relatives/{id}").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.GET,"/relatives/name/{name}").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.GET,"/relatives/relation/{relation}").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.PUT,"/relatives/{id}").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.DELETE, "/relatives/{id}").hasAnyRole("ADMIN", "USER")
 
-                        .requestMatchers(HttpMethod.POST, "/groups/**").hasAnyRole("ADMIN", "USER")
-                        .requestMatchers(HttpMethod.GET,"/groups/**").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.POST, "/groups").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.GET,"/groups").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.GET,"/groups/{id}").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.PUT,"/groups/{id}").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.DELETE,"/groups/{id}").hasAnyRole("ADMIN", "USER")
 
-                        .requestMatchers(HttpMethod.POST, "/cards").hasAnyRole("USER", "DESIGNER", "ADMIN")
-                        .requestMatchers(HttpMethod.GET,"/cards").hasAnyRole("USER", "DESIGNER", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/cards").hasAnyRole("ADMIN", "DESIGNER")
+                        .requestMatchers(HttpMethod.GET,"/cards").permitAll()
+                        .requestMatchers(HttpMethod.DELETE,"/cards").hasAnyRole("ADMIN", "DESIGNER")
 
-                                .requestMatchers(HttpMethod.POST, "/designers").hasAnyRole("ADMIN", "DESIGNER")
-                                .requestMatchers(HttpMethod.GET, "/designers/{id}").hasAnyRole("ADMIN", "DESIGNER")
-                                .requestMatchers(HttpMethod.PUT, "/designers/{id}").hasAnyRole("ADMIN", "DESIGNER")
-
-                        .requestMatchers("/authenticate").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/designers").hasAnyRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/designers/{id}").hasAnyRole("ADMIN", "DESIGNER")
+                        .requestMatchers(HttpMethod.PUT, "/designers/{id}").hasAnyRole("ADMIN")
 
                         .anyRequest().denyAll()
 

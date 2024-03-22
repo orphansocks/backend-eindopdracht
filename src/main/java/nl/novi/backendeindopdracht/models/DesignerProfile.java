@@ -6,8 +6,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name ="designers")
-public class Designer {
+@Table(name ="designer_profiles")
+public class DesignerProfile {
 
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
@@ -21,7 +21,7 @@ public class Designer {
     private String bankAccount;
 
     @OneToMany(
-            mappedBy = "designer",
+            mappedBy = "designerProfile",
             cascade = CascadeType.ALL,
             orphanRemoval = true,
             fetch = FetchType.EAGER)

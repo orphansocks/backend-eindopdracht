@@ -1,7 +1,7 @@
-package nl.novi.backendeindopdracht.dtos.designer;
+package nl.novi.backendeindopdracht.dtos.designerProfile;
 
 
-public class DesignerInputDto {
+public class DesignerProfileInputDto {
 
     public String company;
     public String firstname;

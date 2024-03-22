@@ -1,13 +1,10 @@
--- datasql dient om de database te prefillen
--- doe dit voor ALLE entiteiten
---
---
+
 
 INSERT INTO users (username, password, email, enabled)
 VALUES
 ('user', '2fec893c-99f8-4831-be79-8f69f9e67537','user@test.nl', TRUE),
 ('admin', '2fec893c-99f8-4831-be79-8f69f9e67537', 'admin@test.nl', TRUE),
-('designer', '2fec893c-99f8-4831-be79-8f69f9e67537', 'designer@test.nl', TRUE),
+('designerProfile', '2fec893c-99f8-4831-be79-8f69f9e67537', 'designerProfile@test.nl', TRUE),
 ('eva', 'password', 'eva@relatives.nl', TRUE);
 
 
@@ -15,7 +12,7 @@ INSERT INTO roles (username, role)
 VALUES
 ('user', 'ROLE_USER'),
 ('admin', 'ROLE_ADMIN'),
-('designer', 'ROLE_DESIGNER'),
+('designerProfile', 'ROLE_DESIGNER'),
 ('eva', 'ROLE_USER');
 
 
@@ -25,7 +22,7 @@ VALUES
 (1001, 'Eva', 'van Dongen', 'Eef', '1976-06-10', 'together', 'Freek', true, 2 , 'Fynn en Luz', 'hou het simpel', 'family' ),
 (1002, 'Freek', 'Tromp', '', '1974-07-18', 'together', 'Eva', true, 2 , 'Fynn en Luz', 'geen sla geen vla', 'family' ),
 (1003, 'Frouke', 'van Dongen', '', '1979-06-09', 'together', 'GeertJan', true, 1 , 'Jule', 'dat bedoel ik', 'family' ),
-(1004, 'Nathan', 'Fielder', 'Nathan for You', '1983-05-12', 'divorced', '', false, 0 , '', 'An observer of human behavior. He mines the absurdities of how people relate to one another and how he relates to them, and it all makes you think and laugh', 'neighbours' ),
+(1004, 'Nathan', 'Fielder', 'Nathan for You', CURRENT_DATE, 'divorced', '', false, 0 , '', 'An observer of human behavior. He mines the absurdities of how people relate to one another and how he relates to them, and it all makes you think and laugh', 'neighbours'),
 (1005, 'Kees', 'van Dongen', '', '1877-01-26', 'divorced', 'Augusta Preitinger', true, 2 , 'een dochter van Augusta en een zoon van Marie-Claire', 'Opnieuw getrouwd met Marie-Claire Huguen', 'colleagues' ),
 (1006, 'Marie', 'Antoinette', '', '1976-10-16', 'single', '', true, 1 , 'Thérèse', 'Monsieur, je vous demande excuse, je ne l’ai pas fait exprès.', 'friends' ),
 (1007, 'Immanuel', 'Kant', 'Filosoof', '1724-04-27', 'together', 'Maria', false, 0 , 'unknown', 'Look closely, the beautiful may be small', 'colleagues' ),
@@ -66,7 +63,7 @@ VALUES
     (3005, 'roboto', 'relatives original', 'getwell', 3);
 
 
-INSERT INTO designers ( id, company, firstname, lastname, address, url, phone, bank_account)
+INSERT INTO designer_profiles ( id, company, firstname, lastname, address, url, phone, bank_account)
 VALUES
     (4001, 'relatives original', 'Eva', 'van Dongen', 'companyAddress', 'relatives.nl', '0612345678', 'IBAN12345678' ),
     (4002, 'ACompany', 'AFirstName', 'ALastName', 'companyAddress', 'companyUrl.nl', '0612345678', 'IBAN12345678' );

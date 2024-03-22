@@ -21,21 +21,22 @@ public class CustomUserDetailsService implements UserDetailsService {
         this.userService = userService;
     }
 
+    // waar komt de term GrantedAuthority / SimpleGrantedAuthority vandaan?
+
     @Override
     public UserDetails loadUserByUsername(String username) {
 
         UserDto userDto = userService.getUser(username);
-
         String password = userDto.getPassword();
 
         Set<Role> roles = userDto.getRoles();
 
-        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+        List<GrantedAuthority> assignedRoles = new ArrayList<>();
 
         for (Role role: roles) {
-            grantedAuthorities.add(new SimpleGrantedAuthority(role.getRole()));
+            assignedRoles.add(new SimpleGrantedAuthority(role.getRole()));
         }
 
-        return new org.springframework.security.core.userdetails.User(username, password, grantedAuthorities);
+        return new org.springframework.security.core.userdetails.User(username, password, assignedRoles);
     }
 }

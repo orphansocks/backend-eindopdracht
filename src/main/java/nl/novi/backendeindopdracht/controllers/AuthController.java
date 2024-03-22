@@ -29,7 +29,7 @@ public class AuthController {
         this.jwtUtil = jwtUtil;
     }
 
-    // dit is de GET voor het terug geven van de JWT TOKEN Wanneer de gebruiker de juiste AuthInput opgeeft
+    // dit is de GET voor het teruggeven van de JWT TOKEN Wanneer de gebruiker de juiste AuthInput opgeeft
     @PostMapping(value = "/authenticate")
     public ResponseEntity<?> login(@RequestBody AuthInputDto authInputDto) throws Exception {
 
@@ -55,9 +55,10 @@ public class AuthController {
 
     }
 
-    // Dit is de GET voor het terug geven van de basisgegevens van de user
+    // Dit is de GET voor het teruggeven van de basisgegevens (de principal) van de user
     @GetMapping(value = "/authenticated")
     public ResponseEntity<Object> authenticated(Authentication authentication, Principal principal) {
+
         return ResponseEntity.ok().body(principal);
     }
 

@@ -1,11 +1,11 @@
-package nl.novi.backendeindopdracht.dtos.designer;
+package nl.novi.backendeindopdracht.dtos.designerProfile;
 
 import nl.novi.backendeindopdracht.dtos.card.CardDto;
 import nl.novi.backendeindopdracht.models.Card;
 
 import java.util.Set;
 
-public class DesignerDto {
+public class DesignerProfileDto {
 
 
     public Long id;
@@ -16,7 +16,7 @@ public class DesignerDto {
     public String url;
     public String phone;
     public String bankAccount;
-    public Set<Card> cards;
+    public Set<CardDto> cardDto;
 
     public Long getId() {
         return id;
@@ -82,11 +82,11 @@ public class DesignerDto {
         this.bankAccount = bankAccount;
     }
 
-    public Set<Card> getCards() {
-        return cards;
+    public Set<CardDto> getCardDto() {
+        return cardDto;
     }
 
-    public void setCards(Set<Card> cards) {
-        this.cards = cards;
+    public void setCardDto(Set<CardDto> cardDto) {
+        this.cardDto = cardDto;
     }
 }

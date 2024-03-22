@@ -33,11 +33,22 @@ public class UserController {
         return ResponseEntity.created(location).build();
     }
 
+    @PostMapping(value = "/designer")
+    public ResponseEntity<UserDto> createDesigner(@RequestBody UserInputDto userInputDto) {
+
+        String newUsername = userService.createUser(userInputDto);
+        userService.addRole(newUsername, "ROLE_DESIGNER");
+
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{username}")
+                .buildAndExpand(newUsername).toUri();
+
+        return ResponseEntity.created(location).build();
+    }
+
     @GetMapping(value = "/{username}")
     public ResponseEntity<UserDto> getUser(@PathVariable("username") String username) {
 
         UserDto optionalUser = userService.getUser(username);
-
 
         return ResponseEntity.ok().body(optionalUser);
 
