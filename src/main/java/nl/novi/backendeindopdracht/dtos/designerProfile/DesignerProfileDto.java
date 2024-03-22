@@ -7,7 +7,6 @@ import java.util.Set;
 
 public class DesignerProfileDto {
 
-
     public Long id;
     public String company;
     public String lastname;

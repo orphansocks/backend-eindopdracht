@@ -25,15 +25,31 @@ public class DesignerProfileService {
         this.cardRepository = cardRepository;
     }
 
+//    public DesignerProfileDto createDesignerProfile(DesignerProfileInputDto designerProfileInputDto) {
+//
+//        DesignerProfile designerProfile = transferToEntity(designerProfileInputDto);
+//        designerProfileRepository.save(designerProfile);
+//
+//        return transferToDto(designerProfile);
+//
+//    }
+
     public DesignerProfileDto createDesignerProfile(DesignerProfileInputDto designerProfileInputDto) {
-
         DesignerProfile designerProfile = transferToEntity(designerProfileInputDto);
-        designerProfileRepository.save(designerProfile);
 
+        // Fetch cards associated with the designerProfile's ID from the card repository
+        Set<Card> cardsByDesigner = cardRepository.findByDesignerProfileId(designerProfile.getId());
+
+        // Add fetched cards to the designerProfile's set of cards
+        designerProfile.getCards().addAll(cardsByDesigner);
+
+        // Save the designerProfile with populated cards to the repository
+        designerProfile = designerProfileRepository.save(designerProfile);
+
+        // Return the DTO
         return transferToDto(designerProfile);
-
-
     }
+
 
     public DesignerProfileDto getDesignerById(Long id) {
 
@@ -109,7 +125,7 @@ public class DesignerProfileService {
         dto.setId(card.getId());
         dto.setCardName(card.getCardName());
         dto.setDesignedBy(card.getDesignedBy());
-        dto.setCardName(card.getCategory());
+        dto.setCategory(card.getCategory());
         dto.setAmountOfDownloads(card.getAmountOfDownloads());
         dto.setImageData(card.getImageData());
 

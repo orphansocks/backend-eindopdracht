@@ -114,19 +114,19 @@ public class CardService {
         card.setCardName(dto.cardName);
         card.setCategory(dto.category);
 
-//        if (dto.designerId != null) {
-//            Optional<DesignerProfile> designerOptional = designerProfileRepository.findById(dto.designerId);
-//            if (designerOptional.isPresent()) {
-//
-//                DesignerProfile designer = designerOptional.get();
-//
-//                String designedBy = designer.getCompany(); // Get the company of the designer
-//                card.setDesigner(designer); // Set the retrieved DesignerProfile to the card
-//                card.setDesignedBy(designedBy);
-//            } else {
-//                throw new RecordNotFoundException("DesignerProfile with id " + dto.designerId + " not found");
-//            }
-//        }
+        if (dto.designerId != null) {
+            Optional<DesignerProfile> designerOptional = designerProfileRepository.findById(dto.designerId);
+            if (designerOptional.isPresent()) {
+
+                DesignerProfile designer = designerOptional.get();
+
+                String designedBy = designer.getCompany(); // Get the company of the designer
+                card.setDesignerProfile(designer); // Set the retrieved DesignerProfile to the card
+                card.setDesignedBy(designedBy);
+            } else {
+                throw new RecordNotFoundException("DesignerProfile with id " + dto.designerId + " not found");
+            }
+        }
 
         if(dto.imageId != null && dto.imageId != 0) {
             Optional<ImageData> optionalImageData = imageDataRepository.findById(dto.imageId);

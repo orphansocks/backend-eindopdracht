@@ -54,14 +54,6 @@ VALUES
        (2005, 1010);
 
 
-INSERT INTO cards (id, card_name, designed_by, category, amount_of_downloads)
-VALUES
-    (3001, 'yvi', 'relatives original', 'birthday', 21),
-    (3002, 'kepler','relatives original', 'birth', 22),
-    (3003, 'haas', 'relatives original', 'birthday', 15),
-    (3004, 'degular','relatives original', 'birthday', 16),
-    (3005, 'roboto', 'relatives original', 'getwell', 3);
-
 
 INSERT INTO designer_profiles ( id, company, firstname, lastname, address, url, phone, bank_account)
 VALUES
@@ -69,6 +61,14 @@ VALUES
     (4002, 'ACompany', 'AFirstName', 'ALastName', 'companyAddress', 'companyUrl.nl', '0612345678', 'IBAN12345678' );
 
 
+-- Insert cards
+INSERT INTO cards (id, card_name, designed_by, category, amount_of_downloads, designer_profile_id)
+VALUES
+    (3001, 'yvi', 'relatives original', 'birthday', 21, 4001),
+    (3002, 'kepler', 'relatives original', 'birth', 22, 4001),
+    (3003, 'haas', 'relatives original', 'birthday', 15, 4002),
+    (3004, 'degular', 'relatives original', 'birthday', 16, 4002),
+    (3005, 'roboto', 'relatives original', 'getwell', 3, 4001);
 
 
 
