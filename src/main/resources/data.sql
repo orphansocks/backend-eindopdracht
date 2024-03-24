@@ -4,15 +4,15 @@ INSERT INTO users (username, password, email, enabled)
 VALUES
 ('user', '2fec893c-99f8-4831-be79-8f69f9e67537','user@test.nl', TRUE),
 ('admin', '2fec893c-99f8-4831-be79-8f69f9e67537', 'admin@test.nl', TRUE),
-('designerProfile', '2fec893c-99f8-4831-be79-8f69f9e67537', 'designerProfile@test.nl', TRUE),
-('eva', 'password', 'eva@relatives.nl', TRUE);
+('designer', '2fec893c-99f8-4831-be79-8f69f9e67537', 'designer@test.nl', TRUE),
+('eva', '2fec893c-99f8-4831-be79-8f69f9e67537', 'eva@relatives.cloud', TRUE);
 
 
 INSERT INTO roles (username, role)
 VALUES
 ('user', 'ROLE_USER'),
 ('admin', 'ROLE_ADMIN'),
-('designerProfile', 'ROLE_DESIGNER'),
+('designer', 'ROLE_DESIGNER'),
 ('eva', 'ROLE_USER');
 
 
@@ -34,7 +34,7 @@ VALUES
 INSERT INTO groups (id, group_name, group_place)
 VALUES
     (2001, 'De SchoonFam', ''),
-    (2002, 'Best friends', ''),
+    (2002, 'Team', ''),
     (2003, 'Huis', 'Utrecht'),
     (2004, 'In Da Hood', 'Haarlem'),
     (2005, 'Kookclub', 'Amsterdam');
@@ -57,8 +57,8 @@ VALUES
 
 INSERT INTO designer_profiles ( id, company, firstname, lastname, address, url, phone, bank_account)
 VALUES
-    (4001, 'relatives original', 'Eva', 'van Dongen', 'companyAddress', 'relatives.nl', '0612345678', 'IBAN12345678' ),
-    (4002, 'ACompany', 'AFirstName', 'ALastName', 'companyAddress', 'companyUrl.nl', '0612345678', 'IBAN12345678' );
+    (4001, 'relatives original', 'Eva', 'van Dongen', 'companyAddress', 'relatives.cloud', '0612345678', 'IBAN12345678' ),
+    (4002, 'A Company', 'AFirstName', 'ALastName', 'companyAddress', 'companyurl.nl', '0612345678', 'IBAN12345678' );
 
 
 -- Insert cards
@@ -66,8 +66,8 @@ INSERT INTO cards (id, card_name, designed_by, category, amount_of_downloads, de
 VALUES
     (3001, 'yvi', 'relatives original', 'birthday', 21, 4001),
     (3002, 'kepler', 'relatives original', 'birth', 22, 4001),
-    (3003, 'haas', 'relatives original', 'birthday', 15, 4002),
-    (3004, 'degular', 'relatives original', 'birthday', 16, 4002),
+    (3003, 'haas', 'A Company', 'graduation', 15, 4002),
+    (3004, 'degular', 'A Company', 'birthday', 16, 4002),
     (3005, 'roboto', 'relatives original', 'getwell', 3, 4001);
 
 

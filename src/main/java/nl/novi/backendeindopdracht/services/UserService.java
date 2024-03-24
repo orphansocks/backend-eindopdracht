@@ -47,6 +47,24 @@ public class UserService {
         }
     }
 
+    public String createDesigner(UserInputDto userInputDto) {
+
+        User user = transferToEntity(userInputDto);
+
+        String username = user.getUsername();
+
+        if (!userRepository.existsById(username)) {
+
+            String encodedPassword = passwordEncoder.encode(user.getPassword());
+            user.setPassword(encodedPassword);
+
+            userRepository.save(user);
+            return user.getUsername();
+        } else {
+            throw new UsernameAlreadyExists(username);
+        }
+    }
+
     public void deleteUser(String username) {
         userRepository.deleteById(username);
     }

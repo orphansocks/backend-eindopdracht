@@ -33,7 +33,7 @@ public class UserController {
         return ResponseEntity.created(location).build();
     }
 
-    @PostMapping(value = "/designer")
+    @PostMapping(value = "/designers")
     public ResponseEntity<UserDto> createDesigner(@RequestBody UserInputDto userInputDto) {
 
         String newUsername = userService.createUser(userInputDto);
@@ -54,7 +54,7 @@ public class UserController {
 
     }
 
-    @GetMapping(value = "")
+    @GetMapping(value = "/allusers")
     public ResponseEntity<List<UserDto>> getUsers() {
 
         List<UserDto> userDtos = userService.getUsers();

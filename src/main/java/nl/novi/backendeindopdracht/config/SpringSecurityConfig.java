@@ -23,7 +23,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SpringSecurityConfig {
 
     public final CustomUserDetailsService customUserDetailsService;
-
     private final JwtRequestFilter jwtRequestFilter;
 
     public SpringSecurityConfig(CustomUserDetailsService customUserDetailsService, JwtRequestFilter jwtRequestFilter) {
@@ -64,9 +63,11 @@ public class SpringSecurityConfig {
                         .requestMatchers("/authenticate").authenticated()
 
                         .requestMatchers(HttpMethod.POST,"/users").permitAll()
+                                .requestMatchers(HttpMethod.POST,"/users/designers").permitAll()
                         .requestMatchers(HttpMethod.GET,"/users/{username}").hasAnyRole("ADMIN", "USER")
                         .requestMatchers(HttpMethod.PUT, "/users/{username}").hasAnyRole("ADMIN", "USER")
                         .requestMatchers(HttpMethod.DELETE, "/users/{username}").hasAnyRole("ADMIN", "USER")
+
 
                         .requestMatchers(HttpMethod.POST, "/relatives").hasAnyRole("ADMIN", "USER")
                         .requestMatchers(HttpMethod.GET,"/relatives").hasAnyRole("ADMIN", "USER")
