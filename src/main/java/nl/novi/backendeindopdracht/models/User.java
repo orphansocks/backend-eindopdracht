@@ -31,6 +31,7 @@ public class User {
     private boolean enabled = true;
 
 
+
     public void addRole(Role role) {
         this.roles.add(role);
     }

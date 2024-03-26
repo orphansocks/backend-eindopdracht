@@ -26,16 +26,6 @@ public class Relative {
     @ManyToMany(mappedBy = "relatives")
     private Set<Group> groups;
 
-// DE SETTER VAN DE ID ER UIT HALEN
-    // GETTERS AND SETTERS VIA LOMBOK??
-    // ISBIRTHDAY
-    // RELATION ALS ENUM?
-    // SOCIALSTATUS ALSO AS ENUM?
-    // GEEN GENDER WANT HEE 2024 :)
-    // NAMES OF KIDS OP DEZE MANIER KOMMAGESCHEIDEN??
-    // AGE STAAT ER NIET TUSSEN WANT DIE WORDT BEREKENT IN DE FRONTEND
-    // WIL IK OOK LEEFTIJDEN VAN KIDS >> JA
-    // SETAGE VAN DE KIDS WANNEER & HOE IN HET PROCES??
 
 
     public Long getId() {
@@ -45,7 +35,6 @@ public class Relative {
     public void setId(Long id) {
         this.id = id;
     }
-
 
     public String getFirstName() {
         return firstName;
