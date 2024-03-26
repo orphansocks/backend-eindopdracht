@@ -1,20 +1,16 @@
 
-
 INSERT INTO users (username, password, email, enabled)
 VALUES
-('user', '2fec893c-99f8-4831-be79-8f69f9e67537','user@test.nl', TRUE),
-('admin', '2fec893c-99f8-4831-be79-8f69f9e67537', 'admin@test.nl', TRUE),
-('designer', '2fec893c-99f8-4831-be79-8f69f9e67537', 'designer@test.nl', TRUE),
-('eva', '2fec893c-99f8-4831-be79-8f69f9e67537', 'eva@relatives.cloud', TRUE);
+    ('user', '$2a$10$aVmWssSkeWr/34zp1BA7hudkNjpEac2DGR8fMHqbSXSyrsUgkymnu','user@test.nl', TRUE),
+    ('admin', '$2a$10$cL6BkViOkyZ1.Yf5h2WEQ.6HlLrjVZlIdAjDsJnjd6b/VtGxrO0IK', 'admin@test.nl', TRUE),
+    ('designer', '$2a$10$DHqgWdMxaYr8j/lVCfbw/.pOYFOL9HbWsJzaVK4kWuGGug99oZoaO', 'designer@test.nl', TRUE);
 
 
 INSERT INTO roles (username, role)
 VALUES
-('user', 'ROLE_USER'),
-('admin', 'ROLE_ADMIN'),
-('designer', 'ROLE_DESIGNER'),
-('eva', 'ROLE_USER');
-
+    ('user', 'ROLE_USER'),
+    ('admin', 'ROLE_ADMIN'),
+    ('designer', 'ROLE_DESIGNER');
 
 
 INSERT INTO relatives (id, first_name, last_name, nick_name, dob, social_status, name_of_partner, has_kids, amount_of_kids, names_of_kids, misc, relation)
@@ -46,6 +42,7 @@ VALUES
         (2002, 1002),
        (2002, 1007),
        (2002, 1010),
+        (2002, 1008),
        (2003, 1003),
        (2003, 1008),
        (2004, 1004),
@@ -58,7 +55,7 @@ VALUES
 INSERT INTO designer_profiles ( id, company, firstname, lastname, address, url, phone, bank_account)
 VALUES
     (4001, 'relatives original', 'Eva', 'van Dongen', 'companyAddress', 'relatives.cloud', '0612345678', 'IBAN12345678' ),
-    (4002, 'A Company', 'AFirstName', 'ALastName', 'companyAddress', 'companyurl.nl', '0612345678', 'IBAN12345678' );
+    (4002, 'A Company', 'FirstName', 'LastName', 'companyAddress', 'companyurl.nl', '0612345678', 'IBAN12345678' );
 
 
 -- Insert cards
