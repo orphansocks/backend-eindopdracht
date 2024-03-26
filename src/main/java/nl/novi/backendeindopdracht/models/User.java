@@ -21,11 +21,10 @@ public class User {
 
     @OneToMany(
             mappedBy = "username",
-//            targetEntity = Role.class,
+            targetEntity = Role.class,
             cascade = CascadeType.ALL,
             orphanRemoval = true,
             fetch = FetchType.EAGER)
-
     private Set<Role> roles = new HashSet<>();
 
     @Column(nullable = false)

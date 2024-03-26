@@ -6,7 +6,7 @@ public class CardDto {
 
     public Long id;
     public String cardName;
-    public String designer;
+    public String designedBy;
     public String category;
     public Integer amountOfDownloads;
     public ImageData imageData;
@@ -27,12 +27,12 @@ public class CardDto {
         this.cardName = cardName;
     }
 
-    public String getDesigner() {
-        return designer;
+    public String getDesignedBy() {
+        return designedBy;
     }
 
-    public void setDesigner(String designer) {
-        this.designer = designer;
+    public void setDesignedBy(String designedBy) {
+        this.designedBy = designedBy;
     }
 
     public String getCategory() {

@@ -23,7 +23,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SpringSecurityConfig {
 
     public final CustomUserDetailsService customUserDetailsService;
-
     private final JwtRequestFilter jwtRequestFilter;
 
     public SpringSecurityConfig(CustomUserDetailsService customUserDetailsService, JwtRequestFilter jwtRequestFilter) {
@@ -32,7 +31,7 @@ public class SpringSecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public static PasswordEncoder passwordEncoder() {
 
         return new BCryptPasswordEncoder();
     }
@@ -48,9 +47,9 @@ public class SpringSecurityConfig {
         return new ProviderManager(auth);
     }
 
-// Authorisatie met JWT
+// Authorisatie met jwt
     @Bean
-    protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
                 .csrf(AbstractHttpConfigurer::disable)
@@ -60,22 +59,37 @@ public class SpringSecurityConfig {
 
                         .requestMatchers("/**").permitAll()
 
-                        .requestMatchers(HttpMethod.POST,"/users/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET,"/users/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
-
-                        .requestMatchers(HttpMethod.POST, "/relatives").hasRole("USER")
-                        .requestMatchers(HttpMethod.GET,"/relatives").hasRole("USER")
-
-                        .requestMatchers(HttpMethod.POST, "/groups/**").hasRole("USER")
-                        .requestMatchers(HttpMethod.GET,"/groups/**").hasRole("USER")
-
-                        .requestMatchers(HttpMethod.POST, "/cards").hasRole("DESIGNER")
-                        .requestMatchers(HttpMethod.GET,"/cards").hasAnyRole("USER", "DESIGNER", "ADMIN")
-
-//                        .requestMatchers("/profiles", "/profiles/*").authenticated()
-
+                        .requestMatchers(HttpMethod.POST, "/authenticate").permitAll()
                         .requestMatchers("/authenticate").authenticated()
+
+                        .requestMatchers(HttpMethod.POST,"/users").permitAll()
+                                .requestMatchers(HttpMethod.POST,"/users/designers").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/users/{username}").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.PUT, "/users/{username}").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.DELETE, "/users/{username}").hasAnyRole("ADMIN", "USER")
+
+
+                        .requestMatchers(HttpMethod.POST, "/relatives").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.GET,"/relatives").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.GET,"/relatives/{id}").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.GET,"/relatives/name/{name}").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.GET,"/relatives/relation/{relation}").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.PUT,"/relatives/{id}").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.DELETE, "/relatives/{id}").hasAnyRole("ADMIN", "USER")
+
+                        .requestMatchers(HttpMethod.POST, "/groups").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.GET,"/groups").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.GET,"/groups/{id}").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.PUT,"/groups/{id}").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.DELETE,"/groups/{id}").hasAnyRole("ADMIN", "USER")
+
+                        .requestMatchers(HttpMethod.POST, "/cards").hasAnyRole("ADMIN", "DESIGNER")
+                        .requestMatchers(HttpMethod.GET,"/cards").permitAll()
+                        .requestMatchers(HttpMethod.DELETE,"/cards").hasAnyRole("ADMIN", "DESIGNER")
+
+                        .requestMatchers(HttpMethod.POST, "/designers").hasAnyRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/designers/{id}").hasAnyRole("ADMIN", "DESIGNER")
+                        .requestMatchers(HttpMethod.PUT, "/designers/{id}").hasAnyRole("ADMIN")
 
                         .anyRequest().denyAll()
 

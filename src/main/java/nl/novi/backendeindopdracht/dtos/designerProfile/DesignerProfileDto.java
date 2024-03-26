@@ -1,31 +1,21 @@
-package nl.novi.backendeindopdracht.models;
+package nl.novi.backendeindopdracht.dtos.designerProfile;
 
-import jakarta.persistence.*;
+import nl.novi.backendeindopdracht.dtos.card.CardDto;
+import nl.novi.backendeindopdracht.models.Card;
 
-import java.util.HashSet;
 import java.util.Set;
 
-@Entity
-@Table(name ="designer_profiles")
-public class DesignerProfile {
+public class DesignerProfileDto {
 
-    @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String company;
-    private String lastname;
-    private String firstname;
-    private String address;
-    private String url;
-    private String phone;
-    private String bankAccount;
-
-    @OneToMany(
-            mappedBy = "designerProfile",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.EAGER)
-    private Set<Card> cards = new HashSet<>();
+    public Long id;
+    public String company;
+    public String lastname;
+    public String firstname;
+    public String address;
+    public String url;
+    public String phone;
+    public String bankAccount;
+    public Set<CardDto> cardDto;
 
     public Long getId() {
         return id;
@@ -67,14 +57,6 @@ public class DesignerProfile {
         this.address = address;
     }
 
-    public String getBankAccount() {
-        return bankAccount;
-    }
-
-    public void setBankAccount(String bankAccount) {
-        this.bankAccount = bankAccount;
-    }
-
     public String getUrl() {
         return url;
     }
@@ -91,12 +73,19 @@ public class DesignerProfile {
         this.phone = phone;
     }
 
-    public Set<Card> getCards() {
-        return cards;
+    public String getBankAccount() {
+        return bankAccount;
     }
 
-    public void setCards(Set<Card> cards) {
-        this.cards = cards;
+    public void setBankAccount(String bankAccount) {
+        this.bankAccount = bankAccount;
+    }
+
+    public Set<CardDto> getCardDto() {
+        return cardDto;
+    }
+
+    public void setCardDto(Set<CardDto> cardDto) {
+        this.cardDto = cardDto;
     }
 }
-

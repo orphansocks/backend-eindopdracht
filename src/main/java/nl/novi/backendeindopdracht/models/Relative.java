@@ -23,7 +23,6 @@ public class Relative {
     private String namesOfKids;
     private String misc;
     private String relation;
-
     @ManyToMany(mappedBy = "relatives")
     private Set<Group> groups;
 

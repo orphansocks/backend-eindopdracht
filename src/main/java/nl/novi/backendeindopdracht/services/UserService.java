@@ -8,6 +8,7 @@ import nl.novi.backendeindopdracht.exceptions.UsernameNotFoundException;
 import nl.novi.backendeindopdracht.models.Role;
 import nl.novi.backendeindopdracht.models.User;
 import nl.novi.backendeindopdracht.repositories.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,11 +20,14 @@ import java.util.Set;
 public class UserService {
 
     private final UserRepository userRepository;
+    private PasswordEncoder passwordEncoder;
 
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder1) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder1;
     }
+
 
     public String createUser(UserInputDto userInputDto) {
 
@@ -32,6 +36,45 @@ public class UserService {
         String username = user.getUsername();
 
         if (!userRepository.existsById(username)) {
+
+            String encodedPassword = passwordEncoder.encode(user.getPassword());
+            user.setPassword(encodedPassword);
+
+            userRepository.save(user);
+            return user.getUsername();
+        } else {
+            throw new UsernameAlreadyExists(username);
+        }
+    }
+
+    public String createDesigner(UserInputDto userInputDto) {
+
+        User user = transferToEntity(userInputDto);
+
+        String username = user.getUsername();
+
+        if (!userRepository.existsById(username)) {
+
+            String encodedPassword = passwordEncoder.encode(user.getPassword());
+            user.setPassword(encodedPassword);
+
+            userRepository.save(user);
+            return user.getUsername();
+        } else {
+            throw new UsernameAlreadyExists(username);
+        }
+    }
+
+    public String createAdmin(UserInputDto userInputDto) {
+
+        User user = transferToEntity(userInputDto);
+
+        String username = user.getUsername();
+
+        if (!userRepository.existsById(username)) {
+
+            String encodedPassword = passwordEncoder.encode(user.getPassword());
+            user.setPassword(encodedPassword);
 
             userRepository.save(user);
             return user.getUsername();
@@ -117,6 +160,7 @@ public class UserService {
         }
 
         User user = userOptional.get();
+//        user.addRole(role);
         user.addRole(new Role(username, role));
         userRepository.save(user);
     }

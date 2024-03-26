@@ -15,8 +15,7 @@ Vergeet niet om in de security config ook de ".cors()" optie aan te zetten.
  */
 
 @Configuration
-public class GlobalCorsConfig
-{
+public class GlobalCorsConfig {
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {

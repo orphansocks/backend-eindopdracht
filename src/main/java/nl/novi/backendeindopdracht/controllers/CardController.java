@@ -1,13 +1,15 @@
 package nl.novi.backendeindopdracht.controllers;
 
-import jakarta.validation.Valid;
 import nl.novi.backendeindopdracht.dtos.card.CardDto;
 import nl.novi.backendeindopdracht.dtos.card.CardInputDto;
 import nl.novi.backendeindopdracht.services.CardService;
+import nl.novi.backendeindopdracht.services.ImageDataService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 
@@ -16,23 +18,57 @@ import java.util.List;
 class CardController {
 
     private final CardService cardService;
+    private final ImageDataService imageDataService;
 
-    public CardController(CardService cardService) {
+    public CardController(CardService cardService, ImageDataService imageDataService) {
         this.cardService = cardService;
+        this.imageDataService = imageDataService;
     }
 
+    //    @PostMapping("")
+//    public ResponseEntity<CardDto> createCard(@RequestBody CardInputDto cardInputDto) {
+//        CardDto cardDto = cardService.createCard(cardInputDto);
+//
+//        URI uri = URI.create(
+//                ServletUriComponentsBuilder
+//                        .fromCurrentRequest()
+//                        .path("/" + cardDto.getId()).toUriString());
+//
+//        return  ResponseEntity.created(uri).body(cardDto);
+//    }
 
     @PostMapping("")
-    public ResponseEntity<CardDto> createCard(@RequestBody CardInputDto cardInputDto) {
+    public ResponseEntity<CardDto> createCardWithImage(@RequestPart("file") MultipartFile file,  @RequestPart("cardName") String cardName, @RequestPart("designerId") String designerId, @RequestPart("category") String category) throws IOException {
+
+        CardInputDto cardInputDto = new CardInputDto();
+        cardInputDto.cardName = cardName;
+        cardInputDto.designerId = Long.valueOf(designerId);
+        cardInputDto.category = category;
+
+        Long imageId = imageDataService.uploadImageGetId(file);
+        cardInputDto.imageId = imageId;
+
         CardDto cardDto = cardService.createCard(cardInputDto);
+
+        // Assign the uploaded image to the newly created card
+        cardService.assignImageToCard(cardDto.getId(), imageId);
 
         URI uri = URI.create(
                 ServletUriComponentsBuilder
                         .fromCurrentRequest()
                         .path("/" + cardDto.getId()).toUriString());
 
-        return  ResponseEntity.created(uri).body(cardDto);
+        return ResponseEntity.created(uri).body(cardDto);
     }
+
+
+    @PutMapping("/{id}/{imageId}")
+        public ResponseEntity<CardDto> assignImageToCard(@PathVariable("id") Long id, @PathVariable("imageId") Long imageId) {
+            cardService.assignImageToCard(id, imageId);
+            return ResponseEntity.noContent().build();
+        }
+
+
 
     @GetMapping("")
     public ResponseEntity<List<CardDto>> getAllCards() {
@@ -53,9 +89,11 @@ class CardController {
         return ResponseEntity.ok().body(cardDto);
     }
 
-    @PutMapping("/{id}/{imageId}")
-    public ResponseEntity<CardDto> assignImageToCard(@PathVariable("id") Long id, @PathVariable("imageId") Long imageId) {
-        cardService.assignImageToCard(id, imageId);
+
+
+    @PutMapping("/{id}/{designerId}")
+    public ResponseEntity<CardDto> assignDesignerToCard(@PathVariable("id") Long id, @PathVariable("designerId") Long designerId) {
+        cardService.assignDesignerToCard(id, designerId);
         return ResponseEntity.noContent().build();
     }
 

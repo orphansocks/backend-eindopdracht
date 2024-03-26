@@ -10,9 +10,12 @@ public class Card {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
     private String cardName;
-    private String designer;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "designer_profile_id")
+    private DesignerProfile designerProfile;
     private String category;
     private Integer amountOfDownloads;
+    private String designedBy;
 
     @OneToOne(mappedBy = "card")
     private ImageData imageData;
@@ -23,15 +26,15 @@ public class Card {
     public Card() {
     }
 
-    public Card(Long id, String cardName, String designer, String category, Integer amountOfDownloads, ImageData imageData) {
+    public Card(Long id, String cardName, DesignerProfile designerProfile, String category, Integer amountOfDownloads, String designedBy, ImageData imageData) {
         this.id = id;
         this.cardName = cardName;
-        this.designer = designer;
+        this.designerProfile = designerProfile;
         this.category = category;
         this.amountOfDownloads = amountOfDownloads;
+        this.designedBy = designedBy;
         this.imageData = imageData;
     }
-
 
     // GETTERS AND SETTERS
 
@@ -52,12 +55,12 @@ public class Card {
         this.cardName = cardName;
     }
 
-    public String getDesigner() {
-        return designer;
+    public DesignerProfile getDesignerProfile() {
+        return designerProfile;
     }
 
-    public void setDesigner(String designer) {
-        this.designer = designer;
+    public void setDesignerProfile(DesignerProfile designerProfile) {
+        this.designerProfile = designerProfile;
     }
 
     public String getCategory() {
@@ -76,9 +79,18 @@ public class Card {
         this.amountOfDownloads = amountOfDownloads;
     }
 
+    public String getDesignedBy() {
+        return designedBy;
+    }
+
+    public void setDesignedBy(String designedBy) {
+        this.designedBy = designedBy;
+    }
+
     public ImageData getImageData() {
         return imageData;
     }
+
     public void setImageData(ImageData imageData) {
         this.imageData = imageData;
     }
