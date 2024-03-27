@@ -30,7 +30,7 @@ class RelativeServiceTest {
     @DisplayName("return relative")
     public void shouldReturnRelative() {
 
-        // Parse the date string into a LocalDate object
+        // parse the date string into a LocalDate object
         LocalDate dob = LocalDate.parse("1976-06-10");
 
         // arrange
