@@ -2,6 +2,7 @@ package nl.novi.backendeindopdracht.models;
 
 import jakarta.persistence.*;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,6 +27,22 @@ public class DesignerProfile {
             orphanRemoval = true,
             fetch = FetchType.EAGER)
     private Set<Card> cards = new HashSet<>();
+
+
+    public DesignerProfile() {
+    }
+
+    public DesignerProfile(Long id, String company, String lastname, String firstname, String address, String url, String phone, String bankAccount, Set<Card> cards) {
+        this.id = id;
+        this.company = company;
+        this.lastname = lastname;
+        this.firstname = firstname;
+        this.address = address;
+        this.url = url;
+        this.phone = phone;
+        this.bankAccount = bankAccount;
+        this.cards = cards;
+    }
 
     public Long getId() {
         return id;
@@ -91,8 +108,12 @@ public class DesignerProfile {
         this.phone = phone;
     }
 
+//    public Set<Card> getCards() {
+//        return cards;
+//    }
+
     public Set<Card> getCards() {
-        return cards;
+        return cards != null ? cards : Collections.emptySet();
     }
 
     public void setCards(Set<Card> cards) {

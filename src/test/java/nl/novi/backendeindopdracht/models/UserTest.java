@@ -16,16 +16,20 @@ class UserTest {
 
        // Create a Role instance
        Role role = new Role();
+       role.setRole("ROLE_USER");
        Set<Role> roles = new HashSet<>();
        roles.add(role);
 
         // Arrange
-        User testUser = new User("Jan", "Pass1234", "jan@email.nl", "USER", true);
+        User testUser = new User("Jan", "Pass1234", "jan@email.nl", roles, true);
 
         // Act
         String result = testUser.getUsername();
+       Set<Role> resultRoles = testUser.getRoles();
 
         // Assert
         assertEquals("Jan", result);
+       assertTrue(resultRoles.contains(role));
+
     }
 }

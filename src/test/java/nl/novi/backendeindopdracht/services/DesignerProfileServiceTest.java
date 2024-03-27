@@ -30,8 +30,7 @@ class DesignerProfileServiceTest {
     public void shouldReturnDesignerProfile() {
 
         // arrange
-        DesignerProfile testDesignerProfile = new DesignerProfile(2L, "CompanyName", "Ans", "Maas", "Appelstraat 23", "companyname.url", "0612345678", "IBAN00ABCB12345679");
-        testDesignerProfile.setId(2L);
+        DesignerProfile testDesignerProfile = new DesignerProfile(2L, "CompanyName", "Maas", "Ans", "Appelstraat 23", "companyname.url", "0612345678", "IBAN00ABCB12345679", null);
 
         when(designerProfileRepository.findById(anyLong())).thenReturn(Optional.of(testDesignerProfile));
 

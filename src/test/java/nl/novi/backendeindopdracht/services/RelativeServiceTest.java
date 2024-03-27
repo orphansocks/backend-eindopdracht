@@ -34,7 +34,7 @@ class RelativeServiceTest {
         LocalDate dob = LocalDate.parse("1976-06-10");
 
         // arrange
-        Relative testRelative = new Relative("Eva", "van Dongen", "Eef", dob, "Together", "Freek", true, 2, "Fynn en Luz", "Keep it simple", "Family");
+        Relative testRelative = new Relative(1L, "Eva", "van Dongen", "Eef", dob, "Together", "Freek", true, 2, "Fynn en Luz", "Keep it simple", "Family", null);
         testRelative.setId(1L);
 
         when(relativeRepository.findById(anyLong())).thenReturn(Optional.of(testRelative));
@@ -46,7 +46,7 @@ class RelativeServiceTest {
         assertEquals(1L, dto.id );
         assertEquals("Eva", dto.firstName );
         assertEquals("Together", dto.socialStatus );
-        assertEquals("Together", dto.misc );
+        assertEquals("Keep it simple", dto.misc );
 
     }
 

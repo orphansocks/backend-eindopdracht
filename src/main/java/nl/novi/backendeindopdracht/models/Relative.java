@@ -26,7 +26,24 @@ public class Relative {
     @ManyToMany(mappedBy = "relatives")
     private Set<Group> groups;
 
+    public Relative() {
+    }
 
+    public Relative(Long id, String firstName, String lastName, String nickName, LocalDate dob, String socialStatus, String nameOfPartner, Boolean hasKids, Integer amountOfKids, String namesOfKids, String misc, String relation, Set<Group> groups) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.nickName = nickName;
+        this.dob = dob;
+        this.socialStatus = socialStatus;
+        this.nameOfPartner = nameOfPartner;
+        this.hasKids = hasKids;
+        this.amountOfKids = amountOfKids;
+        this.namesOfKids = namesOfKids;
+        this.misc = misc;
+        this.relation = relation;
+        this.groups = groups;
+    }
 
     public Long getId() {
         return id;
