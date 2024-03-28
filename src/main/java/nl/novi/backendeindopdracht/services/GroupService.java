@@ -37,41 +37,66 @@ public class GroupService {
 
     }
 
+//    public GroupDto updateGroup(Long storedGroupId, GroupInputDto groupNewInputDto) {
+//
+//        if (!groupRepository.findById(storedGroupId).isPresent()) {
+//
+//            throw new RecordNotFoundException("no Group found");
+//        }
+//
+//        Group storedGroup = groupRepository.findById(storedGroupId).orElse(null);
+//
+//        storedGroup.setGroupName(groupNewInputDto.groupName);
+//        storedGroup.setGroupPlace(groupNewInputDto.groupPlace);
+//
+//        Set<Relative> relatives = new HashSet<>();
+//
+//        for (Long id : groupNewInputDto.relativeIds) {
+//
+//            Optional<Relative> optionalRelative = relativeRepository.findById(storedGroupId);
+//
+//            if (optionalRelative.isPresent()) {
+//                Relative relative = optionalRelative.get();
+//                storedGroup.getRelatives().add(relative);
+//
+//            }
+//
+//        }
+//
+//        storedGroup.setRelatives(relatives);
+//
+//        Group group = transferToEntity(groupNewInputDto);
+//
+//        group.setId(storedGroup.getId());
+//
+//        groupRepository.save(group);
+//
+//        return transferToDto(group);
+//
+//    }
+
     public GroupDto updateGroup(Long storedGroupId, GroupInputDto groupNewInputDto) {
+        // Check if the group exists
+        Group storedGroup = groupRepository.findById(storedGroupId)
+                .orElseThrow(() -> new RecordNotFoundException("No Group found"));
 
-        if (!groupRepository.existsById(storedGroupId)) {
-            throw new RecordNotFoundException("no Group found");
-        }
+        // Update group information
+        storedGroup.setGroupName(groupNewInputDto.getGroupName());
+        storedGroup.setGroupPlace(groupNewInputDto.getGroupPlace());
 
-        Group storedGroup = groupRepository.findById(storedGroupId).orElse(null);
-
-        storedGroup.setGroupName(groupNewInputDto.groupName);
-        storedGroup.setGroupPlace(groupNewInputDto.groupPlace);
-
+        // Update relatives
         Set<Relative> relatives = new HashSet<>();
-
-        for (Long id : groupNewInputDto.relativeIds) {
-
-            Optional<Relative> optionalRelative = relativeRepository.findById(storedGroupId);
-
-            if (optionalRelative.isPresent()) {
-                Relative relative = optionalRelative.get();
-                storedGroup.getRelatives().add(relative);
-
-            }
-
+        for (Long relativeId : groupNewInputDto.getRelativeIds()) {
+            Optional<Relative> optionalRelative = relativeRepository.findById(relativeId);
+            optionalRelative.ifPresent(relatives::add);
         }
-
         storedGroup.setRelatives(relatives);
 
-        Group group = transferToEntity(groupNewInputDto);
+        // Save the updated group
+        groupRepository.save(storedGroup);
 
-        group.setId(storedGroup.getId());
-
-        groupRepository.save(group);
-
-        return transferToDto(group);
-
+        // Return the updated group DTO
+        return transferToDto(storedGroup);
     }
 
     public void deleteGroup(Long id) {

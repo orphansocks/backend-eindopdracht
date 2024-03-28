@@ -60,6 +60,14 @@ public class GroupController {
         return ResponseEntity.ok().body(groupDto);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteGroup(@PathVariable Long id) {
+
+        groupService.deleteGroup(id);
+
+        return ResponseEntity.noContent().build();
+    }
+
 
 
 
