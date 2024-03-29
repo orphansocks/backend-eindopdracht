@@ -1,10 +1,13 @@
 package nl.novi.backendeindopdracht.dtos.group;
 
 
+import jakarta.validation.constraints.Min;
+
 public class GroupInputDto {
 
     public String groupName;
     public String groupPlace;
+    @Min(value=1)
     public Long[] relativeIds;
 
 

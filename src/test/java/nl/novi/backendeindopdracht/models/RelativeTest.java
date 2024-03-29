@@ -11,38 +11,26 @@ import java.util.Set;
 
 class RelativeTest {
     @Test
-    @DisplayName("should keep relativeName")
+    @DisplayName("should keep relativename")
     public void testRelative() {
 
-        // Parse the date string into a LocalDate object
+        // parse the date string into a LocalDate object
         LocalDate dob = LocalDate.parse("1976-06-10");
 
-        // Arrange
-        Relative testRelative = new Relative();
+        // arrange
+        Relative testRelative = new Relative(1L, "Eva", "van Dongen", "Eef", dob, "Together", "Freek", true, 2, "Fynn en Luz", "Keep it simple", "Family", null);
+        testRelative.setId(1L);
 
-        testRelative.setId(3L);
-        testRelative.setFirstName("Eva");
-        testRelative.setLastName("van Dongen");
-        testRelative.setNickName("Eef");
-        testRelative.setDob(dob);
-        testRelative.setSocialStatus("together");
-        testRelative.setNameOfPartner("Freek");
-        testRelative.setHasKids(true);
-        testRelative.setAmountOfKids(2);
-        testRelative.setNamesOfKids("Fynn en Luz");
-        testRelative.setMisc("keep it simple");
-        testRelative.setRelation("family");
-
-        // Create a Group object and add the relative to it
-        Group group = new Group();
-        Set<Relative> relatives = new HashSet<>();
-        relatives.add(testRelative);
-        group.setRelatives(relatives);
-
-        // Set the group to the relative
-        Set<Group> groups = new HashSet<>();
-        groups.add(group);
-        testRelative.setGroups(groups);
+//        // Create a Group and add the relative to it
+//        Group group = new Group();
+//        Set<Relative> relatives = new HashSet<>();
+//        relatives.add(testRelative);
+//        group.setRelatives(relatives);
+//
+//        // Set the group to the relative
+//        Set<Group> groups = new HashSet<>();
+//        groups.add(group);
+//        testRelative.setGroups(groups);
 
         // Act
         String result = testRelative.getFirstName();
