@@ -21,6 +21,13 @@ public class ImageData {
     public ImageData(){
     }
 
+    public ImageData(Long id, String imageName, String type, byte[] imageData, Card card) {
+        this.id = id;
+        this.imageName = imageName;
+        this.type = type;
+        this.imageData = imageData;
+        this.card = card;
+    }
 
     public String getImageName() {
         return imageName;

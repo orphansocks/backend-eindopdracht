@@ -20,6 +20,17 @@ public class Group {
     @JsonIgnore
     private Set<Relative> relatives = new HashSet<>();
 
+    // CONSTRUCTORS
+
+    public Group() {
+    }
+
+    public Group(Long id, String groupName, String groupPlace, Set<Relative> relatives) {
+        this.id = id;
+        this.groupName = groupName;
+        this.groupPlace = groupPlace;
+        this.relatives = relatives;
+    }
 
     // GETTERS AND SETTERS
 

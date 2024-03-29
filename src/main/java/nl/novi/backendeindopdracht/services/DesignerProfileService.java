@@ -25,14 +25,6 @@ public class DesignerProfileService {
         this.cardRepository = cardRepository;
     }
 
-//    public DesignerProfileDto createDesignerProfile(DesignerProfileInputDto designerProfileInputDto) {
-//
-//        DesignerProfile designerProfile = transferToEntity(designerProfileInputDto);
-//        designerProfileRepository.save(designerProfile);
-//
-//        return transferToDto(designerProfile);
-//
-//    }
 
     public DesignerProfileDto createDesignerProfile(DesignerProfileInputDto designerProfileInputDto) {
         DesignerProfile designerProfile = transferToEntity(designerProfileInputDto);
@@ -70,6 +62,7 @@ public class DesignerProfileService {
     // DE TRANSFERS
 
     public DesignerProfile transferToEntity(DesignerProfileInputDto designerProfileInputDto) {
+
         DesignerProfile designerProfile = new DesignerProfile();
         designerProfile.setCompany(designerProfileInputDto.company);
         designerProfile.setLastname(designerProfileInputDto.lastname);

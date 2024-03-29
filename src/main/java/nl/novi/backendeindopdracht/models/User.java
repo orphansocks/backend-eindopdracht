@@ -30,6 +30,16 @@ public class User {
     @Column(nullable = false)
     private boolean enabled = true;
 
+    public User() {
+    }
+
+    public User(String username, String password, String email, Set<Role> roles, boolean enabled) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.roles = roles;
+        this.enabled = enabled;
+    }
 
     public void addRole(Role role) {
         this.roles.add(role);
@@ -38,6 +48,8 @@ public class User {
     public void removeRole(Role role) {
         this.roles.remove(role);
     }
+
+
 
 
     // GETTERS AND SETTERS

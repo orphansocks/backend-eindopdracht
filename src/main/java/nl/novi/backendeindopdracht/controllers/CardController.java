@@ -25,18 +25,6 @@ class CardController {
         this.imageDataService = imageDataService;
     }
 
-    //    @PostMapping("")
-//    public ResponseEntity<CardDto> createCard(@RequestBody CardInputDto cardInputDto) {
-//        CardDto cardDto = cardService.createCard(cardInputDto);
-//
-//        URI uri = URI.create(
-//                ServletUriComponentsBuilder
-//                        .fromCurrentRequest()
-//                        .path("/" + cardDto.getId()).toUriString());
-//
-//        return  ResponseEntity.created(uri).body(cardDto);
-//    }
-
     @PostMapping("")
     public ResponseEntity<CardDto> createCardWithImage(@RequestPart("file") MultipartFile file,  @RequestPart("cardName") String cardName, @RequestPart("designerId") String designerId, @RequestPart("category") String category) throws IOException {
 
